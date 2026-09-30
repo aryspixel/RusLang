@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, defineAsyncComponent } from 'vue'
 import { games } from './games/registry.js'
+import { filterGroups, matchesFilters } from './catalog/filtering.js'
 import TouchButton from './components/TouchButton.vue'
 import SurfacePanel from './components/SurfacePanel.vue'
 import ProgressMeter from './components/ProgressMeter.vue'
@@ -11,6 +12,8 @@ const hash = ref(window.location.hash)
 const selected = ref(null)
 const previewFeedback = ref(false)
 const themeChoice = ref('auto')
+const searchText = ref('')
+const selectedFilters = ref({ grade: [], topic: [], format: [], language: [] })
 const onHashChange = () => { hash.value = window.location.hash }
 onMounted(() => window.addEventListener('hashchange', onHashChange))
 onUnmounted(() => window.removeEventListener('hashchange', onHashChange))
@@ -20,6 +23,22 @@ const game = computed(() => games.find(item => item.id === gameId.value))
 const gameComponent = computed(() => game.value?.status === 'ready' && game.value.load ? defineAsyncComponent(game.value.load) : null)
 const stylePage = computed(() => hash.value === '#/components')
 const activeTheme = computed(() => themeChoice.value === 'auto' ? (game.value?.defaultTheme || 'neutral') : themeChoice.value)
+const visibleGames = computed(() => games.filter(item => matchesFilters(item, selectedFilters.value, searchText.value)))
+const hasFilters = computed(() => searchText.value.trim() !== '' || Object.values(selectedFilters.value).some(values => values.length > 0))
+function availableOptions(group) {
+  return group.options.filter(option => games.some(item => item.facets[group.key].includes(option.id)))
+}
+function toggleFilter(group, id) {
+  const current = selectedFilters.value[group]
+  selectedFilters.value = { ...selectedFilters.value, [group]: current.includes(id) ? current.filter(value => value !== id) : [...current, id] }
+}
+function clearFilters() {
+  selectedFilters.value = { grade: [], topic: [], format: [], language: [] }
+  searchText.value = ''
+}
+function facetLabel(groupKey, id) {
+  return filterGroups.find(group => group.key === groupKey)?.options.find(option => option.id === id)?.label || id
+}
 function audienceLabel(item) {
   if (item.gradeMin === null) return 'Класс уточняется'
   const grades = item.gradeMin === item.gradeMax ? `${item.gradeMin} класс` : `${item.gradeMin}–${item.gradeMax} классы`
@@ -86,16 +105,41 @@ function audienceLabel(item) {
           <p class="lead">Общий интерфейс для учебных игр. Сейчас готова основа проекта; упражнения ожидают переноса из HTML.</p>
           <a class="text-link" href="#/components">Посмотреть общие элементы →</a>
         </div>
-        <h2 class="section-title">В плане переноса · {{ games.length }}</h2>
+        <SurfacePanel class="catalog-filters">
+          <div class="catalog-filters__heading">
+            <div><h2>Найти упражнение</h2><p class="muted">Выберите нужные признаки или введите название.</p></div>
+            <TouchButton v-if="hasFilters" variant="secondary" @click="clearFilters">Сбросить фильтры</TouchButton>
+          </div>
+          <label class="catalog-search">Поиск по названию и теме
+            <input v-model="searchText" type="search" placeholder="Например, дни недели" />
+          </label>
+          <fieldset v-for="group in filterGroups" :key="group.key" class="filter-group">
+            <legend>{{ group.title }}</legend>
+            <div class="filter-group__options">
+              <button v-for="option in availableOptions(group)" :key="option.id" type="button" class="filter-chip" :class="{ 'filter-chip--active': selectedFilters[group.key].includes(option.id) }" :aria-pressed="selectedFilters[group.key].includes(option.id)" @click="toggleFilter(group.key, option.id)">{{ option.label }}</button>
+            </div>
+          </fieldset>
+        </SurfacePanel>
+        <h2 class="section-title" role="status">Найдено: {{ visibleGames.length }} из {{ games.length }}</h2>
         <div class="catalog-grid">
-          <SurfacePanel v-for="item in games" :key="item.id">
+          <SurfacePanel v-for="item in visibleGames" :key="item.id">
             <span class="catalog-card__status">Ожидает переноса</span>
             <h3>{{ item.title }}</h3>
             <p class="audience-label">{{ audienceLabel(item) }}</p>
             <p>{{ item.topic }}</p>
             <p class="muted">{{ item.interaction }}</p>
+            <div class="catalog-card__tags" aria-label="Теги упражнения">
+              <span class="catalog-card__tag">{{ facetLabel('topic', item.facets.topic[0]) }}</span>
+              <span v-for="id in item.facets.format" :key="id" class="catalog-card__tag">{{ facetLabel('format', id) }}</span>
+              <span class="catalog-card__tag">{{ facetLabel('language', item.facets.language[0]) }}</span>
+            </div>
           </SurfacePanel>
         </div>
+        <SurfacePanel v-if="visibleGames.length === 0" class="catalog-empty">
+          <h3>По этим признакам ничего не найдено</h3>
+          <p>Попробуйте убрать один из фильтров или изменить поисковый запрос.</p>
+          <TouchButton variant="secondary" @click="clearFilters">Показать все упражнения</TouchButton>
+        </SurfacePanel>
       </template>
     </main>
   </div>
