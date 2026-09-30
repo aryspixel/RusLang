@@ -16,10 +16,11 @@ const gameId = computed(() => hash.value.startsWith('#/game/') ? hash.value.slic
 const game = computed(() => games.find(item => item.id === gameId.value))
 const gameComponent = computed(() => game.value?.status === 'ready' && game.value.load ? defineAsyncComponent(game.value.load) : null)
 const activeTheme = computed(() => game.value?.defaultTheme || 'neutral')
-const visibleGames = computed(() => games.filter(item => matchesFilters(item, selectedFilters.value, searchText.value)))
+const readyGames = computed(() => games.filter(item => item.status === 'ready'))
+const visibleGames = computed(() => readyGames.value.filter(item => matchesFilters(item, selectedFilters.value, searchText.value)))
 const hasFilters = computed(() => searchText.value.trim() !== '' || Object.values(selectedFilters.value).some(values => values.length > 0))
 function availableOptions(group) {
-  return group.options.filter(option => games.some(item => item.facets[group.key].includes(option.id)))
+  return group.options.filter(option => readyGames.value.some(item => item.facets[group.key].includes(option.id)))
 }
 function toggleFilter(group, id) {
   const current = selectedFilters.value[group]
@@ -29,8 +30,12 @@ function clearFilters() {
   selectedFilters.value = { grade: [], topic: [], format: [], language: [] }
   searchText.value = ''
 }
-function facetLabel(groupKey, id) {
-  return filterGroups.find(group => group.key === groupKey)?.options.find(option => option.id === id)?.label || id
+function cardTags(item) {
+  const normalize = text => text.trim().toLocaleLowerCase('ru')
+  const labels = ['topic', 'format', 'language'].flatMap(key =>
+    item.facets[key].map(id => filterGroups.find(group => group.key === key)?.options.find(option => option.id === id)?.label || id)
+  )
+  return [...new Set(labels)].filter(label => normalize(label) !== normalize(item.title))
 }
 function audienceLabel(item) {
   if (item.gradeMin === null) return 'Класс уточняется'
@@ -79,20 +84,15 @@ function audienceLabel(item) {
             </div>
           </fieldset>
         </SurfacePanel>
-        <h2 class="section-title" role="status">Найдено: {{ visibleGames.length }} из {{ games.length }}</h2>
+        <h2 class="section-title" role="status">Найдено: {{ visibleGames.length }} из {{ readyGames.length }}</h2>
         <div class="catalog-grid">
           <SurfacePanel v-for="item in visibleGames" :key="item.id">
-            <span class="catalog-card__status">{{ item.status === 'ready' ? 'Можно играть' : 'Ожидает переноса' }}</span>
             <h3>{{ item.title }}</h3>
             <p class="audience-label">{{ audienceLabel(item) }}</p>
-            <p>{{ item.topic }}</p>
-            <p class="muted">{{ item.interaction }}</p>
             <div class="catalog-card__tags" aria-label="Теги упражнения">
-              <span class="catalog-card__tag">{{ facetLabel('topic', item.facets.topic[0]) }}</span>
-              <span v-for="id in item.facets.format" :key="id" class="catalog-card__tag">{{ facetLabel('format', id) }}</span>
-              <span class="catalog-card__tag">{{ facetLabel('language', item.facets.language[0]) }}</span>
+              <span v-for="label in cardTags(item)" :key="label" class="catalog-card__tag">{{ label }}</span>
             </div>
-            <a v-if="item.status === 'ready'" class="catalog-card__open" :href="`#/game/${item.id}`">Открыть тренажёр →</a>
+            <a class="touch-button catalog-card__open" :href="`#/game/${item.id}`" :aria-label="`Играть: ${item.title}`">Играть</a>
           </SurfacePanel>
         </div>
         <SurfacePanel v-if="visibleGames.length === 0" class="catalog-empty">

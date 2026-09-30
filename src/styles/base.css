@@ -33,11 +33,10 @@ a { color: var(--color-primary); }
 .catalog-empty { margin-top: var(--space-3); }
 .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
 .surface-panel { min-width: 0; padding: var(--space-4); border: 2px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: 0 8px 24px #183a6010; }
-.catalog-card__status { display: inline-block; color: var(--color-muted); font-size: clamp(17px, 1.1vw, 21px); font-weight: 750; margin-bottom: var(--space-2); }
 .audience-label { font-size: clamp(17px, 1.1vw, 21px); font-weight: 750; color: var(--color-primary-dark); }
 .catalog-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-2); }
 .catalog-card__tag { border-radius: 9px; background: var(--color-selected); color: var(--color-primary-dark); padding: 5px 10px; font-size: clamp(16px, 1vw, 20px); font-weight: 700; }
-.catalog-card__open { display: inline-flex; align-items: center; min-height: var(--touch-min); margin-top: var(--space-2); font-weight: 800; }
+.catalog-card__open { display: inline-flex; align-items: center; justify-content: center; margin-top: var(--space-3); text-decoration: none; touch-action: manipulation; }
 .game-layout { display: grid; gap: var(--space-3); }
 .game-layout > p { margin: 0; }
 .game-translation { color: var(--color-muted); }
