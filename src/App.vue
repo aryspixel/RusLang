@@ -92,7 +92,7 @@ function audienceLabel(item) {
             <div class="catalog-card__tags" aria-label="Теги упражнения">
               <span v-for="label in cardTags(item)" :key="label" class="catalog-card__tag">{{ label }}</span>
             </div>
-            <a class="touch-button catalog-card__open" :href="`#/game/${item.id}`" :aria-label="`Играть: ${item.title}`">Играть</a>
+            <a class="touch-button catalog-card__open" :href="`#/game/${item.id}`" :aria-label="`Начать: ${item.title}`">Начать</a>
           </SurfacePanel>
         </div>
         <SurfacePanel v-if="visibleGames.length === 0" class="catalog-empty">
