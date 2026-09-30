@@ -1,0 +1,45 @@
+/* Темы меняют только декоративные токены. Размеры целей и смысловые состояния общие. */
+.theme-neutral {
+  --color-background: #f3f7fc;
+  --color-surface: #ffffff;
+  --color-text: #19324f;
+  --color-muted: #52677d;
+  --color-border: #c8d7e7;
+  --color-primary: #1759a3;
+  --color-primary-dark: #11457f;
+  --color-selected: #e6f1fc;
+  --hero-background: linear-gradient(120deg, #e3f0fc, #f8fbff);
+}
+.theme-junior {
+  --color-background: #fff9e9;
+  --color-surface: #ffffff;
+  --color-text: #283b58;
+  --color-muted: #52677d;
+  --color-border: #d8cda9;
+  --color-primary: #185c9c;
+  --color-primary-dark: #124574;
+  --color-selected: #e6f3ff;
+  --hero-background: linear-gradient(120deg, #e3f4ff, #fff1c7 80%, #ffe4db);
+}
+.theme-middle {
+  --color-background: #f4fbf8;
+  --color-surface: #ffffff;
+  --color-text: #193e40;
+  --color-muted: #4d6664;
+  --color-border: #bad8d2;
+  --color-primary: #126e70;
+  --color-primary-dark: #0d5355;
+  --color-selected: #ddf4ed;
+  --hero-background: linear-gradient(120deg, #dff5ee, #edf7fb);
+}
+.theme-senior {
+  --color-background: #f4f6fa;
+  --color-surface: #ffffff;
+  --color-text: #25354b;
+  --color-muted: #556579;
+  --color-border: #cbd4e2;
+  --color-primary: #344f9b;
+  --color-primary-dark: #273d7c;
+  --color-selected: #e9edfa;
+  --hero-background: linear-gradient(120deg, #e5eafa, #f8f9fc);
+}
