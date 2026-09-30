@@ -7,6 +7,7 @@ import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
 import SpeechControls from '../../components/SpeechControls.vue'
 import SelectionBasket from '../../components/SelectionBasket.vue'
+import storyAudio from './assets/ali-willicat-elevenlabs.mp3'
 import { story, products, questions, explanations, text } from './data.js'
 const mode = ref('story'), basket = ref([]), basketPhase = ref('editing'), qi = ref(0), selected = ref(null), quizPhase = ref('question'), score = ref(0), sound = ref(false)
 const basketCorrect = computed(() => basket.value.length === products.filter(p=>p.correct).length && products.filter(p=>p.correct).every(p=>basket.value.includes(p.id)))
@@ -32,7 +33,7 @@ onBeforeUnmount(()=>{timers.forEach(clearTimeout);audio?.close()})
   <h1>{{ text.title }}</h1>
   <div class="action-row" role="group" aria-label="Части занятия"><TouchButton v-for="tab in [{id:'story',label:'1 · Текст'},{id:'basket',label:'2 · Корзина'},{id:'quiz',label:'3 · Вопросы'}]" :key="tab.id" :variant="mode === tab.id ? 'primary' : 'secondary'" :aria-pressed="mode === tab.id" @click="mode=tab.id">{{ tab.label }}</TouchButton><TouchButton variant="secondary" :aria-pressed="sound" @click="toggleSound">{{ sound ? '🔊 Звуки включены' : '🔇 Включить звуки' }}</TouchButton></div>
   <SurfacePanel v-if="mode === 'story'">
-   <h2>{{ text.storyTitle }}</h2><SpeechControls :text="story" label="Послушать рассказ" :rate=".88" /><p class="ali-story">{{ story }}</p><TouchButton @click="mode='basket'">Дальше →</TouchButton>
+   <h2>{{ text.storyTitle }}</h2><SpeechControls :text="story" :src="storyAudio" label="Послушать рассказ" /><p class="ali-story">{{ story }}</p><TouchButton @click="mode='basket'">Дальше →</TouchButton>
   </SurfacePanel>
   <SurfacePanel v-else-if="mode === 'basket'">
    <h2>{{ text.basketTitle }}</h2><p>{{ text.basketInstruction }}</p>
