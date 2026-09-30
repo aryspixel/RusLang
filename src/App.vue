@@ -11,7 +11,6 @@ import ChoiceGroup from './components/ChoiceGroup.vue'
 const hash = ref(window.location.hash)
 const selected = ref(null)
 const previewFeedback = ref(false)
-const themeChoice = ref('auto')
 const searchText = ref('')
 const selectedFilters = ref({ grade: [], topic: [], format: [], language: [] })
 const onHashChange = () => { hash.value = window.location.hash }
@@ -22,7 +21,7 @@ const gameId = computed(() => hash.value.startsWith('#/game/') ? hash.value.slic
 const game = computed(() => games.find(item => item.id === gameId.value))
 const gameComponent = computed(() => game.value?.status === 'ready' && game.value.load ? defineAsyncComponent(game.value.load) : null)
 const stylePage = computed(() => hash.value === '#/components')
-const activeTheme = computed(() => themeChoice.value === 'auto' ? (game.value?.defaultTheme || 'neutral') : themeChoice.value)
+const activeTheme = computed(() => game.value?.defaultTheme || 'neutral')
 const visibleGames = computed(() => games.filter(item => matchesFilters(item, selectedFilters.value, searchText.value)))
 const hasFilters = computed(() => searchText.value.trim() !== '' || Object.values(selectedFilters.value).some(values => values.length > 0))
 function availableOptions(group) {
@@ -51,15 +50,6 @@ function audienceLabel(item) {
     <header class="site-header">
       <a class="site-brand" href="#/">RusLang</a>
       <span class="site-header__label">Тренажёры по русскому языку</span>
-      <label class="theme-picker">Оформление
-        <select v-model="themeChoice">
-          <option value="auto">По заданию</option>
-          <option value="neutral">Нейтральное</option>
-          <option value="junior">Начальная школа</option>
-          <option value="middle">Средняя школа</option>
-          <option value="senior">Старшая школа</option>
-        </select>
-      </label>
     </header>
 
     <main class="site-main">
