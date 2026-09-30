@@ -4,13 +4,8 @@ import { games } from './games/registry.js'
 import { filterGroups, matchesFilters } from './catalog/filtering.js'
 import TouchButton from './components/TouchButton.vue'
 import SurfacePanel from './components/SurfacePanel.vue'
-import ProgressMeter from './components/ProgressMeter.vue'
-import FeedbackMessage from './components/FeedbackMessage.vue'
-import ChoiceGroup from './components/ChoiceGroup.vue'
 
 const hash = ref(window.location.hash)
-const selected = ref(null)
-const previewFeedback = ref(false)
 const searchText = ref('')
 const selectedFilters = ref({ grade: [], topic: [], format: [], language: [] })
 const onHashChange = () => { hash.value = window.location.hash }
@@ -20,7 +15,6 @@ onUnmounted(() => window.removeEventListener('hashchange', onHashChange))
 const gameId = computed(() => hash.value.startsWith('#/game/') ? hash.value.slice(7) : null)
 const game = computed(() => games.find(item => item.id === gameId.value))
 const gameComponent = computed(() => game.value?.status === 'ready' && game.value.load ? defineAsyncComponent(game.value.load) : null)
-const stylePage = computed(() => hash.value === '#/components')
 const activeTheme = computed(() => game.value?.defaultTheme || 'neutral')
 const visibleGames = computed(() => games.filter(item => matchesFilters(item, selectedFilters.value, searchText.value)))
 const hasFilters = computed(() => searchText.value.trim() !== '' || Object.values(selectedFilters.value).some(values => values.length > 0))
@@ -58,26 +52,6 @@ function audienceLabel(item) {
         <component :is="gameComponent" />
       </template>
 
-      <template v-else-if="stylePage">
-        <a class="back-link" href="#/">← К каталогу</a>
-        <h1>Общие элементы</h1>
-        <p class="lead">Проверка размера и поведения элементов перед переносом игр.</p>
-        <div class="demo-grid">
-          <SurfacePanel>
-            <h2>Ответ на вопрос</h2>
-            <p>Выбери один вариант. Ответ здесь служит примером интерфейса.</p>
-            <ChoiceGroup label="Пример выбора ответа" :options="[{ value: 'a', label: 'Первый вариант' }, { value: 'b', label: 'Второй вариант' }]" :selected="selected" @select="selected = $event; previewFeedback = false" />
-            <div class="action-row"><TouchButton :disabled="selected === null" @click="previewFeedback = true">Проверить</TouchButton><TouchButton variant="secondary" @click="selected = null; previewFeedback = false">Сбросить</TouchButton></div>
-            <FeedbackMessage v-if="previewFeedback" kind="success" title="Выбор принят">Здесь появится учебное объяснение из конкретной игры.</FeedbackMessage>
-          </SurfacePanel>
-          <SurfacePanel>
-            <h2>Прогресс</h2>
-            <ProgressMeter :current="3" :total="10" />
-            <p class="muted">Текст и шкала сообщают одно и то же состояние.</p>
-          </SurfacePanel>
-        </div>
-      </template>
-
       <template v-else-if="gameId">
         <a class="back-link" href="#/">← К каталогу</a>
         <SurfacePanel>
@@ -93,7 +67,6 @@ function audienceLabel(item) {
           <p class="eyebrow">Русский язык · интерактивная панель</p>
           <h1>Каталог тренажёров</h1>
           <p class="lead">Интерактивные упражнения по русскому языку. Выберите тренажёр или уточните список фильтрами.</p>
-          <a class="text-link" href="#/components">Посмотреть общие элементы →</a>
         </div>
         <SurfacePanel class="catalog-filters">
           <div class="catalog-filters__heading">
