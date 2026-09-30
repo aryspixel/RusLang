@@ -102,7 +102,7 @@ function audienceLabel(item) {
         <div class="hero">
           <p class="eyebrow">Русский язык · интерактивная панель</p>
           <h1>Каталог тренажёров</h1>
-          <p class="lead">Общий интерфейс для учебных игр. Сейчас готова основа проекта; упражнения ожидают переноса из HTML.</p>
+          <p class="lead">Интерактивные упражнения по русскому языку. Выберите тренажёр или уточните список фильтрами.</p>
           <a class="text-link" href="#/components">Посмотреть общие элементы →</a>
         </div>
         <SurfacePanel class="catalog-filters">
@@ -123,7 +123,7 @@ function audienceLabel(item) {
         <h2 class="section-title" role="status">Найдено: {{ visibleGames.length }} из {{ games.length }}</h2>
         <div class="catalog-grid">
           <SurfacePanel v-for="item in visibleGames" :key="item.id">
-            <span class="catalog-card__status">Ожидает переноса</span>
+            <span class="catalog-card__status">{{ item.status === 'ready' ? 'Можно играть' : 'Ожидает переноса' }}</span>
             <h3>{{ item.title }}</h3>
             <p class="audience-label">{{ audienceLabel(item) }}</p>
             <p>{{ item.topic }}</p>
@@ -133,6 +133,7 @@ function audienceLabel(item) {
               <span v-for="id in item.facets.format" :key="id" class="catalog-card__tag">{{ facetLabel('format', id) }}</span>
               <span class="catalog-card__tag">{{ facetLabel('language', item.facets.language[0]) }}</span>
             </div>
+            <a v-if="item.status === 'ready'" class="catalog-card__open" :href="`#/game/${item.id}`">Открыть тренажёр →</a>
           </SurfacePanel>
         </div>
         <SurfacePanel v-if="visibleGames.length === 0" class="catalog-empty">

@@ -41,6 +41,18 @@ a { color: var(--color-primary); }
 .audience-label { font-size: clamp(17px, 1.1vw, 21px); font-weight: 750; color: var(--color-primary-dark); }
 .catalog-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-2); }
 .catalog-card__tag { border-radius: 9px; background: var(--color-selected); color: var(--color-primary-dark); padding: 5px 10px; font-size: clamp(16px, 1vw, 20px); font-weight: 700; }
+.catalog-card__open { display: inline-flex; align-items: center; min-height: var(--touch-min); margin-top: var(--space-2); font-weight: 800; }
+.game-layout { display: grid; gap: var(--space-3); }
+.game-layout > p { margin: 0; }
+.game-translation { color: var(--color-muted); }
+.game-stats { display: flex; flex-wrap: wrap; gap: var(--space-2); font-weight: 800; }
+.game-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: var(--space-3) 0; }
+.game-options--days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.game-options--days .choice-group__option { overflow-wrap: anywhere; padding-inline: 8px; text-align: center; }
+.game-help { padding: var(--space-2); border: 2px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); }
+.game-help summary { min-height: 56px; cursor: pointer; font-weight: 800; }
+@media (max-width: 1100px) { .game-options--days { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .game-options--days { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .muted { color: var(--color-muted); }
 .touch-button { min-height: var(--touch-min); min-width: 140px; border: 2px solid var(--color-primary); border-radius: var(--radius-control); padding: 12px 24px; color: white; background: var(--color-primary); font-weight: 750; }
 .touch-button:not(:disabled):hover { background: var(--color-primary-dark); }
