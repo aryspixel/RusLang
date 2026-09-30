@@ -63,11 +63,7 @@ function audienceLabel(item) {
       </template>
 
       <template v-else>
-        <div class="hero">
-          <p class="eyebrow">Русский язык · интерактивная панель</p>
-          <h1>Каталог тренажёров</h1>
-          <p class="lead">Интерактивные упражнения по русскому языку. Выберите тренажёр или уточните список фильтрами.</p>
-        </div>
+        <h1 class="section-title">Каталог тренажёров</h1>
         <SurfacePanel class="catalog-filters">
           <div class="catalog-filters__heading">
             <div><h2>Найти упражнение</h2><p class="muted">Выберите нужные признаки или введите название.</p></div>

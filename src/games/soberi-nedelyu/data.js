@@ -55,4 +55,3 @@ export const rules = {
   hasScore: false,
   hasTimer: false,
 }
-
