@@ -5,7 +5,7 @@ import TouchButton from '../../components/TouchButton.vue'
 import ChoiceGroup from '../../components/ChoiceGroup.vue'
 import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
-import { config, colors, text, answerExplanation } from './data.js'
+import { config, colors, text, numberWords, answerExplanation } from './data.js'
 const stage = ref(null), numberElement = ref(null)
 const phase = ref('intro'), round = ref(0), score = ref(0), target = ref(0), selected = ref(null), remaining = ref(3)
 const flicker = ref(false), reduceMotion = ref(false), appearance = ref({})
@@ -14,7 +14,9 @@ reduceMotion.value = motionQuery?.matches ?? false
 const motionChanged = event => { reduceMotion.value = event.matches }
 motionQuery?.addEventListener('change', motionChanged)
 let interval, timeout
-const options = Array.from({ length: config.max }, (_, i) => ({ value: i + 1, label: String(i + 1) }))
+const showDigits = computed(() => round.value % 2 === 1)
+const displayNumber = computed(() => showDigits.value ? String(target.value) : numberWords[target.value - 1])
+const options = computed(() => numberWords.map((word, i) => ({ value: i + 1, label: showDigits.value ? word : String(i + 1) })))
 const correct = computed(() => selected.value === target.value)
 function clearTimers() { clearInterval(interval); clearTimeout(timeout) }
 async function next() {
@@ -22,7 +24,7 @@ async function next() {
   if (round.value === config.rounds) { phase.value = 'result'; return }
   round.value++; selected.value = null; remaining.value = config.seconds
   target.value = 1 + Math.floor(Math.random() * config.max)
-  appearance.value = { color: colors[Math.floor(Math.random() * colors.length)], left: '10px', top: '10px', fontSize: `${90 + Math.random() * 100}px` }
+  appearance.value = { color: colors[Math.floor(Math.random() * colors.length)], left: '10px', top: '10px', fontSize: showDigits.value ? `${90 + Math.random() * 100}px` : undefined }
   phase.value = 'show'
   await nextTick()
   if (phase.value !== 'show' || !stage.value || !numberElement.value) return
@@ -54,11 +56,11 @@ onBeforeUnmount(() => { clearTimers(); motionQuery?.removeEventListener('change'
       <ProgressMeter :current="round" :total="config.rounds" label="Раунд / Айналым" />
       <div class="game-stats"><span>⭐ Баллы / Ұпай: {{ score }}</span><span>⏱ {{ remaining.toFixed(1) }} с</span></div>
       <div v-if="phase === 'show'" ref="stage" class="memory-stage" :aria-label="text.intro">
-        <span ref="numberElement" class="memory-number" :class="{ 'memory-number--flicker': flicker && !reduceMotion }" :style="appearance">{{ target }}</span>
+        <span ref="numberElement" class="memory-number" :class="{ 'memory-number--flicker': flicker && !reduceMotion, 'memory-number--word': !showDigits }" :style="appearance">{{ displayNumber }}</span>
       </div>
       <template v-else>
         <h2>{{ text.question }}</h2>
-        <ChoiceGroup class="number-options" :options="options" :selected="selected" :disabled="phase === 'feedback'" :label="text.question" @select="answer" />
+        <ChoiceGroup class="number-options" :class="{ 'number-options--words': showDigits }" :options="options" :selected="selected" :disabled="phase === 'feedback'" :label="text.question" @select="answer" />
         <FeedbackMessage v-if="phase === 'feedback'" :kind="correct ? 'success' : 'error'" :title="correct ? text.correct : 'Неверно / Қате'">{{ answerExplanation(target) }}</FeedbackMessage>
         <div v-if="phase === 'feedback'" class="action-row"><TouchButton @click="next">{{ round === config.rounds ? 'Показать итог / Нәтиже' : text.next }}</TouchButton></div>
       </template>
@@ -68,10 +70,15 @@ onBeforeUnmount(() => { clearTimers(); motionQuery?.removeEventListener('change'
 <style scoped>
 .memory-stage { position: relative; min-height: 330px; margin-top: var(--space-3); overflow: hidden; border: 3px solid var(--color-border); border-radius: var(--radius-card); }
 .memory-number { position: absolute; font-weight: 900; line-height: 1; user-select: none; }
+.memory-number--word { font-size: clamp(28px, 4vw, 72px); line-height: 1.15; }
 .memory-number--flicker { animation: pulse .9s infinite alternate; }
 .number-options { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 12px; }
 .number-options :deep(button) { min-width: 0; padding: 10px 4px; text-align: center; }
+.number-options--words { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.number-options--words :deep(button) { padding: 10px; }
 @keyframes pulse { from { opacity: .4; } to { opacity: 1; } }
 @media(max-width: 900px) { .number-options { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media(max-width: 420px) { .memory-number { font-size: 90px !important; } }
+@media(max-width: 420px) { .memory-number:not(.memory-number--word) { font-size: 90px !important; } }
+@media(max-width: 900px) { .number-options--words { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media(max-width: 600px) { .number-options--words { grid-template-columns: repeat(2, minmax(0, 1fr)); }.number-options--words :deep(button) { font-size: 16px; padding: 10px 4px; } }
 </style>
