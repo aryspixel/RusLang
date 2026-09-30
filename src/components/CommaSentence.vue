@@ -17,7 +17,7 @@ const emit = defineEmits(['toggle'])
           :aria-label="`Место ${index + 1}: ${selected.includes(index + 1) ? 'убрать' : 'поставить'} запятую`"
           :aria-pressed="selected.includes(index + 1)" :disabled="disabled"
           :class="{ 'filter-chip--active': selected.includes(index + 1) }" @click="emit('toggle', index + 1)">
-          {{ selected.includes(index + 1) ? ',' : '·' }} ({{ index + 1 }})
+          {{ selected.includes(index + 1) ? ', ' : '' }}({{ index + 1 }})
         </button>
         <span v-else class="comma-sentence__number"> ({{ index + 1 }}) </span>
       </template>
