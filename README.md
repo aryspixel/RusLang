@@ -11,4 +11,4 @@ pnpm install
 pnpm dev
 ```
 
-Сборка для статического хостинга: `pnpm build`. Выход — `dist/`. В `vite.config.js` используется относительная база для GitHub Pages. Автоматическая публикация пока не настроена.
+Сборка для статического хостинга: `pnpm build`. Выход — `dist/`. В `vite.config.js` используется относительная база для GitHub Pages. Каждый push в `main` запускает `.github/workflows/pages.yml` и публикует сборку на [GitHub Pages](https://aryspixel.github.io/RusLang/).
