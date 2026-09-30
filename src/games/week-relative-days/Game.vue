@@ -44,4 +44,3 @@ onBeforeUnmount(()=>{soundTimers.forEach(clearTimeout);if('speechSynthesis' in w
 @media(max-width:1099px) { .relative-days { grid-template-columns: repeat(4,minmax(0,1fr)); } }
 @media(max-width:599px) { .relative-zones { grid-template-columns: 1fr; }.relative-zone { min-height: 100px; }.relative-days { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 </style>
-
