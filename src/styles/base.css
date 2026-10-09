@@ -1,4 +1,8 @@
 * { box-sizing: border-box; }
+[data-season="winter"] { --sequence-card-background: var(--color-season-winter); }
+[data-season="spring"] { --sequence-card-background: var(--color-season-spring); }
+[data-season="summer"] { --sequence-card-background: var(--color-season-summer); }
+[data-season="autumn"] { --sequence-card-background: var(--color-season-autumn); }
 html { font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
 body { margin: 0; min-width: 320px; font-size: clamp(18px, 1.25vw, 24px); line-height: 1.45; }
 button, textarea, input { font: inherit; }

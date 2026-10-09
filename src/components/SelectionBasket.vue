@@ -1,12 +1,12 @@
 <script setup>
 import TouchButton from './TouchButton.vue'
-defineProps({ products: { type: Array, required: true }, selected: { type: Array, required: true }, disabled: Boolean })
+defineProps({ products: { type: Array, required: true }, selected: { type: Array, required: true }, disabled: Boolean, groupLabel: { type: String, default: 'Покупки' }, basketTitle: { type: String, default: '🛒 Корзина' }, maxSelected: { type: Number, default: Infinity } })
 const emit = defineEmits(['add', 'remove'])
 </script>
 <template>
  <div class="selection-basket">
-  <div class="product-grid" role="group" aria-label="Покупки"><button v-for="p in products" :key="p.id" class="choice-group__option product-card" :data-product="p.id" :disabled="disabled || selected.includes(p.id)" @click="emit('add',p.id)"><span class="product-emoji" aria-hidden="true">{{ p.emoji }}</span>{{ p.label }}<span v-if="selected.includes(p.id)"> ✓</span></button></div>
-  <div class="ali-basket"><h3>🛒 Корзина</h3><p v-if="!selected.length">Пока пусто</p><div v-else class="basket-products"><TouchButton v-for="id in selected" :key="id" variant="secondary" :data-basket-product="id" :disabled="disabled" :aria-label="`Удалить из корзины: ${products.find(p=>p.id===id)?.label}`" @click="emit('remove',id)">{{ products.find(p=>p.id===id)?.emoji }} {{ products.find(p=>p.id===id)?.label }} ✕</TouchButton></div></div>
+  <div class="product-grid" role="group" :aria-label="groupLabel"><button v-for="p in products" :key="p.id" type="button" class="choice-group__option product-card" :data-product="p.id" :disabled="disabled || selected.includes(p.id) || selected.length >= maxSelected" @click="emit('add',p.id)"><span v-if="p.emoji" class="product-emoji" aria-hidden="true">{{ p.emoji }}</span>{{ p.label }}<span v-if="selected.includes(p.id)"> ✓</span></button></div>
+  <div class="ali-basket"><h3>{{ basketTitle }}</h3><p v-if="!selected.length">Пока пусто</p><div v-else class="basket-products"><TouchButton v-for="id in selected" :key="id" variant="secondary" :data-basket-product="id" :disabled="disabled" :aria-label="`Удалить из корзины: ${products.find(p=>p.id===id)?.label}`" @click="emit('remove',id)">{{ products.find(p=>p.id===id)?.emoji }} {{ products.find(p=>p.id===id)?.label }} ✕</TouchButton></div></div>
  </div>
 </template>
 <style scoped>

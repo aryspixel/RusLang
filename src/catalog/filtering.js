@@ -8,6 +8,7 @@ export const filterGroups = [
   ] },
   { key: 'topic', title: 'Тема', options: [
     { id: 'weekdays', label: 'Дни недели' },
+    { id: 'months-seasons', label: 'Месяцы и времена года' },
     { id: 'routine', label: 'Распорядок дня' },
     { id: 'numbers', label: 'Числа' },
     { id: 'text-types', label: 'Типы текста' },
@@ -17,6 +18,7 @@ export const filterGroups = [
   { key: 'format', title: 'Формат', options: [
     { id: 'choice', label: 'Выбор ответа' },
     { id: 'sequence', label: 'Собрать порядок' },
+    { id: 'word-search', label: 'Поиск слов' },
     { id: 'memory', label: 'На память' },
     { id: 'writing', label: 'Написать текст' },
     { id: 'diagram', label: 'Схемы' },

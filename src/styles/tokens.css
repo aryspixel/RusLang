@@ -1,4 +1,8 @@
 :root {
+  --color-season-winter: #dceeff;
+  --color-season-spring: #e1f2dc;
+  --color-season-summer: #fff1bd;
+  --color-season-autumn: #ffe2cc;
   color-scheme: light;
   --color-background: #f3f7fc;
   --color-surface: #ffffff;
