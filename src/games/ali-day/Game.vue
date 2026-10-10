@@ -29,7 +29,7 @@ function nextOrder() {
 </script>
 <template>
  <div class="game-layout">
-  <h1>☀️ День Али</h1>
+  <h1>☀️ Распорядок дня</h1>
   <div class="action-row" role="group" aria-label="Части игры"><TouchButton :variant="mode === 'clock' ? 'primary' : 'secondary'" :aria-pressed="mode === 'clock'" @click="mode = 'clock'">Часы / Сағат</TouchButton><TouchButton :variant="mode === 'order' ? 'primary' : 'secondary'" :aria-pressed="mode === 'order'" @click="mode = 'order'">Распорядок / Күн тәртібі</TouchButton></div>
   <SurfacePanel v-if="mode === 'clock'">
    <template v-if="phase === 'intro'"><h2>{{ text.title }}</h2><p class="game-translation" lang="kk">{{ text.titleKz }}</p><p>{{ text.choiceInstruction }}</p><p class="game-translation" lang="kk">{{ text.choiceInstructionKz }}</p><TouchButton @click="start">Начать / Бастау</TouchButton></template>

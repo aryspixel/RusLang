@@ -1,4 +1,13 @@
 :root {
+  --catalog-speech-bg: #eaf3ed;
+  --catalog-speech-border: #b5d3c1;
+  --catalog-speech-text: #214f3c;
+  --catalog-ent-bg: #edf1fc;
+  --catalog-ent-border: #bbc9e9;
+  --catalog-ent-text: #2b4373;
+  --catalog-primary-bg: #fff2df;
+  --catalog-primary-border: #e6cba2;
+  --catalog-primary-text: #704c21;
   --color-season-winter: #dceeff;
   --color-season-spring: #e1f2dc;
   --color-season-summer: #fff1bd;
