@@ -7,6 +7,7 @@ export const filterGroups = [
     { id: 'unknown', label: 'Уточняется' },
   ] },
   { key: 'topic', title: 'Тема', options: [
+    { id: 'orthography', label: 'Орфография' },
     { id: 'place-prepositions', label: 'Предлоги места' },
     { id: 'weekdays', label: 'Дни недели' },
     { id: 'months-seasons', label: 'Месяцы и времена года' },
