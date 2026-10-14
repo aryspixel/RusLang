@@ -18,6 +18,7 @@ export const filterGroups = [
     { id: 'syntax', label: 'Синтаксис' },
   ] },
   { key: 'format', title: 'Формат', options: [
+    { id: 'placement', label: 'Расстановка предметов' },
     { id: 'choice', label: 'Выбор ответа' },
     { id: 'sequence', label: 'Собрать порядок' },
     { id: 'word-search', label: 'Поиск слов' },
