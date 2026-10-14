@@ -1,13 +1,13 @@
-import bedImage from './assets/items/bed.png'
-import tableImage from './assets/items/table.png'
-import wardrobeImage from './assets/items/wardrobe.png'
-import chairImage from './assets/items/chair.png'
-import boxImage from './assets/items/box.png'
-import bookImage from './assets/items/book.png'
-import ballImage from './assets/items/ball.png'
-import catImage from './assets/items/cat.png'
-import bearImage from './assets/items/bear.png'
-import lampImage from './assets/items/lamp.png'
+import bedImage from './assets/items/bed.webp'
+import tableImage from './assets/items/table.webp'
+import wardrobeImage from './assets/items/wardrobe.webp'
+import chairImage from './assets/items/chair.webp'
+import boxImage from './assets/items/box.webp'
+import bookImage from './assets/items/book.webp'
+import ballImage from './assets/items/ball.webp'
+import catImage from './assets/items/cat.webp'
+import bearImage from './assets/items/bear.webp'
+import lampImage from './assets/items/lamp.webp'
 
 // Новый сценарий по мотивам листа «Моя комната: большое повторение».
 // x/y — центр по горизонтали и нижний край предмета, в процентах комнаты.

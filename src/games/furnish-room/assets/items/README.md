@@ -1,5 +1,7 @@
 # Отдельные предметы комнаты
 
+Для игры используются WebP-версии с теми же именами: исходное разрешение и прозрачность сохранены, качество сжатия 85. PNG оставлены как исходники и не импортируются игрой. Конвертация выполнена Pillow без изменения содержания иллюстраций для уменьшения объёма загрузки.
+
 Созданы 14 октября 2026 года встроенным ImageGen по просьбе владельца заменить смешанные фрагменты общего листа. Каждый PNG — один объект с прозрачным фоном. Исходный `../objects.png` сохранён как архив исходных иллюстраций.
 
 Общий промпт: "Single isolated sprite for a children's Russian vocabulary room game. ONE object only on a genuinely transparent background. Crisp polished friendly textbook cartoon, bold clean dark outlines, simple readable shapes, warm colors and honey wood where relevant, very light soft shading, three-quarter view from slightly above. Entire subject fully visible, tight frame with tiny transparent margins. No scene, no room, no accompanying objects, no people, no floor, no floor shadows, no sticker cut lines, no text, no watermark. Individual cutout PNG, not a sheet or collage."
