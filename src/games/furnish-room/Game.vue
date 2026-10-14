@@ -5,9 +5,7 @@ import TouchButton from '../../components/TouchButton.vue'
 import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
 import RoomPlacementBoard from '../../components/RoomPlacementBoard.vue'
-import ImageSprite from '../../components/ImageSprite.vue'
 import room from './assets/room.png'
-import sheet from './assets/objects.png'
 import { objects, furnishing, belongings, sentences, tabs, speechSupports } from './data.js'
 
 const mode = ref('furnishing')
@@ -108,7 +106,7 @@ function removeFree() {
       <h2>{{ mode === 'furnishing' ? 'Мебель расставлена!' : mode === 'belongings' ? 'Все вещи на своих местах!' : 'Предложения собраны!' }}</h2>
       <p>Верных ответов: {{ score }} из {{ tasks.length }}.</p>
       <p v-if="mode !== 'sentences'">Посмотри, как должна выглядеть комната по заданиям.</p>
-      <RoomPlacementBoard :background="room" :sheet="sheet" :objects="scene" />
+      <RoomPlacementBoard :background="room" :objects="scene" />
       <details class="game-help">
         <summary>Мои ответы и разбор</summary>
         <div v-for="(entry, i) in tasks" :key="entry.object" class="furnish-review">
@@ -130,12 +128,12 @@ function removeFree() {
       <p v-else-if="!freeDone">Выбери предмет, затем место с номером под картинкой. {{ training ? 'После этого нажми «Проверить».' : 'Предмет можно переставить или убрать. Здесь нет неправильных ответов.' }}</p>
       <p v-if="mode === 'belongings' && state.index === 0" class="muted">Мебель здесь уже расставлена. Теперь добавим небольшие предметы.</p>
       <div class="furnish-workspace">
-        <RoomPlacementBoard :background="room" :sheet="sheet" :objects="scene" :places="mode === 'sentences' || freeDone ? [] : places" :selected="training ? state.place : freeRoom[freeItem] || null" :disabled="locked" @place="selectPlace" />
+        <RoomPlacementBoard :background="room" :objects="scene" :places="mode === 'sentences' || freeDone ? [] : places" :selected="training ? state.place : freeRoom[freeItem] || null" :disabled="locked" @place="selectPlace" />
         <div v-if="mode !== 'sentences' && !freeDone" class="furnish-tools">
           <h3>Выбери предмет</h3>
           <div class="furnish-palette" role="group" aria-label="Предметы для комнаты">
             <button v-for="item in palette" :key="item.id" class="choice-group__option furnish-card" :class="{ 'choice-group__option--selected': itemId === item.id }" :aria-pressed="itemId === item.id" :disabled="locked" @click="selectItem(item.id)">
-              <ImageSprite :src="sheet" :crop="item.crop" />
+              <img :src="item.image" alt="" class="furnish-card__image">
               <span>{{ itemId === item.id ? '✓ ' : '' }}{{ item.label }}</span>
             </button>
           </div>
@@ -192,10 +190,10 @@ function removeFree() {
 .furnish-tools { min-width: 0; }
 .furnish-palette { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); margin-bottom: var(--space-2); }
 .furnish-card { display: grid; justify-items: center; align-content: center; gap: var(--space-1); text-align: center; min-width: 0; padding: 8px; }
-.furnish-card .image-sprite { height: 85px; }
+.furnish-card__image { display: block; width: 100%; height: 85px; object-fit: contain; }
 .furnish-answer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); min-height: 76px; padding: var(--space-2); margin-top: var(--space-3); border: 2px dashed var(--color-primary); border-radius: var(--radius-control); }
 .furnish-answer .touch-button { min-width: 0; }
 .furnish-review { margin-top: var(--space-3); }
 @media (max-width: 850px) { .furnish-workspace { grid-template-columns: minmax(0, 1fr); } .furnish-palette { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); } }
-@media (max-height: 800px) and (min-width: 851px) { .furnish-card .image-sprite { height: 60px; } }
+@media (max-height: 800px) and (min-width: 851px) { .furnish-card__image { height: 60px; } }
 </style>
