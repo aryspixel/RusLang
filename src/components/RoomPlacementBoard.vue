@@ -14,7 +14,7 @@ defineEmits(['place'])
   <div class="room-board">
     <div class="room-board__scene" role="group" aria-label="Комната: окно слева, дверь справа. Места отмечены номерами; их подписи находятся под картинкой.">
       <img :src="background" alt="" class="room-board__background">
-      <div v-for="object in objects" :key="object.id" class="room-board__object" :style="{ left: `${object.x}%`, bottom: `${100 - object.y}%`, width: `${object.width}%`, zIndex: object.layer ?? 1 }">
+      <div v-for="object in objects" :key="object.id" class="room-board__object" :style="{ left: `${object.x}%`, bottom: `${100 - object.y}%`, width: `${object.width}%`, zIndex: Math.round((object.layer ?? 1) * 1000) }">
         <img :src="object.image" alt="" class="room-board__sprite" :style="{ transform: object.flipX ? 'scaleX(-1)' : undefined }">
       </div>
       <TouchButton v-for="(place, i) in places" :key="place.id" class="room-board__marker" :class="{ 'room-board__marker--selected': selected === place.id }" :style="{ left: `${place.x}%`, top: `${Math.min(90, place.y)}%` }" :disabled="disabled || place.available === false" :aria-label="`${i + 1}. ${place.label}`" :aria-pressed="selected === place.id" @click="$emit('place', place.id)">{{ i + 1 }}</TouchButton>
@@ -34,7 +34,7 @@ defineEmits(['place'])
 .room-board__background { display: block; width: 100%; height: 100%; object-fit: cover; }
 .room-board__object { position: absolute; transform: translateX(-50%); pointer-events: none; }
 .room-board__sprite { display: block; width: 100%; height: auto; }
-.room-board__marker { position: absolute; z-index: 20; transform: translate(-50%, -50%); display: grid; place-items: center; width: 48px; height: 48px; min-width: 48px; min-height: 48px; padding: 0; border: 3px solid var(--color-primary); border-radius: 50%; background: var(--color-surface); color: var(--color-primary-dark); font-weight: 850; font-size: 20px; }
+.room-board__marker { position: absolute; z-index: 20000; transform: translate(-50%, -50%); display: grid; place-items: center; width: 48px; height: 48px; min-width: 48px; min-height: 48px; padding: 0; border: 3px solid var(--color-primary); border-radius: 50%; background: var(--color-surface); color: var(--color-primary-dark); font-weight: 850; font-size: 20px; }
 .room-board__marker--selected { background: var(--color-primary); color: white; }
 .room-board .action-row > * { flex: 1 1 170px; min-width: 0; }
 </style>

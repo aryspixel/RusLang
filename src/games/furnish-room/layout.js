@@ -3,7 +3,7 @@ import { objects } from './data.js'
 const byId = new Map(objects.map(item => [item.id, item]))
 
 function resolve(item, location, map) {
-  if (!location.parent) return { ...item, ...location }
+  if (!location.parent) return { ...item, ...location, layer: item.stackLayer ?? location.layer }
   const parent = byId.get(location.parent)
   const parentPlace = parent.places.find(place => place.id === map[parent.id])
   if (!parentPlace) return { ...item, ...location, available: false }
@@ -18,7 +18,9 @@ function resolve(item, location, map) {
     x: Math.max(width / 2, Math.min(100 - width / 2, actual.x + (location.x - reference.x) * scale)),
     y: Math.min(98, actual.y + (location.y - reference.y) * scale),
     width,
-    layer: location.layer + actual.layer - reference.layer,
+    // Вещи сохраняют порядок относительно своей мебели, оставаясь в её слое глубины.
+    // Например, книга на столе тоже должна скрываться за кроватью на переднем плане.
+    layer: item.id === 'rug' ? 0 : actual.layer + (location.layer - reference.layer) / 100,
   }
 }
 
