@@ -7,6 +7,7 @@ import ProgressMeter from '../../components/ProgressMeter.vue'
 import RoomPlacementBoard from '../../components/RoomPlacementBoard.vue'
 import room from './assets/room.png'
 import { objects, furnishing, belongings, sentences, tabs, speechSupports } from './data.js'
+import { roomObjects, roomPlaces } from './layout.js'
 
 const mode = ref('furnishing')
 const fresh = () => ({ index: 0, item: null, place: null, checked: false, done: false, answers: [], words: [] })
@@ -20,27 +21,22 @@ const tasks = computed(() => mode.value === 'furnishing' ? furnishing : mode.val
 const task = computed(() => training.value ? tasks.value[state.value.index] : null)
 const itemId = computed(() => training.value ? state.value.item : freeItem.value)
 const selectedItem = computed(() => objects.find(item => item.id === itemId.value))
-const palette = computed(() => mode.value === 'furnishing' ? objects.slice(0, 5) : mode.value === 'belongings' ? objects.slice(5) : objects)
-const places = computed(() => selectedItem.value?.places || [])
+const palette = computed(() => mode.value === 'free' ? objects : objects.filter(item => tasks.value.some(entry => entry.object === item.id)))
+const places = computed(() => roomPlaces(selectedItem.value, sceneMap.value))
 const locked = computed(() => training.value ? state.value.checked || state.value.done : freeDone.value)
 const canonical = entries => Object.fromEntries(entries.map(entry => [entry.object, entry.target]))
 const allCorrect = canonical([...furnishing, ...belongings])
 
-function renderObjects(map) {
-  return objects.flatMap(item => {
-    const location = item.places.find(place => place.id === map[item.id])
-    return location ? [{ ...item, ...location, id: item.id }] : []
-  })
-}
-const scene = computed(() => {
-  if (mode.value === 'free') return renderObjects(freeRoom.value)
-  if (mode.value === 'sentences') return renderObjects(allCorrect)
+const sceneMap = computed(() => {
+  if (mode.value === 'free') return freeRoom.value
+  if (mode.value === 'sentences') return allCorrect
   const s = state.value
   const baseline = mode.value === 'belongings' ? canonical(furnishing) : {}
   Object.assign(baseline, canonical(tasks.value.slice(0, s.done ? tasks.value.length : s.index)))
   if (!s.done && s.item && s.place) baseline[s.item] = s.place
-  return renderObjects(baseline)
+  return baseline
 })
+const scene = computed(() => roomObjects(sceneMap.value))
 const correct = computed(() => {
   if (mode.value === 'sentences') return state.value.words.join('|') === task.value.words.join('|')
   return state.value.item === task.value.object && state.value.place === task.value.target
@@ -63,6 +59,7 @@ function selectItem(id) {
 }
 function selectPlace(id) {
   if (locked.value || !selectedItem.value) return
+  if (places.value.find(place => place.id === id)?.available === false) return
   if (mode.value === 'free') freeRoom.value = { ...freeRoom.value, [freeItem.value]: id }
   else state.value.place = id
 }
@@ -91,6 +88,18 @@ function removeFree() {
   if (!freeItem.value || freeDone.value) return
   const updated = { ...freeRoom.value }
   delete updated[freeItem.value]
+  // Вместе с мебелью убираем зависимые вещи: они не остаются висеть в воздухе.
+  let removed = true
+  while (removed) {
+    removed = false
+    for (const item of objects) {
+      const parent = item.places.find(place => place.id === updated[item.id])?.parent
+      if (parent && !updated[parent]) {
+        delete updated[item.id]
+        removed = true
+      }
+    }
+  }
   freeRoom.value = updated
 }
 </script>
@@ -109,7 +118,7 @@ function removeFree() {
       <RoomPlacementBoard :background="room" :objects="scene" />
       <details class="game-help">
         <summary>Мои ответы и разбор</summary>
-        <div v-for="(entry, i) in tasks" :key="entry.object" class="furnish-review">
+        <div v-for="(entry, i) in tasks" :key="`${entry.object}-${i}`" class="furnish-review">
           <p><strong>{{ i + 1 }}. {{ entry.prompt }}</strong></p>
           <p>{{ state.answers[i]?.correct ? '✓ Верно.' : '✗ Была ошибка.' }} Твой ответ: {{ state.answers[i]?.response }}.</p>
           <p>Правильно: {{ mode === 'sentences' ? entry.words.join(' ') + '.' : objects.find(item => item.id === entry.object).places.find(place => place.id === entry.target).description }} {{ entry.explanation }}</p>
@@ -141,6 +150,7 @@ function removeFree() {
           <div v-if="mode === 'free'" class="action-row">
             <TouchButton variant="secondary" :disabled="!freeRoom[freeItem]" @click="removeFree">Убрать предмет</TouchButton>
           </div>
+          <p v-if="mode === 'free'" class="muted">Вещи перемещаются вместе с мебелью. Если убрать мебель, вещи на ней и рядом с ней тоже уберутся.</p>
         </div>
       </div>
 
@@ -179,6 +189,7 @@ function removeFree() {
       <summary>Памятка: куда поставили и где находится?</summary>
       <p>На стол → на столе. Под стол → под столом. В коробку → в коробке. На кровать → на кровати.</p>
       <p>«На» — сверху, на поверхности; «под» — внизу; «в» — внутри; «около» и «рядом с» — близко.</p>
+      <p>«Над» — выше предмета; «у стены» — близко к стене; «посреди комнаты» — в её середине.</p>
       <p>Поставили стул рядом со столом. Теперь стул стоит рядом со столом.</p>
     </details>
   </div>

@@ -14,13 +14,13 @@ defineEmits(['place'])
   <div class="room-board">
     <div class="room-board__scene" role="group" aria-label="Комната: окно слева, дверь справа. Места отмечены номерами; их подписи находятся под картинкой.">
       <img :src="background" alt="" class="room-board__background">
-      <div v-for="object in objects" :key="object.id" class="room-board__object" :style="{ left: `${object.x}%`, bottom: `${100 - object.y}%`, width: `${object.width}%`, zIndex: object.layer || 1 }">
+      <div v-for="object in objects" :key="object.id" class="room-board__object" :style="{ left: `${object.x}%`, bottom: `${100 - object.y}%`, width: `${object.width}%`, zIndex: object.layer ?? 1 }">
         <img :src="object.image" alt="" class="room-board__sprite">
       </div>
-      <TouchButton v-for="(place, i) in places" :key="place.id" class="room-board__marker" :class="{ 'room-board__marker--selected': selected === place.id }" :style="{ left: `${place.x}%`, top: `${Math.min(90, place.y)}%` }" :disabled="disabled" :aria-label="`${i + 1}. ${place.label}`" :aria-pressed="selected === place.id" @click="$emit('place', place.id)">{{ i + 1 }}</TouchButton>
+      <TouchButton v-for="(place, i) in places" :key="place.id" class="room-board__marker" :class="{ 'room-board__marker--selected': selected === place.id }" :style="{ left: `${place.x}%`, top: `${Math.min(90, place.y)}%` }" :disabled="disabled || place.available === false" :aria-label="`${i + 1}. ${place.label}`" :aria-pressed="selected === place.id" @click="$emit('place', place.id)">{{ i + 1 }}</TouchButton>
     </div>
     <div v-if="places.length" class="action-row" role="group" aria-label="Выбери место в комнате">
-      <TouchButton v-for="(place, i) in places" :key="place.id" :disabled="disabled" :variant="selected === place.id ? 'primary' : 'secondary'" :aria-pressed="selected === place.id" @click="$emit('place', place.id)">{{ i + 1 }} · {{ place.label }}</TouchButton>
+      <TouchButton v-for="(place, i) in places" :key="place.id" :disabled="disabled || place.available === false" :variant="selected === place.id ? 'primary' : 'secondary'" :aria-pressed="selected === place.id" @click="$emit('place', place.id)">{{ i + 1 }} · {{ place.label }}</TouchButton>
     </div>
     <details v-if="objects.length" class="game-help">
       <summary>Что сейчас в комнате? ({{ objects.length }})</summary>
