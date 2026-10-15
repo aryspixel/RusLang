@@ -1,7 +1,7 @@
-import bedImage from './assets/items/bed.webp'
-import tableImage from './assets/items/table.webp'
-import wardrobeImage from './assets/items/wardrobe.webp'
-import chairImage from './assets/items/chair.webp'
+import bedImage from './assets/items/bed-room-v2.webp'
+import tableImage from './assets/items/table-room-v2.webp'
+import wardrobeImage from './assets/items/wardrobe-room-v2.webp'
+import chairImage from './assets/items/chair-room-v2.webp'
 import boxImage from './assets/items/box.webp'
 import bookImage from './assets/items/book.webp'
 import ballImage from './assets/items/ball.webp'
@@ -18,34 +18,34 @@ import clockImage from './assets/items/clock.webp'
 const place = (id, label, x, y, width, description, layer = 2, parent = null) => ({ id, label, x, y, width, description, layer, parent })
 export const objects = [
   { id: 'bed', label: 'Кровать', image: bedImage, places: [
-    place('window', 'Около окна', 23, 94, 35, 'Кровать стоит около окна.', 3),
-    place('middle', 'Посреди комнаты', 49, 98, 35, 'Кровать стоит посреди комнаты.', 3),
-    place('door', 'Около двери', 76, 96, 33, 'Кровать стоит около двери.', 3),
+    place('window', 'Около окна', 23, 94, 32, 'Кровать стоит около окна.', 3),
+    place('middle', 'Посреди комнаты', 49, 98, 32, 'Кровать стоит посреди комнаты.', 3),
+    place('door', 'Около двери', 76, 96, 31, 'Кровать стоит около двери.', 3),
   ] },
   { id: 'table', label: 'Стол', image: tableImage, places: [
-    place('wall', 'У дальней стены', 49, 84, 26, 'Стол стоит у дальней стены.', 4),
+    place('wall', 'У дальней стены', 48, 80, 27, 'Стол стоит у дальней стены.', 4),
     place('window', 'Около окна', 22, 86, 28, 'Стол стоит около окна.', 4),
     place('middle', 'Посреди комнаты', 52, 97, 30, 'Стол стоит посреди комнаты.', 4),
   ] },
-  { id: 'wardrobe', label: 'Шкаф', image: wardrobeImage, flipX: true, places: [
-    place('door', 'Около двери', 74, 82, 24, 'Шкаф стоит около двери.'),
-    place('window', 'Около окна', 24, 86, 24, 'Шкаф стоит около окна.'),
-    place('middle', 'Посреди комнаты', 52, 97, 26, 'Шкаф стоит посреди комнаты.', 4),
+  { id: 'wardrobe', label: 'Шкаф', image: wardrobeImage, places: [
+    place('door', 'Около двери', 73, 79, 22, 'Шкаф стоит около двери.'),
+    place('window', 'Около окна', 24, 86, 22, 'Шкаф стоит около окна.'),
+    place('middle', 'Посреди комнаты', 52, 97, 24, 'Шкаф стоит посреди комнаты.', 4),
   ] },
   { id: 'chair', label: 'Стул', image: chairImage, places: [
-    place('table', 'Рядом со столом', 57, 94, 10, 'Стул стоит рядом со столом.', 5, 'table'),
+    place('table', 'Рядом со столом', 56, 89, 10, 'Стул стоит рядом со столом.', 5, 'table'),
     place('door', 'Около двери', 87, 94, 11, 'Стул стоит около двери.', 5),
     place('bed', 'Около кровати', 38, 95, 11, 'Стул стоит около кровати.', 5, 'bed'),
   ] },
   { id: 'box', label: 'Коробка', image: boxImage, places: [
-    place('wardrobe', 'Около шкафа', 83, 96, 14, 'Коробка стоит около шкафа.', 6, 'wardrobe'),
-    place('table', 'Под столом', 44, 83, 10, 'Коробка стоит под столом.', 3, 'table'),
+    place('wardrobe', 'Около шкафа', 82, 95, 13, 'Коробка стоит около шкафа.', 6, 'wardrobe'),
+    place('table', 'Под столом', 43, 79, 10, 'Коробка стоит под столом.', 3, 'table'),
     place('bed', 'Около кровати', 39, 97, 15, 'Коробка стоит около кровати.', 6, 'bed'),
   ] },
   { id: 'shelf', label: 'Полка', image: shelfImage, places: [
-    place('wall', 'На дальней стене', 46, 33, 22, 'Полка висит на дальней стене.'),
-    place('table', 'Над столом', 49, 47, 22, 'Полка висит над столом.', 2, 'table'),
-    place('wardrobe', 'Над шкафом', 74, 27, 18, 'Полка висит над шкафом.', 2, 'wardrobe'),
+    place('wall', 'На дальней стене', 45, 33, 20, 'Полка висит на дальней стене.'),
+    place('table', 'Над столом', 48, 43, 20, 'Полка висит над столом.', 2, 'table'),
+    place('wardrobe', 'Над шкафом', 73, 12, 18, 'Полка висит над шкафом.', 2, 'wardrobe'),
   ] },
   { id: 'rug', label: 'Ковёр', image: rugImage, places: [
     place('middle', 'Посреди комнаты', 53, 98, 32, 'Ковёр лежит посреди комнаты.', 0),
@@ -53,39 +53,39 @@ export const objects = [
     place('door', 'Около двери', 79, 98, 24, 'Ковёр лежит около двери.', 0),
   ] },
   { id: 'book', label: 'Книга', image: bookImage, places: [
-    place('table', 'На столе', 45, 61, 7, 'Книга лежит на столе.', 7, 'table'),
-    place('bed', 'На кровати', 21, 77, 7, 'Книга лежит на кровати.', 7, 'bed'),
+    place('table', 'На столе', 44, 56, 7, 'Книга лежит на столе.', 7, 'table'),
+    place('bed', 'На кровати', 21, 79, 7, 'Книга лежит на кровати.', 7, 'bed'),
     place('shelf', 'На полке', 49, 28, 6, 'Книга лежит на полке.', 7, 'shelf'),
   ] },
   { id: 'ball', label: 'Мяч', image: ballImage, places: [
-    place('table', 'Под столом', 44, 82, 7, 'Мяч лежит под столом.', 3, 'table'),
-    place('bed', 'На кровати', 21, 78, 7, 'Мяч лежит на кровати.', 7, 'bed'),
-    place('chair', 'Около стула', 64, 96, 7, 'Мяч лежит около стула.', 7, 'chair'),
+    place('table', 'Под столом', 43, 78, 7, 'Мяч лежит под столом.', 3, 'table'),
+    place('bed', 'На кровати', 21, 80, 7, 'Мяч лежит на кровати.', 7, 'bed'),
+    place('chair', 'Около стула', 63, 92, 7, 'Мяч лежит около стула.', 7, 'chair'),
   ] },
   { id: 'cat', label: 'Кот', image: catImage, places: [
-    place('box', 'В коробке', 83, 90, 8, 'Кот сидит в коробке.', 7, 'box'),
-    place('bed', 'На кровати', 20, 77, 8, 'Кот сидит на кровати.', 7, 'bed'),
-    place('table', 'Под столом', 45, 83, 8, 'Кот сидит под столом.', 3, 'table'),
+    place('box', 'В коробке', 82, 89, 8, 'Кот сидит в коробке.', 7, 'box'),
+    place('bed', 'На кровати', 20, 79, 8, 'Кот сидит на кровати.', 7, 'bed'),
+    place('table', 'Под столом', 44, 79, 8, 'Кот сидит под столом.', 3, 'table'),
   ] },
   { id: 'bear', label: 'Медведь', image: bearImage, places: [
-    place('bed', 'На кровати', 23, 77, 9, 'Медведь сидит на кровати.', 7, 'bed'),
-    place('table', 'На столе', 50, 62, 8, 'Медведь сидит на столе.', 7, 'table'),
-    place('chair', 'Около стула', 64, 97, 9, 'Медведь сидит около стула.', 7, 'chair'),
+    place('bed', 'На кровати', 23, 79, 9, 'Медведь сидит на кровати.', 7, 'bed'),
+    place('table', 'На столе', 49, 57, 8, 'Медведь сидит на столе.', 7, 'table'),
+    place('chair', 'Около стула', 63, 93, 9, 'Медведь сидит около стула.', 7, 'chair'),
   ] },
   { id: 'lamp', label: 'Лампа', image: lampImage, places: [
-    place('table', 'На столе', 55, 62, 6, 'Лампа стоит на столе.', 7, 'table'),
+    place('table', 'На столе', 54, 57, 6, 'Лампа стоит на столе.', 7, 'table'),
     place('bed', 'Около кровати', 38, 93, 7, 'Лампа стоит около кровати.', 7, 'bed'),
     place('shelf', 'На полке', 51, 28, 5, 'Лампа стоит на полке.', 7, 'shelf'),
   ] },
   { id: 'plant', label: 'Цветок', image: plantImage, places: [
     place('shelf', 'На полке', 42, 28, 6, 'Цветок стоит на полке.', 7, 'shelf'),
-    place('table', 'На столе', 50, 62, 6, 'Цветок стоит на столе.', 7, 'table'),
+    place('table', 'На столе', 49, 57, 6, 'Цветок стоит на столе.', 7, 'table'),
     place('window', 'Около окна', 12, 84, 8, 'Цветок стоит около окна.', 6),
   ] },
   { id: 'clock', label: 'Часы', image: clockImage, places: [
-    place('wall', 'На дальней стене', 60, 33, 7, 'Часы висят на дальней стене.'),
-    place('table', 'Над столом', 49, 45, 7, 'Часы висят над столом.', 2, 'table'),
-    place('wardrobe', 'Над шкафом', 74, 29, 7, 'Часы висят над шкафом.', 2, 'wardrobe'),
+    place('wall', 'На дальней стене', 58, 32, 5, 'Часы висят на дальней стене.'),
+    place('table', 'Над столом', 48, 41, 5, 'Часы висят над столом.', 2, 'table'),
+    place('wardrobe', 'Над шкафом', 73, 15, 5, 'Часы висят над шкафом.', 2, 'wardrobe'),
   ] },
 ]
 
