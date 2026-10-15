@@ -142,7 +142,7 @@ function removeFree() {
           <h3>Выбери предмет</h3>
           <div class="furnish-palette" role="group" aria-label="Предметы для комнаты">
             <button v-for="item in palette" :key="item.id" class="choice-group__option furnish-card" :class="{ 'choice-group__option--selected': itemId === item.id }" :aria-pressed="itemId === item.id" :disabled="locked" @click="selectItem(item.id)">
-              <img :src="item.image" alt="" class="furnish-card__image">
+              <img :src="item.image" alt="" class="furnish-card__image" :style="{ transform: item.flipX ? 'scaleX(-1)' : undefined }">
               <span>{{ itemId === item.id ? '✓ ' : '' }}{{ item.label }}</span>
             </button>
           </div>
