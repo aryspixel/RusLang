@@ -4,6 +4,12 @@
 
 Перед работой прочитайте [AGENTS.md](AGENTS.md), [UX-правила](docs/UX.md), [правила тем](docs/THEMES.md) и [навигацию](docs/NAVIGATION.md).
 
+Новый урок с аудированием готовится через проектный навык
+[$listening-lesson](.agents/skills/listening-lesson/SKILL.md): тема → варианты
+сценария и визуальных опор → фидбэк → согласованные реплики и задания → аудио
+через `$openrouter-voice` → приёмка → тренажёр, если он запрошен. Текущие решения
+конкретного урока сохраняются в `docs/lessons/<slug>.md`.
+
 ## Локальный запуск
 
 Локальная генерация русского голоса: [Silero TTS](docs/LOCAL_TTS.md). Команда: `.\tts.bat --text "Привет!" --output .local\silero\output\hello.wav`.
