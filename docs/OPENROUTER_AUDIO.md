@@ -1,88 +1,85 @@
-# Озвучка и звуковые задания через OpenRouter
+# OpenRouter narration and sound exercises
 
-Проектный навык: [openrouter-voice](../.agents/skills/openrouter-voice/SKILL.md).
-Он хранится в репозитории, поэтому после `git pull` доступен на другой рабочей
-машине без копирования глобальных навыков. Агенту можно написать:
-«Используй `$openrouter-voice`, озвучь этот текст голосом персонажа».
-Если клиент не обнаруживает проектные навыки автоматически, попросите прочитать
-указанный `SKILL.md`; копировать папку в глобальную установку необязательно.
+Project skill: [openrouter-voice](../.agents/skills/openrouter-voice/SKILL.md).
+It is versioned here, so `git pull` brings it to another machine without copying
+global skills. Ask the agent: “Use `$openrouter-voice` to narrate this text in a
+character voice.” If the client does not discover project skills automatically,
+ask it to read that `SKILL.md`; a global installation is not required.
 
-Seed Audio используется для выразительной речи, голосов по описанию/референсу,
-диалогов и звуковых загадок. Для локальной озвучки без сети остаётся
-[Silero](LOCAL_TTS.md). Его `+` и SSML не являются разметкой Seed.
+Seed Audio handles expressive narration, described/reference voices, dialogues,
+and sound riddles. Keep [Silero](LOCAL_TTS.md) for local offline speech.
+Its `+` and SSML conventions are not Seed markup.
 
-## Подготовка рабочей машины
+## Working-machine setup
 
-Нужны Python 3.10 или новее, `ffmpeg` и `ffprobe` в PATH, доступ к OpenRouter
-и баланс аккаунта. Python-пакеты и зависимости приложения устанавливать для
-этого скрипта не нужно: он использует стандартную библиотеку.
+Requires Python 3.10+, `ffmpeg` and `ffprobe` on PATH, OpenRouter access, and account
+balance. No Python packages or application dependencies are needed by this
+standard-library script.
 
-Владелец самостоятельно создаёт локальный `.env` в корне проекта по
-[.env.example](../.env.example), добавляя `OPENROUTER_API_KEY` или
-`OPENROUTER_KEY`. Можно использовать переменную окружения с тем же именем.
-`.env` уже исключён из Git; пример содержит только заглушку. Не передавайте
-ключ в чат, клиентский код, `VITE_*` или конфигурацию публикации сайта.
+The owner creates the root `.env` from [.env.example](../.env.example), setting
+`OPENROUTER_API_KEY` or `OPENROUTER_KEY`, or configures an environment variable.
+`.env` is already ignored; the example contains a placeholder only. Never put
+credentials in chat, client code, `VITE_*`, or deployment configuration.
 
-## Команды
+## Commands
 
-Примеры для PowerShell из корня RusLang. `py -3` можно заменить командой
-установленного Python 3.10+. На Linux используйте `python3`.
-Тексты сохраняйте как UTF-8. Создайте рабочую папку:
+PowerShell examples run from the RusLang root. Replace `py -3` with an installed
+Python 3.10+ command as needed; Linux uses `python3`. Save text as UTF-8.
+Create the working folder:
 
 ```powershell
 New-Item -ItemType Directory -Force .local/openrouter/input | Out-Null
 ```
 
-Сохраните текст в `.local/openrouter/input/story.txt`. Подготовить запрос без
-обращения к API и без создания записи:
+Save text in `.local/openrouter/input/story.txt`. Prepare without API calls or
+creating a recording:
 
 ```powershell
 py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --text-file .local/openrouter/input/story.txt --description "A warm, expressive elderly Russian grandfather" --output .local/openrouter/output/story.mp3 --dry-run
 ```
 
-Для запрошенной генерации уберите `--dry-run`. Ключ читается самим скриптом.
-Это платный сетевой запрос. Исполнение проверено в исходной рабочей среде Linux;
-эти команды адаптированы для Windows, но на целевой машине ещё не запускались.
-Установка навыка сама по себе не означает, что Python, FFmpeg или ключ настроены.
+For requested generation, omit `--dry-run`. The script reads the key itself.
+This is a paid network request. Execution was verified in the original Linux
+workspace; these Windows-adapted commands have not run on the target machine.
+Installing the skill alone does not configure Python, FFmpeg, or credentials.
 
-Для голосового референса вместо описания:
+For a voice reference instead of a description:
 
 ```powershell
 py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --text-file .local/openrouter/input/story.txt --reference C:/path/to/reference.ogg --output .local/openrouter/output/story-reference.mp3
 ```
 
-Для диалога или звуковой загадки запишите полный запрос в `scene.txt`:
+For dialogue/sound riddles, save the complete prompt in `scene.txt`:
 
 ```powershell
 py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --prompt-file .local/openrouter/input/scene.txt --output .local/openrouter/output/scene.mp3
 ```
 
-Этот режим передаёт промпт без обёртки одиночной речи. Не сочетайте его с
-`--reference`, `--voice` или `--description`: текущий CLI такие сочетания
-отклоняет. Несколько аудиореференсов и голос по картинке описаны с готовыми
-форматами запросов в [памятке](../.agents/skills/openrouter-voice/references/classroom.md);
-эти режимы пока требуют отдельного API-запроса, а не вымышленных флагов CLI.
+This bypasses the solo-narration wrapper. Do not combine it with `--reference`,
+`--voice`, or `--description`: the CLI rejects these combinations. Multiple audio
+references and image-derived voices have request recipes in the
+[reference](../.agents/skills/openrouter-voice/references/classroom.md); these modes
+currently need a separate API request, not invented CLI flags.
 
-## Результат и использование в игре
+## Outputs and game integration
 
-Рядом с MP3 сохраняется `.request.json` с промптом, моделью, идентификатором
-генерации и длительностью. Приватные данные и рабочие исходники остаются в
-игнорируемой `.local/openrouter/`. Существующие аудио и записи запросов защищены
-от случайной повторной отправки. При тайм-ауте или прерывании не удаляйте запись
-запроса для немедленного повтора: сначала выясните, завершился ли платный запрос.
+An adjacent `.request.json` stores prompt, model, generation ID, and duration.
+Keep private data and working inputs in ignored `.local/openrouter/`. Existing
+audio/request records block accidental duplicate submissions. On timeout or
+interruption do not delete the record to retry immediately: determine whether
+the paid request completed first.
 
-Сохраните нужный MP3 в `src/games/<slug>/assets/` и подключите через относительный
-импорт Vite, как другие ресурсы игры. Чистый текст ученика храните отдельно от
-синтезного промпта. В браузере не запускаются Python и платная генерация.
-При переносе в игру не копируйте туда `.request.json`, частные референсы и ключи.
+Copy the required MP3 to `src/games/<slug>/assets/` and use a relative Vite import.
+Keep clean learner text separate from synthesis prompts. The browser runs neither
+Python nor paid generation. Do not copy `.request.json`, private references, or
+keys into game assets.
 
-Результат API не перекодируется, не обрезается и не меняет темп. Примерную
-длительность подбираем длиной текста. Аудиореференс временно декодируется в WAV
-для отправки, источник при этом не изменяется. Правки произношения сохраняйте
-в отдельном синтезном тексте: в испытании Seed помогло `росЫ`, но не `росы́`
-и не `рос+ы`. Это наблюдение на одном слове, не гарантия для всех слов.
+Preserve API output without re-encoding, trimming, or tempo changes. Target an
+approximate duration through text length. Audio references are temporarily
+decoded to WAV for upload without modifying the source. Put pronunciation fixes
+in separate synthesis text: Seed handled `росЫ`, but not `росы́` or `рос+ы` in our
+trial. This is one observed word, not a universal guarantee.
 
-Текущие цены и возможности сверяются по запросу пользователя или при ошибке
-сохранённого маршрута; для обычной генерации повторный ресёрч не нужен.
-Пробные платные записи, сборки и проверки — только по явному запросу согласно
-[AGENTS.md](../AGENTS.md).
+Refresh prices/capabilities when requested or when a saved route fails; routine
+generation needs no repeated research. Paid trials, builds, and checks require
+an explicit request under [AGENTS.md](../AGENTS.md).

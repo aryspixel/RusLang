@@ -1,0 +1,4 @@
+interface:
+  display_name: "Listening Lesson"
+  short_description: "Plan RusLang listening lessons, feedback, and narration"
+  default_prompt: "Use $listening-lesson to prepare a listening exercise with me, starting with the topic and scenario options."

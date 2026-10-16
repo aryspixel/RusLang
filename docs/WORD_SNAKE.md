@@ -1,15 +1,15 @@
-# Шаблон: словарная змейка
+# Template: vocabulary word snake
 
-Владелец одобрил этот формат 8 октября 2026 года на примере месяцев и намерен регулярно использовать его для изучения слов. Это постоянная договорённость проекта, также записанная в AGENTS.md. Использовать формат, когда учебная цель — узнавать слова и запоминать последовательность букв. Поиск по готовому списку сам по себе не проверяет знание значения или самостоятельное воспроизведение слова.
+The owner approved this format on October 8, 2026 using months and plans to reuse it for vocabulary. This standing preference is also recorded in AGENTS.md. Use it for word recognition and letter order. Searching a supplied word list alone does not establish knowledge of meaning or unaided recall.
 
-## Готовая основа
+## Reusable foundation
 
-- `src/components/WordSnakeTrainer.vue` — весь сценарий: поле, список слов, составленное слово, проверка, обратная связь, переход, итог и повтор.
-- `src/components/LetterSnakeBoard.vue` — общий компонент буквенных кнопок.
-- `src/games/word-snake.js` — генератор полей из произвольного списка слов.
-- `src/games/year-months/SnakeMonths.vue` — пример подключения для месяцев.
+- `src/components/WordSnakeTrainer.vue`: complete flow—board, targets, assembled word, checking, feedback, continuation, result, replay.
+- `src/components/LetterSnakeBoard.vue`: shared letter-button board.
+- `src/games/word-snake.js`: board generator for arbitrary vocabulary.
+- `src/games/year-months/SnakeMonths.vue`: months integration example.
 
-Новый тренажёр задаёт свой словарь в отдельном data.js. Логику не копировать.
+New trainers define vocabulary in a separate data.js; do not copy the logic.
 
 ```js
 // src/games/<slug>/data.js
@@ -34,37 +34,37 @@ import { vocabulary } from './data.js'
 </template>
 ```
 
-Это заготовка для отдельного Vue-модуля, а не дополнительная готовая игра в каталоге. Регистрацию делать ленивым import(), рекомендованный класс и источник рекомендации уточнять для каждого содержания. Использовать существующий формат `word-search` и подходящую предметную тему.
+This is a starter for a standalone Vue module, not another registered catalog game. Register with lazy import(), establish the grade and recommendation source for each content set, and use `word-search` with a suitable subject facet.
 
-## Настройки
+## Parameters
 
-| Параметр | По умолчанию | Назначение |
+| Parameter | Default | Purpose |
 | --- | --- | --- |
-| `vocabulary` | Обязателен | Непустой список `{ id, label }`: уникальные id и разные слова. |
-| `wordsPerField` | 3 | Число слов на поле; последнее поле может содержать меньше слов. |
-| `showTargets` | true | Показывать список искомых слов. При false показаны только уже найденные слова; ошибка не раскрывает остальные ответы. В уровне месяцев используется false. |
-| `alphabet` | Русский алфавит, включая Ё, Й, Ъ, Ь | Буквы для заполнения свободных клеток. Для казахских слов передать казахский алфавит. |
-| `title` | Найди слова змейкой | Заголовок задания. |
-| `resultTitle` | Все слова найдены! | Заголовок итога. |
-| `resultText` | Ты прочитал все слова по буквенным змейкам. | Текст итога. |
-| `repeatLabel` | Повторить | Подпись повтора. |
+| `vocabulary` | Required | Nonempty `{ id, label }` list with unique IDs and distinct words. |
+| `wordsPerField` | 3 | Words per board; the last board may have fewer. |
+| `showTargets` | true | Show target words. When false, only found words appear; errors do not reveal remaining answers. Months uses false. |
+| `alphabet` | Russian alphabet including Ё, Й, Ъ, Ь | Filler letters. Pass the Kazakh alphabet for Kazakh vocabulary. |
+| `title` | Найди слова змейкой | Task heading. |
+| `resultTitle` | Все слова найдены! | Result heading. |
+| `resultText` | Ты прочитал все слова по буквенным змейкам. | Result text. |
+| `repeatLabel` | Повторить | Replay label. |
 
-Слова — только буквы: без пробелов и дефисов. Регистр не влияет на сравнение, Ё и Е различаются. Метки сохраняются в исходном написании, буквы поля показываются прописными. Длинные слова не обрезаются: для них добавляются строки; на панели для таких слов стоит уменьшить `wordsPerField`, чтобы поле не становилось слишком высоким. Одно- и двухбуквенные слова допустимы, но геометрически не могут содержать поворот. Буквы слова не обязаны входить в алфавит заполнения: они всегда размещаются в поле точно.
+Words contain letters only, without spaces or hyphens. Comparison is case-insensitive; Ё and Е differ. Labels retain source spelling; board letters are uppercase. Long words are not truncated: extra rows are added. Reduce `wordsPerField` for long words to limit board height on the panel. One- and two-letter words work but cannot geometrically turn. Word letters need not belong to the filler alphabet; they are always placed exactly.
 
-Генератор сохраняет группировку списка, перемешивая слова внутри поля. Маршруты случайно размещаются по всему полю без пересечений, со сменой направления. У слов от четырёх букв есть прямой участок минимум из трёх клеток, поэтому маршруты не сводятся к одинаковым двухклеточным звеньям. Ограниченный поиск с повторными попытками и гарантированным запасным размещением сохраняет доступность каждого слова, включая длинные. Пересечения слов не включены в текущий шаблон.
+The generator preserves list grouping and shuffles words within each board. Paths are randomly distributed without intersections, with direction changes. Words of at least four letters contain a straight run of at least three cells, avoiding uniformly two-cell zigzags. Bounded search, retries, and guaranteed fallback placement keep every word accessible, including long words. Intersecting words are not part of this template.
 
-## Постоянное поведение
+## Required behavior
 
-Касания выбирают буквы по порядку, только через общую сторону клеток. Нельзя повторить клетку в одном слове. Повторное касание последней буквы отменяет шаг, «Сбросить слово» очищает путь. Номера шагов и собранное слово показывают порядок чтения.
+Taps select letters in order through edge-adjacent cells only. A cell cannot repeat within one word. Tapping the last selected letter undoes one step; «Сбросить слово» clears the path. Step numbers and the assembled word show reading order.
 
-Текущий путь соединён синей ниточкой через центры выбранных клеток. После успешной проверки ниточка остаётся зелёной, даже когда начинается выбор следующего слова. Отмена и сброс изменяют только текущий путь. Линии не перехватывают касания, буквы находятся поверх линий; координаты обновляются при изменении размеров и возвращении на уровень.
+A blue thread joins current-path cell centers. After a correct check it remains green while the next word is selected. Undo/reset affect only the current path. Lines do not intercept taps; letters render above them. Coordinates update on resize and return to the level.
 
-«Проверить» сравнивает слово с текущим списком; любой допустимый путь с нужными буквами принимается. Повтор найденного слова не засчитывается. После проверки поле блокируется до явного действия продолжения. Найденные клетки можно использовать в другом слове, чтобы случайно найденный альтернативный путь не мешал завершить поле. После всех слов — отдельный переход, затем итог и повтор с новой генерацией.
+«Проверить» compares the word with the current targets; any valid path spelling a target is accepted. Already-found words earn no extra credit. After checking, lock the board until explicit continuation. Found cells remain available for another word so accidental alternative paths cannot block completion. After all words, provide a separate transition, then results and replay with regeneration.
 
-Список искомых слов управляется showTargets. Варианты «только картинка», «перевод вместо слова» и «слово по определению» — возможные будущие расширения; текущий компонент их не реализует.
+`showTargets` controls the target list. Picture-only, translated clues, and definition-based prompts are potential extensions, not implemented features.
 
-В многоуровневой игре сохранять компонент смонтированным через `v-show`, как в «Круглом годе», чтобы переключение не теряло выбранные буквы и прогресс. Словарь и настройки рассчитаны на одну попытку; для их изменения либо полного перезапуска задавать новый `:key` компоненту.
+In multilevel games keep the component mounted with `v-show`, as in «Круглый год», to preserve selections/progress when switching. Vocabulary/settings apply to one attempt; change `:key` to replace them or fully restart.
 
-## Проверка нового содержания
+## Verifying new content
 
-Проверять все слова и их написание, отдельные Ё/Е и казахские буквы, последнее неполное поле, длинное слово, ошибку, отмену, повтор слова без начисления, блокировку, завершение и повтор. Макеты проверять на 1920×1080, 1366×768 и узком экране; минимум 48 px для касания, без горизонтальной прокрутки. Скриншоты — только по просьбе владельца или при жалобе на расположение элементов. Выполнить pnpm build.
+When requested under AGENTS.md, cover word spelling, distinct Ё/Е and Kazakh letters, a partial final board, long words, errors, undo, duplicate-word rejection, locking, completion, and replay. Check 1920×1080, 1366×768, and a narrow screen; targets at least 48 px and no horizontal overflow. Screenshots and `pnpm build` also require an explicit owner request; an unsolicited check is not authorized by this checklist.

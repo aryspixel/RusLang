@@ -1,6 +1,6 @@
 interface:
-  display_name: "Локальная озвучка Silero"
-  short_description: "Русская озвучка текста и игр RusLang в WAV"
-  default_prompt: "Используй $silero-tts, чтобы озвучить русский текст локально и сохранить WAV."
+  display_name: "Local Silero Narration"
+  short_description: "Offline Russian speech and RusLang game audio in WAV"
+  default_prompt: "Use $silero-tts to narrate Russian text locally and save WAV audio."
 policy:
   allow_implicit_invocation: true

@@ -5,6 +5,11 @@ description: Generate audio through OpenRouter, primarily Seed Audio, from text,
 
 # OpenRouter Voice
 
+For a new RusLang listening lesson rather than an already defined audio asset,
+start with [listening-lesson](../listening-lesson/SKILL.md) to settle the topic,
+scenario, visual supports, feedback and exercises. Return here at the audio stage;
+do not restart that discussion for an already agreed script.
+
 Use `scripts/speech.py` instead of rebuilding API requests or researching the
 catalog each time. Default to Seed unless the user chooses another model.
 Seed worked well for this user's expressive Russian narration and voice references.

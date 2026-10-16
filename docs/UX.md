@@ -1,88 +1,88 @@
-# UX и визуальная система тренажёров RusLang
+# RusLang trainer UX and visual system
 
-Версия 0.5. Основана на исходных HTML папки `ИГРЫ HTML` и подпапок 01, 02, 03. Целевой сценарий — преподаватель и ученики у сенсорной панели 75″, обычно в альбомной ориентации. Диагональ не задаёт CSS-разрешение: макет подстраивается под реальный размер окна браузера. Возрастная адресация и визуальные темы подробно описаны в [документе тем](THEMES.md), навигация по упражнениям — в [документе навигации](NAVIGATION.md).
+Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. Target use: a teacher and pupils at a 75″ touch panel, usually landscape. Physical diagonal does not define CSS resolution: adapt to the actual browser viewport. See [themes](THEMES.md) for audiences/appearance and [navigation](NAVIGATION.md) for catalog behavior.
 
-## Что есть в исходных играх
+## Existing interaction types
 
-| Тип взаимодействия | Исходные примеры | Единое поведение |
+| Interaction | Source examples | Shared behavior |
 | --- | --- | --- |
-| Выбор одного ответа из карточек | «Распорядок дня», грамматические тренажёры | Крупные кнопки; после выбора заблокировать ответы, показать верный вариант и объяснение; затем «Дальше». |
-| Многошаговый выбор | «Союз или союзное слово?» | Явно показывать номер шага и текущий вопрос; каждый шаг проверять отдельно, не скрывать предыдущее объяснение раньше времени. |
-| Сборка порядка | «Собери неделю», вторая часть «Распорядка дня» | Перетащить карточку пальцем или мышью; дополнительно выбрать карточку и позицию касаниями. Выбранное место обозначать рамкой; разрешить отмену и перестановку. |
-| Кратковременный показ и ответ по памяти | «Поймай число» | До старта показать правило и длительность; после показа дать спокойное время на выбор; предусмотреть отключение мерцания. |
-| Вкладки и режимы | «Типы текста», расширенный тренажёр союзов, карточка о подчинении | Названия режимов и выбранный режим всегда видны; состояние каждого режима не терять при случайном переходе. |
-| Подсказка, словарик, памятка | «Типы текста», «Собери неделю» | Явная кнопка/раскрытие, доступное касанием; подсказка не перекрывает задание. |
-| Свободный текст и образец | «Типы текста: осень» | Крупное поле, ясный запрос, отдельное раскрытие образца; не оценивать открытый текст автоматически без проверяемого критерия. |
-| Схема с переключаемыми примерами | «Подчинение придаточных» | Схема должна читаться вместе с текстовым описанием; вкладки и подписи крупные, схема не требует точного попадания в тонкие линии. |
-| Множественный выбор предметов в корзину | «Среда Али» | Нажать предмет для добавления; нажать предмет в корзине для удаления; проверять весь набор отдельным действием, блокировать после проверки. Общий `SelectionBasket.vue`. |
-| Выбор месяцев сезона | «Круглый год: 12 месяцев» | Существующая корзина `SelectionBasket.vue` с нейтральными подписями и ограничением до трёх месяцев. Картинка имеет текстовое описание. После проверки — правильный набор, объяснение и явный переход. |
-| Поиск слова змейкой | «Круглый год: 12 месяцев», уровень 3 | Общий `LetterSnakeBoard.vue`: касания соседних по стороне букв без повторения клетки. Повторное нажатие последней буквы отменяет шаг, отдельная кнопка сбрасывает слово. Текущий порядок показан номерами и собранным словом. После проверки поле блокируется до явного продолжения; найденные слова имеют текстовую отметку ✓. |
-| Самостоятельная расстановка запятых | «Союзы и запятые» | Места между фрагментами — крупные кнопки от 48 px с номером и `aria-pressed`; касание ставит/снимает запятую, затем отдельная проверка. Общий `CommaSentence.vue`. |
-| Прослушивание с текстовым эквивалентом | «Среда Али», «Моя комната» | Озвучка запускается явно, звук по умолчанию выключен. Рассказ и задания доступны текстом; при отсутствии голоса или сбое можно полностью пройти игру без звука. Общий `SpeechControls.vue` для рассказов, звук ответов необязателен. В «Моей комнате» рассказ можно повторить на любом шаге, текст раскрывается отдельным действием; смена части останавливает запись. |
+| Single-choice cards | «Распорядок дня», grammar trainers | Large buttons; lock after answering, show correct choice/explanation, then «Дальше». |
+| Multistep choice | «Союз или союзное слово?» | Clearly show step number/current question; check each step separately without prematurely hiding earlier explanations. |
+| Ordering | «Собери неделю», part two of «Распорядок дня» | Finger/mouse dragging plus card-then-position taps. Outline the selected slot; allow undo/reordering. |
+| Brief display and memory answer | «Поймай число» | Show rules/duration before starting; allow unhurried answering afterward; offer a nonflickering mode. |
+| Tabs and modes | «Типы текста», extended conjunction trainer, subordination card | Keep mode names/selection visible; preserve each mode's state during accidental switches. |
+| Hint, vocabulary, reference | «Типы текста», «Собери неделю» | Explicit touch-accessible expansion; do not obscure the task. |
+| Free text and example | «Типы текста: осень» | Large field, clear prompt, separate example disclosure; no automatic grading without a verifiable criterion. |
+| Diagram with switchable examples | «Подчинение придаточных» | Readable diagram with textual description, large tabs/labels; no precise tapping on thin lines. |
+| Basket multiselection | «Среда Али» | Tap to add/remove; separately check the full set, then lock. Shared `SelectionBasket.vue`. |
+| Selecting a season's months | «Круглый год: 12 месяцев» | Existing `SelectionBasket.vue` with neutral labels, maximum three months, textual image description, correct set/explanation after checking, explicit continuation. |
+| Word-snake search | «Круглый год: 12 месяцев», level 3 | Shared `LetterSnakeBoard.vue`: edge-adjacent taps, no reused cell; last-letter tap undoes, separate reset. Numbers/assembled word show order. Lock after checking until continuation; found words have textual ✓. |
+| Inserting commas | «Союзы и запятые» | Numbered gap buttons at least 48 px with `aria-pressed`; tap toggles comma, check separately. Shared `CommaSentence.vue`. |
+| Listening with text equivalent | «Среда Али», «Моя комната» | Explicit playback; sound off by default. Story/tasks remain available as text; game completable without sound on missing voice/failure. Shared `SpeechControls.vue`; answer sounds optional. In «Моя комната», replay at any step, separate transcript disclosure, stop on part switch. |
 
-## Общая структура экрана
+## Common screen structure
 
-### Расстановка предметов в сцене
+### Object placement in a scene
 
-«Обставь мою комнату» использует общий `RoomPlacementBoard.vue`: выбрать предмет, затем крупную кнопку места под сценой. Номер кнопки соответствует метке на картинке; точного попадания в предмет или перетаскивания не требуется. Картинка дополняется раскрываемым текстовым перечнем предметов и их расположения. Отдельная проверка фиксирует ответ, блокирует ввод и показывает правильную фразу с объяснением. После явного продолжения предмет занимает правильное место и остаётся в комнате. Свободное обустройство не оценивается, позволяет переставить/удалить предмет и закончить комнату для устного рассказа. `ImageSprite.vue` показывает заданный прямоугольник исходного листа иллюстраций через SVG viewBox без изменения исходных файлов. Сборка предложения выполняется касаниями карточек: добавить слово, убрать касанием в ответе, проверить отдельно.
+«Обставь мою комнату» uses shared `RoomPlacementBoard.vue`: select an object, then a large destination button below the scene. Button numbers match image markers; neither precision tapping nor dragging is required. An expandable text list describes objects/positions. Separate checking fixes the answer, locks input, and shows the correct phrase/explanation. After explicit continuation the item occupies its correct place and remains. Free arrangement is ungraded, allows moving/removing items and finishing the room for an oral description. `ImageSprite.vue` renders a source-sheet rectangle via SVG viewBox without editing the file. Sentence construction uses card taps: add a word, tap it in the answer to remove, check separately.
 
-По обратной связи владельца от 14 октября предметы комнаты переведены на отдельные прозрачные PNG: один объект в файле, без частей соседних предметов. `RoomPlacementBoard.vue` и карточки используют поле `image` из данных; фрагменты общего листа через `ImageSprite.vue` больше не применяются в этой игре. Смешивание цветов с фоном не используется, чтобы сохранять чёткие контуры и исходные цвета.
+After October 14 owner feedback, room objects use separate transparent PNGs, one item per file without neighboring fragments. `RoomPlacementBoard.vue` and cards use data's `image`; this game no longer uses sheet fragments via `ImageSprite.vue`. No background color blending, preserving clean outlines/source colors.
 
-С 15 октября в свободной комнате положение вещи связано с мебелью: при перестановке мебели книга, лампа и другие зависимые предметы перемещаются вместе с ней. Место на ещё не размещённой мебели недоступно и подписано подсказкой, что сначала разместить. Удаление мебели также убирает её зависимые предметы; это указано рядом с действием удаления. Ковёр отображается под мебелью, настенные предметы — на стене. В комнате 14 предметов, тренировочные части содержат 7, 7 и 18 заданий.
+Since October 15, free-room objects depend on furniture: moving furniture moves books, lamps, and other dependent items. Slots on absent furniture are disabled with a hint to place the furniture first. Removing furniture also removes dependents; explain this beside removal. The rug renders below furniture; wall items stay on walls. There are 14 objects and 7, 7, and 18 tasks in the three practice parts.
 
-1. Шапка: название тренажёра, тема/класс, действие «К каталогу».
-2. Короткая инструкция одним или двумя предложениями перед стартом. В RU/KZ-играх оба языка размещаются рядом по смыслу, русский первым, казахский визуально вторым.
-3. Поле задания: один главный вопрос, затем контент и элементы ответа. Не показывать несколько конкурирующих основных действий.
-4. Полоса состояния: «Задание 3 из 10», баллы при необходимости; прогресс имеет также текстовое представление.
-5. Обратная связь в постоянном месте под ответами: «Верно» или «Неверно», правильный ответ и краткое объяснение. При ошибке формулировка поддерживающая и конкретная.
-6. После последнего задания — итог и кнопка повтора. Если исходник содержит разбор ошибок, сохранить его.
+1. Header: trainer title, topic/grade, «К каталогу» action.
+2. One or two short instruction sentences before starting. In RU/KZ games, place corresponding language blocks together, Russian first and Kazakh visually secondary.
+3. Task area: one main question, then content/answer controls; no competing primary actions.
+4. Status: e.g. «Задание 3 из 10», optional score; progress also has text.
+5. Stable feedback location below answers: «Верно»/«Неверно», correct answer, brief explanation. Errors get supportive, specific wording.
+6. Final result and replay; preserve source error review if present.
 
-## Размеры и размещение
+## Dimensions and placement
 
-- Базовый макет рассчитан на окно 1920×1080 CSS px; проверять 1366×768 и узкие окна. Максимальная ширина учебной колонки — примерно 1440 px, чтобы строки не растягивались через всю панель.
-- Отступ от краёв на большом экране — 24–32 px; между отдельными интерактивными целями — не менее 12–16 px.
-- Основные кнопки: видимая высота от 56 px; карточки для выбора или сортировки — от 64 px. Не меньше 48 px даже на узком экране. Цели не должны зависеть от маленькой иконки внутри.
-- Основной текст: примерно 18–24 CSS px; текст задания 22–30 px; заголовок 30–46 px; служебные подписи 18–22 px. На 1366×768 допускается умеренное уменьшение, но сохраняется читаемость с нескольких метров.
-- Длинные грамматические предложения переносятся по строкам. Не уменьшать их до мелкого кегля ради одной строки; при необходимости разрешить вертикальную прокрутку.
-- Не фиксировать весь экран через `overflow: hidden`: прокрутка лучше обрезанного вопроса или ответа. Основное действие остаётся видимым либо естественно следует сразу за заданием.
+- Baseline viewport: 1920×1080 CSS px; include 1366×768/narrow viewports in authorized checks. Learning column maximum about 1440 px to avoid overly long lines.
+- Large-screen edge spacing: 24–32 px; touch targets separated by at least 12–16 px.
+- Primary buttons: at least 56 px visible height; choice/sort cards: at least 64 px. Never below 48 px even on narrow screens. Targets must not depend on a small internal icon.
+- Body text about 18–24 CSS px, task text 22–30 px, headings 30–46 px, utility labels 18–22 px. Moderate reduction at 1366×768 is acceptable while remaining readable from several meters.
+- Wrap long grammar sentences. Do not shrink them to tiny single lines; allow vertical scrolling when needed.
+- Do not lock the whole viewport with `overflow: hidden`; scrolling is better than clipped questions/answers. Keep the primary action visible or naturally immediately after the task.
 
-## Цвет, типографика, состояние
+## Color, typography, states
 
-- Общая светлая основа с несколькими возрастными темами: тема меняет фон и декоративные акценты, но не каркас экрана, размеры кнопок и правила ответа. Цвета учебного содержимого (например, дни недели) допускаются как небольшие акценты, не меняя расположение или смысл кнопок.
-- Шрифт — системный sans-serif с поддержкой кириллицы и казахских букв. Нельзя полагаться на сетевой шрифт.
-- Состояния: обычное, выбранное, верно, неверно, недоступно, фокус. Использовать текст, границу и значок вместе с цветом. Контраст текста и элементов должен оставаться читаемым на панели.
-- Анимация короткая и необязательная; учитывать `prefers-reduced-motion`. Мерцание из «Поймай число» требует статичного режима.
-- Звук запускается явно и имеет визуальный эквивалент. При выходе останавливаются озвучка, таймеры и аудиоконтекст.
+- Shared light base with age-related themes changing backgrounds/decorative accents, not layout, button sizes, or answer rules. Educational colors (e.g. weekdays) may be minor accents without changing button location/meaning.
+- System sans-serif supporting Cyrillic and Kazakh characters; no required network font.
+- States: normal, selected, correct, incorrect, unavailable, focus. Combine text/border/icon with color. Maintain panel-readable contrast.
+- Short optional motion; respect `prefers-reduced-motion`. «Поймай число» needs a static alternative to flickering.
+- Explicit audio start and visual equivalent. Stop speech, timers, and audio context on exit.
 
-## Правила взаимодействия
+## Interaction rules
 
-- Касание — основной ввод; `hover` только украшает. Все действия также доступны клавиатурой через `<button>`, `<textarea>` и корректные подписи.
-- Для сортировки предоставить пошаговый tap-сценарий; drag не может быть единственным способом. Выбранная карточка имеет понятное состояние; повторное касание снимает выбор.
-- Объяснение появляется рядом с заданием и объявляется через `role="status"`/`aria-live`, но не вызывает неожиданный скачок страницы. После ответа варианты не меняют порядок.
-- Переход к следующему заданию выполняется пользователем. Повтор начинает новую попытку и явно сбрасывает прогресс. Случайное закрытие подсказки не меняет ответ.
-- Таймер применяется только где он является сутью упражнения; заранее сообщать длительность. Отсчёт не должен вынуждать точно попадать в цель во время движения.
-- Для RU/KZ формулировок хранить отдельные поля данных, а не HTML-разметку в строках вопроса.
+- Touch is primary; hover is decorative. All actions also support keyboard through `<button>`, `<textarea>`, and correct labels.
+- Sorting needs a stepwise tap path; drag cannot be the sole input. Clearly mark selected cards; repeat tap deselects.
+- Explanations appear beside tasks and are announced with `role="status"`/`aria-live` without unexpected page jumps. Do not reorder options after an answer.
+- Users advance explicitly. Replay starts a fresh attempt and resets progress clearly. Accidentally closing a hint does not change the answer.
+- Use timers only when intrinsic to the task; state duration in advance. Countdown must not demand precise taps on moving targets.
+- Store RU/KZ wording in separate data fields, not HTML embedded in question strings.
 
-## Общие элементы проекта
+## Shared project elements
 
-В орфографических тренажёрах «Н и НН» и «НЕ с разными частями речи» сравнение пары — два существующих ChoiceGroup с общей отдельной проверкой. До проверки можно изменить любой ответ; после проверки обе группы блокируются, у каждого примера показаны правильное написание и текстовый результат. Балл за пару начисляется только при двух верных ответах, переход выполняется явно. В «НЕ с разными частями речи» отдельно сохраняется каждая комбинация режима и учебного блока; блоки выбираются из раскрываемого списка, текущий блок указан в его заголовке. В доказательстве первый шаг объясняет часть речи, следующий — написание; это позволяет не раскрывать правило написания до ответа на второй шаг.
+In «Н и НН» and «НЕ с разными частями речи», pair comparison uses two existing ChoiceGroups with one separate check. Either choice is editable before checking; both lock afterward. Each example shows correct spelling and textual feedback. Award a pair point only when both answers are correct; continuation is explicit. «НЕ с разными частями речи» preserves each mode/block combination independently; blocks use a dropdown with the current block in its heading. Proof steps identify part of speech first, spelling second, so the spelling rule is not revealed before the second response.
 
-Словарная змейка — одобренный владельцем повторно используемый формат для изучения лексики. Готовый шаблон, его параметры и варианты развития описаны в [WORD_SNAKE.md](WORD_SNAKE.md). Общий `WordSnakeTrainer.vue` принимает словарь и ведёт полный сценарий; `LetterSnakeBoard.vue` отвечает за касания, `src/games/word-snake.js` — за генерацию полей. Новые игры используют эти компоненты без копирования логики уровня месяцев.
+Word snake is an approved reusable vocabulary format. [WORD_SNAKE.md](WORD_SNAKE.md) describes the starter, parameters, and extensions. `WordSnakeTrainer.vue` accepts vocabulary and manages the full flow; `LetterSnakeBoard.vue` handles taps; `src/games/word-snake.js` generates boards. Reuse them rather than copying month-level logic.
 
-`src/styles/tokens.css` — общие размеры, отступы и смысловые состояния. `src/styles/themes.css` — темы оформления. `src/styles/base.css` — типографика и базовые элементы. `src/components/` — панель, крупная кнопка, выбор, прогресс и обратная связь. Новый компонент вводить после появления повторяющегося поведения, а не только ради визуального сходства.
+`src/styles/tokens.css`: shared sizes/spacing/states; `src/styles/themes.css`: appearance; `src/styles/base.css`: typography/base elements. `src/components/`: panel, large button, choice, progress, feedback. Introduce components for repeated behavior, not merely visual resemblance.
 
-Для сборки года `SequenceBoard.vue` поддерживает вторую подпись карточки на казахском, настраиваемые названия групп и число колонок. Прежние значения для дней недели сохранены. `SelectionBasket.vue` поддерживает название набора, название корзины и необязательный предел выбора; без параметров сохраняет поведение покупок Али.
+For year construction, `SequenceBoard.vue` supports a secondary Kazakh label, configurable group labels, and column counts; previous weekday defaults remain. `SelectionBasket.vue` supports set/basket labels and an optional selection limit; without options it retains Ali's shopping behavior.
 
-## Проверка перед выпуском игры
+## Pre-release verification
 
-На 1920×1080 и 1366×768 пройти игру от начала до конца, включая ошибку, подсказку, повтор и переход между режимами. Проверить touch-эмуляцию, управление без hover, видимость фокуса, отсутствие обрезки текста, RU/KZ-строки и режим уменьшенной анимации. Для сортировки отдельно пройти весь сценарий только касаниями.
+Only when explicitly requested under AGENTS.md: walk through the complete game at 1920×1080 and 1366×768, including error, hint, replay, and mode switches. Cover touch emulation, operation without hover, visible focus, unclipped text, RU/KZ wording, and reduced motion. Run sorting entirely by taps as a separate path.
 
-## Уточнения для панели Android
+## Android panel notes
 
-По обратной связи владельца прежние размеры требовали масштаба браузера 50%. Теперь базовые размеры и отступы уменьшены для масштаба 100%; на широких окнах ниже 800 px используется компактная шапка и панели. Физическая диагональ не равна CSS-разрешению: размеры проверяются по окну браузера, сенсорные цели сохраняются от 48 px. Памятки и словарики раскрываются отдельно, основной экран содержит короткую инструкцию и задание. Для сборки порядка применяется Pointer Events с перетаскиванием пальцем на Android; обычный HTML drag не считается достаточным. Касания «карточка → место» остаются доступной альтернативой.
+Owner feedback found earlier sizes required 50% browser zoom. Base sizes/spacing now target 100%; wide viewports below 800 px height use compact headers/panels. Physical diagonal differs from CSS resolution: use actual viewport dimensions; retain targets at least 48 px. Expand references/vocabulary separately; keep the main screen to a short instruction/task. Ordering uses Pointer Events for Android finger dragging; ordinary HTML drag is insufficient. Card-then-slot taps remain an accessible alternative.
 
-## Выбор нескольких номеров и самопроверка
+## Multiple-number selection and self-check
 
-«БСП: смысл подсказывает знак» использует общий ChoiceGroup.vue с массивом выбранных значений: касание номера выбирает его, повторное снимает выбор; aria-pressed сообщает состояние каждого варианта. Весь набор проверяется отдельной кнопкой и засчитывается только при полном совпадении. После проверки ввод заблокирован до явного перехода.
+«БСП: смысл подсказывает знак» uses shared ChoiceGroup.vue with a selected-value array: tap a number to select/deselect; aria-pressed exposes each state. Check the full set separately; credit requires an exact match. Lock until explicit continuation.
 
-Для сохранения исходного режима самопроверки допускается отложенный разбор: после ответа показано «Ответ принят», правильность и объяснения раскрываются в итоге. Подсказки, памятка и текущие баллы до итога скрыты. Режим ясно подписан, каждое задание сохраняет отдельный переход; обучение по умолчанию показывает правильный ответ и объяснение сразу. Состояние каждого блока и режима независимо сохраняется при переключении.
+Delayed review may preserve the original self-check mode: show «Ответ принят» after answering, revealing correctness/explanations only in results. Hide hints/reference/current scores until then. Clearly label the mode and retain explicit continuation after every task. Default learning mode shows the correct answer/explanation immediately. Preserve each block/mode independently during switches.

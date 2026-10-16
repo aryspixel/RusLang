@@ -1,40 +1,40 @@
-# Возрастная адресация и темы оформления
+# Audience and visual themes
 
-Версия 0.2. Класс, для которого подходит задание, и его визуальная тема — разные свойства. Класс помогает найти подходящий учебный материал; тема меняет оформление. Тема назначается автоматически и не ограничивает доступ к тренажёру.
+Version 0.2. Recommended grade and visual theme are separate properties. Grade identifies suitable learning material; theme changes appearance. Themes are assigned automatically and do not restrict access.
 
-## Возрастная адресация
+## Audience
 
-В `src/games/registry.js` у каждой карточки есть `gradeMin`, `gradeMax` и `audienceSource`:
+Each `src/games/registry.js` entry has `gradeMin`, `gradeMax`, and `audienceSource`:
 
-- `source` — класс прямо назван в исходном файле или в утверждённом описании задания;
-- `provisional` — предварительная редакторская оценка по содержанию, которую нужно согласовать при переносе;
-- `unknown` — сведений недостаточно, класс не следует угадывать.
+- `source`: the source file or approved task description explicitly names the grade;
+- `provisional`: an initial editorial estimate based on content, to confirm during migration;
+- `unknown`: insufficient information; do not guess the grade.
 
-Пока источники прямо называют 9 класс для «Типов текста: осень», «ССП или СПП?» и обеих версий «Союз или союзное слово?». Играм про дни недели, день Али и числа 1–20 предварительно предложены 1–4 классы. Для экспортированной карточки «Как подчиняются придаточные» класс пока не установлен. При переносе проверить учебную программу и формулировки с владельцем материала, затем обновить метаданные.
+Sources explicitly assign grade 9 to «Типы текста: осень», «ССП или СПП?» and both «Союз или союзное слово?» versions. Weekday, Ali's day, and numbers 1–20 games have provisional grades 1–4. The exported «Как подчиняются придаточные» card has no established grade. During migration, confirm curriculum fit and wording with the owner, then update metadata.
 
-Класс обозначает педагогическую рекомендацию, а не ограничение доступа. Не скрывать игру от ученика только потому, что выбрана другая тема или возрастной диапазон. Каталог разделён на «Развитие речи», «ЕНТ» и «Начальный уровень» без поиска и фильтров; класс сохраняется в карточке как самостоятельная рекомендация.
+Grade is a teaching recommendation, not an access restriction. Do not hide games because the selected age range or theme differs. The catalog has «Развитие речи», «ЕНТ», and «Начальный уровень» without search or filters; grade remains separate card metadata.
 
-## Набор тем
+## Themes
 
-| Тема | Автовыбор | Характер |
+| Theme | Automatic assignment | Appearance |
 | --- | --- | --- |
-| `neutral` | Неуточнённый класс и общий каталог | Спокойная светлая тема. |
-| `junior` | Предварительно 1–4 классы | Более тёплый фон и мягкие цветовые акценты. Без перегруженных иллюстраций за текстом. |
-| `middle` | Будущие задания 5–8 классов | Сдержанные бирюзовые акценты. |
-| `senior` | Задания 9–11 классов | Сдержанные сине-серые акценты, больше внимания тексту и схемам. |
+| `neutral` | Unknown grade and general catalog | Calm, light base. |
+| `junior` | Provisional grades 1–4 | Warmer backgrounds, soft accents; no busy illustrations behind text. |
+| `middle` | Future grades 5–8 tasks | Restrained turquoise accents. |
+| `senior` | Grades 9–11 tasks | Restrained blue-gray accents, emphasizing text and diagrams. |
 
-В каталоге используется нейтральная тема. На странице игры автоматически применяется её `defaultTheme`. Переключатель оформления убран из шапки по решению владельца проекта; тема не меняет задания, ответы, оценку или рекомендованный класс.
+The catalog uses the neutral theme. A game automatically uses its `defaultTheme`. The owner removed the theme switcher from the header; themes do not change exercises, answers, scoring, or grade recommendations.
 
-## Что тема может менять
+## Allowed changes
 
-- Фон страницы и шапки, цвет акцента, границы, декоративные элементы и оттенок выбранного варианта.
-- В будущем — небольшие фоновые иллюстрации из локальных ресурсов, при условии что они не мешают читать и не перекрывают элементы управления.
-- Небольшие визуальные акценты в карточке темы или предмета, если общий каркас сохраняется.
+- Page/header backgrounds, accent color, borders, decorations, and selected-option tint.
+- Future small local background illustrations, provided they do not impair reading or cover controls.
+- Small topic/card accents that retain the common layout.
 
-Тема не должна менять порядок действий, расположение основных кнопок, размер сенсорных целей, формулировки, смысл значков или цвета правильного/неправильного ответа без проверки доступности. Состояния успеха, ошибки и фокуса заданы общими токенами. Не назначать «младшим» цвет как единственный признак правильного ответа.
+Do not change action order, primary-control positions, touch-target sizes, wording, icon meaning, or correctness colors without accessibility verification. Success, error, and focus states use shared tokens. Never use color alone to indicate correct answers in junior themes.
 
-## Реализация
+## Implementation
 
-`src/styles/tokens.css` хранит общие размеры, отступы и смысловые состояния. `src/styles/themes.css` задаёт декоративные токены для `.theme-neutral`, `.theme-junior`, `.theme-middle`, `.theme-senior`. Компоненты используют переменные, а не имя конкретной темы. Новая игра указывает рекомендуемый класс и `defaultTheme` в реестре; оформление применяется автоматически. Для иллюстраций использовать отдельные локальные файлы и заранее проверять контраст и читаемость на 1920×1080 и 1366×768.
+`src/styles/tokens.css` holds shared dimensions, spacing, and semantic states. `src/styles/themes.css` defines decorative tokens for `.theme-neutral`, `.theme-junior`, `.theme-middle`, and `.theme-senior`. Components use variables, not theme names. New games specify recommended grade and `defaultTheme` in the registry; appearance is automatic. Use separate local illustrations, with contrast/readability checks at 1920×1080 and 1366×768 when verification is authorized.
 
-Перед выпуском каждой темы проверить длинный вопрос, четыре варианта ответа, подсказку, ошибку, итог и экран с RU/KZ-текстом. Проверять также отключённую анимацию. Если фон мешает содержимому, упрощать фон, а не уменьшать текст.
+Before theme release, verification should cover a long question, four choices, hint, error, result, and RU/KZ screen, including reduced motion. If a background interferes, simplify it instead of shrinking text. Run these checks only when explicitly requested, as required by `AGENTS.md`.
