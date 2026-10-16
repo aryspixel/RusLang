@@ -12,7 +12,7 @@ Save the current lesson's decisions in `docs/lessons/<slug>.md`.
 
 ## Local development
 
-Local Russian speech: [Silero TTS](docs/LOCAL_TTS.md). Command: `.\tts.bat --text "Привет!" --output .local\silero\output\hello.wav`.
+Local Russian speech: [Silero TTS](docs/LOCAL_TTS.md). The CLI targets `v5_6_ru` with emphasis, questions, and exclamations; run `powershell -ExecutionPolicy Bypass -File .\tools\silero\setup.ps1` on the destination computer to download the model into Git-ignored `.local/`. After setup: `.\tts.bat --text "Привет!" --output .local\silero\output\hello.wav`. Existing `v5_5_ru` installations can use `--model v5_5_ru`.
 
 Expressive Seed Audio/OpenRouter narration, reference voices, and educational sound scenes: [setup and commands](docs/OPENROUTER_AUDIO.md), [project skill](.agents/skills/openrouter-voice/SKILL.md). Configure the key only on the working machine; games use generated audio without browser API calls.
 

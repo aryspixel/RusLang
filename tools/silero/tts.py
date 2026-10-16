@@ -11,7 +11,7 @@ from xml.sax.saxutils import escape
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
-MODEL = ROOT / '.local' / 'silero' / 'models' / 'v5_5_ru.pt'
+MODEL_ID = 'v5_6_ru'
 VOICES = ('aidar', 'baya', 'kseniya', 'xenia', 'eugene')
 
 
@@ -39,6 +39,8 @@ def main():
     source.add_argument('--ssml-file', type=Path, help='SSML UTF-8 с корнем speak; отдельные предложения можно обернуть в s')
     parser.add_argument('--output', type=Path, default=ROOT / '.local/silero/output/speech.wav')
     parser.add_argument('--speaker', choices=VOICES, default='xenia')
+    parser.add_argument('--model', choices=('v5_6_ru', 'v5_5_ru'), default=MODEL_ID,
+                        help='Версия модели; v5_5_ru — для возврата к предыдущей версии')
     parser.add_argument('--rate', choices=('x-slow', 'slow', 'medium', 'fast', 'x-fast'), default='medium', help='Темп речи; slow — медленнее обычного')
     parser.add_argument('--pause-ms', type=int, default=200, help='Дополнительная пауза между предложениями, мс (0–10000)')
     parser.add_argument('--sample-rate', type=int, choices=(8000, 24000, 48000), default=48000)
@@ -46,6 +48,8 @@ def main():
     parser.add_argument('--list-voices', action='store_true')
     parser.add_argument('--no-stress', action='store_true', help='Отключить автоударения')
     parser.add_argument('--no-yo', action='store_true', help='Отключить автоматическую ё')
+    parser.add_argument('--no-stress-homo', action='store_true', help='Отключить автоударения в омографах')
+    parser.add_argument('--no-yo-homo', action='store_true', help='Отключить автоматическую ё в омографах')
     parser.add_argument('--overwrite', action='store_true')
     args = parser.parse_args()
     if args.list_voices:
@@ -61,8 +65,10 @@ def main():
     text = source_file.read_text(encoding='utf-8-sig') if source_file else args.text
     if not text.strip():
         parser.error('Текст пуст.')
-    if not MODEL.is_file():
-        parser.error('Модель отсутствует. Запустите tools/silero/setup.ps1.')
+    model_file = ROOT / '.local' / 'silero' / 'models' / f'{args.model}.pt'
+    if not model_file.is_file():
+        parser.error(f'Модель {args.model} отсутствует. Установка и SHA256: docs/LOCAL_TTS.md; '
+                     'для прежней установки используйте --model v5_5_ru.')
     output = args.output.resolve()
     if output.suffix.lower() != '.wav':
         parser.error('Выходной файл должен иметь расширение .wav.')
@@ -92,7 +98,7 @@ def main():
     import torch
     torch.set_num_threads(args.threads)
     print('Загрузка локальной модели…', flush=True)
-    model = torch.package.PackageImporter(str(MODEL)).load_pickle('tts_models', 'model')
+    model = torch.package.PackageImporter(str(model_file)).load_pickle('tts_models', 'model')
     model.to(torch.device('cpu'))
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_name(output.name + '.part')
@@ -111,7 +117,9 @@ def main():
                 audio = model.apply_tts(**speech, speaker=args.speaker,
                                         sample_rate=args.sample_rate,
                                         put_accent=not args.no_stress,
-                                        put_yo=not args.no_yo)
+                                        put_yo=not args.no_yo,
+                                        put_stress_homo=not (args.no_stress or args.no_stress_homo),
+                                        put_yo_homo=not (args.no_yo or args.no_yo_homo))
                 pcm = array.array('h', (audio.detach().cpu().flatten().clamp(-1, 1) * 32767).to(torch.int16).tolist())
                 if sys.byteorder != 'little':
                     pcm.byteswap()
@@ -125,12 +133,14 @@ def main():
     finally:
         temporary.unlink(missing_ok=True)
     sidecar.write_text(json.dumps({
-        'model': 'v5_5_ru', 'speaker': args.speaker, 'sample_rate': args.sample_rate,
+        'model': args.model, 'speaker': args.speaker, 'sample_rate': args.sample_rate,
         'rate': args.rate,
         'pause_ms': args.pause_ms,
         'seconds': round(frames / args.sample_rate, 3), 'text': spoken_text,
         'ssml': text if args.ssml_file else None,
         'put_accent': not args.no_stress, 'put_yo': not args.no_yo,
+        'put_stress_homo': not (args.no_stress or args.no_stress_homo),
+        'put_yo_homo': not (args.no_yo or args.no_yo_homo),
         'source': 'https://github.com/snakers4/silero-models',
     }, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'Готово: {output}')
