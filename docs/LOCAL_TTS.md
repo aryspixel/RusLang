@@ -1,8 +1,8 @@
-# Локальная озвучка Silero
+# Local Silero speech synthesis
 
-Предпочтения владельца и нюансы, выявленные при создании «Моей комнаты», сохранены в [памятке скилла](../.agents/skills/silero-tts/references/narration.md). Для похожих рассказов исходный профиль — `kseniya`, темп `slow`, дополнительные паузы между предложениями 700 мс. Памятка отдельно отмечает отклонённый `x-slow`, явные ударения, эмоциональный финал и неподтверждённую попытку восходящей интонации на «шкаф».
+Owner preferences and findings from «Моя комната» are saved in the [skill notes](../.agents/skills/silero-tts/references/narration.md). For similar stories use `kseniya`, `slow`, and 700 ms extra sentence pauses. The notes distinguish rejected `x-slow`, explicit stress, an emotional ending, and an unconfirmed attempt at rising intonation on «шкаф».
 
-Для озвучки русского текста установлен Silero TTS `v5_5_ru`. Команда работает из любой папки, если указать полный путь к `tts.bat`. Модель и Python-окружение находятся в `C:\development\RusLang\.local\silero\`; они исключены из Git. При обычной генерации сеть не используется, текст не отправляется во внешние сервисы. Постоянно запущенный сервер не нужен.
+Silero TTS `v5_5_ru` is installed for Russian speech. Run from any folder using the full `tts.bat` path. The model and Python environment are in `C:\development\RusLang\.local\silero\`, excluded from Git. Ordinary synthesis is offline and sends no text to external services. No persistent server is needed.
 
 ```powershell
 cd C:\development\RusLang
@@ -11,36 +11,36 @@ cd C:\development\RusLang
 .\tts.bat --list-voices
 ```
 
-Голоса: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. По умолчанию используется `xenia`, частота 48000 Гц, моно PCM WAV, 16 бит. Файл текста — UTF-8. Длинный текст разбивается по предложениям и пробелам, между частями добавляется пауза 0,2 секунды. Соседний файл `*.wav.json` сохраняет исходный текст, голос и параметры. Существующие результаты защищены от перезаписи; для намеренной замены есть `--overwrite`.
+Voices: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. CLI default: `xenia`, 48000 Hz, mono 16-bit PCM WAV. Text input is UTF-8. Long text splits at sentences/spaces, with 0.2-second gaps. Adjacent `*.wav.json` stores the source text, voice, and parameters. Outputs resist accidental overwriting; use `--overwrite` for an intentional replacement.
 
-Автоударения и автоматическая ё включены. Их можно отключить флагами `--no-stress` и `--no-yo`. Для нужного ударения Silero принимает `+` перед ударной гласной, например `з+амок`. Подготовку чисел, сокращений и выбор произношения выполняйте осмысленно; учебный исходник храните отдельно. Озвучку перед использованием на занятии стоит прослушать.
+Automatic stress and ё are enabled; disable with `--no-stress` and `--no-yo`. Silero accepts `+` before a stressed vowel, e.g. `з+амок`. Prepare numbers, abbreviations, and pronunciation deliberately; retain a separate clean learning source. Listen before classroom use when a listening check is authorized.
 
-Для другого проекта:
+From another project:
 
 ```powershell
 & C:\development\RusLang\tts.bat --file .\text.txt --output .\voice.wav
 ```
 
-Чтобы использовать запись в игре, укажите путь внутри `src/games/<slug>/assets/` и подключайте WAV через относительный импорт Vite. Генерация выполняется на этом компьютере; на GitHub Pages публикуется готовое аудио. Веб-сайт сам не запускает локальный Python.
+For a game, output into `src/games/<slug>/assets/` and import the WAV relatively through Vite. Generation runs on the developer's machine; GitHub Pages serves the finished audio. The website does not run local Python.
 
-Темп речи можно задавать при генерации: `--rate slow` (медленнее), `--rate x-slow` (очень медленно); по умолчанию `medium`. Также доступны `fast` и `x-fast`. Генератор использует [SSML prosody Silero](https://github.com/snakers4/silero-models/wiki/SSML), темп фиксируется в `*.wav.json`. Пауза между предложениями задаётся через `--pause-ms` (по умолчанию 200 мс, допустимо 0–10000). Для «Моей комнаты» обычный текст сохранён в `src/games/my-room/story.txt`, а версия с явными ударениями — в `story-tts.txt`. Текущая запись с Аминой создана голосом `kseniya` с `--rate slow --pause-ms 700` из `story-tts-kseniya.txt`: восклицательная пунктуация во вступлении и финале задаёт интонационные акценты. По последней просьбе владельца заключение восстановлено: «Я люблю свою комнату!». Вариант `x-slow` с секундными паузами оказался слишком медленным.
+Set speed during synthesis: `--rate slow` or `--rate x-slow`; default `medium`, also `fast` and `x-fast`. The generator uses [Silero SSML prosody](https://github.com/snakers4/silero-models/wiki/SSML) and records rate in `*.wav.json`. `--pause-ms` controls sentence gaps (default 200 ms, range 0–10000). For «Моя комната», clean text is `src/games/my-room/story.txt`; explicit stress is in `story-tts.txt`. The current Amina recording uses `kseniya`, `--rate slow --pause-ms 700`, and `story-tts-kseniya.txt`; exclamation punctuation adds opening/closing emphasis. The owner explicitly restored «Я люблю свою комнату!». `x-slow` with one-second gaps was too slow.
 
-## Повторная установка
+## Reinstallation
 
-Для пауз внутри предложения поддерживается `--ssml-file`. В текущем `src/games/my-room/story-tts-kseniya.ssml` имя задано как `Ам+ина` (ударение на «и»), в перечислении мебели — три паузы по 450 мс через `<break>`. Использование: `.\tts.bat --ssml-file src/games/my-room/story-tts-kseniya.ssml --speaker kseniya --rate slow --pause-ms 700 --output .local/silero/output/room.wav`. Обычный текст рассказа хранится без SSML и служебных знаков ударения.
+For within-sentence pauses, use `--ssml-file`. Current `src/games/my-room/story-tts-kseniya.ssml` marks `Ам+ина` (stress on и) and three 450 ms furniture-list gaps via `<break>`. Command: `.\tts.bat --ssml-file src/games/my-room/story-tts-kseniya.ssml --speaker kseniya --rate slow --pause-ms 700 --output .local/silero/output/room.wav`. Keep clean story text free of SSML/stress markup.
 
-Нужны интернет для установки и Python 3.12 (скрипт также находит Python из локального runtime Codex):
+Setup needs network access and Python 3.12 (the script also locates Python in a local Codex runtime):
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\tools\silero\setup.ps1
-# Или со своим Python:
+# Or choose Python explicitly:
 .\tools\silero\setup.ps1 -Python C:\Python312\python.exe
 ```
 
-Скрипт устанавливает CPU-версию PyTorch из официального индекса и скачивает модель с `models.silero.ai`. Видеокарта не требуется. Модель зафиксирована контрольной суммой SHA256, полученной при загрузке 10 октября 2026 года: `50081637B602126EE06CB3BC8A744D25651D2DA149EE8864B9A379BFDD934437`. Это локальная фиксация скачанного файла, а не подпись издателя. При изменении файла у поставщика установка останавливается; обновление требует явного изменения версии/хеша.
+Setup installs CPU PyTorch from the official index and downloads from `models.silero.ai`; no GPU is required. The model is pinned to SHA256 recorded on download October 10, 2026: `50081637B602126EE06CB3BC8A744D25651D2DA149EE8864B9A379BFDD934437`. This is a local download pin, not a publisher signature. If the upstream file changes, setup stops; updating requires an explicit version/hash change.
 
-## Источник и лицензия
+## Source and license
 
-[Silero Models, Silero Team](https://github.com/snakers4/silero-models), [описание моделей и голосов](https://github.com/snakers4/silero-models#models-and-speakers), [лицензия](https://github.com/snakers4/silero-models/blob/master/LICENSE).
+[Silero Models, Silero Team](https://github.com/snakers4/silero-models), [models and voices](https://github.com/snakers4/silero-models#models-and-speakers), [license](https://github.com/snakers4/silero-models/blob/master/LICENSE).
 
-Для `v5_5_ru` в репозитории указана **CC BY-NC-SA 4.0** (ограничение некоммерческого использования). Локальная копия лицензии: `.local/silero/LICENSE`. Модели семейства CIS Base распространяются отдельно под MIT; они не установлены в этой конфигурации.
+The repository lists **CC BY-NC-SA 4.0** for `v5_5_ru` (noncommercial restriction). Local license: `.local/silero/LICENSE`. CIS Base models are separately MIT-licensed and are not installed in this configuration.

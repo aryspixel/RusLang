@@ -1,37 +1,37 @@
-# Навигация по каталогу
+# Catalog navigation
 
-С 10 октября 2026 года по решению владельца главная показывает три крупных раздела в порядке: **Развитие речи → ЕНТ → Начальный уровень**. Поиск и фильтры полностью убраны. Касание карточки открывает тренажёры раздела; отдельная ссылка возвращает ко всем разделам. В игре ссылка возвращает в её раздел, логотип RusLang — на главную.
+Since the owner's October 10, 2026 decision, home shows three sections in this order: **Развитие речи → ЕНТ → Начальный уровень**. Search and filters were removed. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
 
-## Разделы и распределение
+## Sections and assignment
 
-Каждая игра имеет ровно одно поле `category` в `src/games/registry.js`. Справочник разделов — `src/catalog/categories.js`. Показываются только игры со статусом `ready`; счётчики используют тот же набор. Дублирование между разделами не используется.
+Every `src/games/registry.js` entry has exactly one `category`. Section definitions live in `src/catalog/categories.js`. Only `ready` games appear; counters use the same set. Games are not duplicated across sections.
 
-| Раздел | Идентификатор | Тренажёры |
+| Section | ID | Trainers |
 | --- | --- | --- |
 | Развитие речи | speech | Типы текста: осень; Типы речи и художественные средства |
 | ЕНТ | ent | Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак; Н и НН в частях речи; НЕ с разными частями речи; Средства выразительности |
 | Начальный уровень | primary | Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ; Моя комната |
 
-Основная цель определяет раздел: работа с текстом и выразительностью — «Развитие речи»; синтаксис, пунктуация и орфография — «ЕНТ»; базовая лексика, календарь, числа и повседневные ситуации — «Начальный уровень». Раздел «ЕНТ» объединяет соответствующие темы; он не означает, что каждый тренажёр воспроизводит экзаменационный формат. Рекомендация по классу остаётся самостоятельным метаданным.
+The main learning objective determines placement: text/expressiveness → «Развитие речи»; syntax/punctuation/spelling → «ЕНТ»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень». ENT groups relevant topics; placement does not mean every trainer reproduces the exam format. Recommended grade remains separate metadata.
 
-«Средства выразительности» размещён в «ЕНТ» по прямому указанию владельца от 16 октября 2026 года.
+«Средства выразительности» belongs to «ЕНТ» by the owner's explicit October 16, 2026 instruction.
 
-## Карточки и переходы
+## Cards and transitions
 
-«Обставь мою комнату» находится непосредственно в «Начальном уровне» (`primary`), как продолжение аудирования «Моя комната». Основное действие — расстановка предметов и составление предложений, аудио не требуется; поэтому подраздел `listening` ей не назначен. Контролируемый формат `placement` — расстановка предметов.
+«Обставь мою комнату» sits directly in `primary`, continuing «Моя комната». Its main activities are object placement and sentence construction, without required audio, so it has no `listening` subsection. Its controlled format is `placement`.
 
-В «Начальном уровне» есть подраздел **«Аудирование»** (`listening`). В нём находятся «Среда Али: покупки и рассказ» и «Моя комната»; остальные четыре тренажёра показываются непосредственно в категории. Карточка подраздела открывает `#/category/primary/listening`, из игры возврат ведёт в «Аудирование», из подраздела — в «Начальный уровень». Общий счётчик категории включает и игры подразделов.
+«Начальный уровень» contains **«Аудирование»** (`listening`) with «Среда Али: покупки и рассказ» and «Моя комната»; the other four trainers appear directly in the category. The subsection card opens `#/category/primary/listening`. Games return to «Аудирование», which returns to «Начальный уровень». Category counts include games inside subsections.
 
-Подразделы задаются в `src/catalog/categories.js`; игра получает необязательное поле `subcategory` вместе с основной `category`. Новым тренажёрам аудирования начального уровня назначать `category: 'primary'`, `subcategory: 'listening'`. Не дублировать их в основном списке категории. Счётчик подраздела и его содержимое вычисляются по готовым играм; пустые подразделы не показываются.
+Define subsections in `src/catalog/categories.js`; a game may have `subcategory` alongside its main `category`. New beginner listening trainers use `category: 'primary'`, `subcategory: 'listening'`. Do not also list them directly in the category. Subsection contents/counts derive from ready games; hide empty subsections.
 
-На главной — три целиком кликабельные карточки с названием, кратким описанием и числом тренажёров. На широком экране они стоят в ряд, на узком — в колонку. В разделе карточка тренажёра показывает название и формат взаимодействия и крупную ссылку «Начать».
+Home has three fully clickable cards with title, short description, and trainer count, arranged in a row on wide screens and a column on narrow screens. Trainer cards show the title, interaction format, and a large «Начать» link.
 
-Адрес раздела: `#/category/<id>`; прежние прямые ссылки игр `#/game/<id>` сохранены. Работают кнопки браузера «Назад» и «Вперёд», обновление страницы и прямое открытие раздела. При переходе фокус переводится в основное содержимое. Неизвестный раздел или игра показывает сообщение и ссылку возврата.
+Section route: `#/category/<id>`; existing `#/game/<id>` links remain. Browser Back/Forward, reload, and direct section links work. Move focus to main content on navigation. Unknown sections/games show a message and return link.
 
-## Метаданные и загрузка
+## Metadata and loading
 
-Контролируемые `facets` (класс, учебная тема, формат, язык) и их словарь `src/catalog/filtering.js` сохранены как учебные метаданные. Они не выводятся фильтрами или набором тегов на главной. Класс и оформление независимы; источник возрастной рекомендации описан в `docs/THEMES.md`.
+Controlled `facets` (grade, learning topic, format, language) and `src/catalog/filtering.js` remain as educational metadata. They are not home-page filters or tag lists. Grade and appearance are independent; audience-recommendation sources are documented in `docs/THEMES.md`.
 
-При добавлении игры назначить один раздел по основной цели и сохранить подходящие `facets`. Общий словарь тем включает `literary-devices` (художественные средства), `months-seasons` (месяцы и времена года), `place-prepositions` (предлоги места) и `orthography` (орфография); формат `word-search` обозначает поиск слов, включая словарную змейку.
+Assign one section by the main objective and retain suitable facets. Shared topics include `literary-devices`, `months-seasons`, `place-prepositions`, and `orthography`; `word-search` covers word search, including word snakes.
 
-Игры загружаются лениво через `import()` при открытии. Главная и страницы разделов не загружают игровые модули. Пути и hash-навигация поддерживают размещение в подпапке GitHub Pages.
+Load games lazily with `import()` on opening. Home and section pages do not load game modules. Paths and hash navigation support a GitHub Pages subdirectory.

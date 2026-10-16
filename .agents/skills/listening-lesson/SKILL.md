@@ -1,121 +1,117 @@
 ---
 name: listening-lesson
-description: Спроектировать урок или тренажёр с аудированием в RusLang: выяснить тему, предложить визуальные опоры и рассказ/диалог, учесть фидбэк, подготовить задания и затем озвучить согласованный сценарий. Использовать для нового или перерабатываемого аудирования; для одной готовой реплики достаточно навыка озвучки.
+description: "Design a RusLang listening lesson or trainer: establish the topic, propose visual supports and a story/dialogue, incorporate feedback, prepare exercises, then narrate the agreed script. Use for new or revised listening lessons; a single defined utterance only needs the audio skill."
 ---
 
-# Урок с аудированием RusLang
+# RusLang listening lessons
 
-Веди подготовку урока вместе с владельцем, по этапам. Основная аудитория — дети
-из казахских школ, изучающие русский как второй язык; подготовка к ЕНТ — отдельная
-учебная цель. Не выводи уровень владения языком только из класса или языка школы.
+Plan the lesson collaboratively with the owner in stages. The main audience is
+children from Kazakh-medium schools learning Russian as a second language;
+ENT preparation is a separate objective. Do not infer language proficiency solely
+from grade or school language.
 
-Этот навык отвечает за сценарий и учебную последовательность. Технический навык
-озвучки читай только при подготовке аудио. Для иллюстраций используй доступный
-навык генерации изображений, когда их создание входит в согласованный замысел;
-если такого навыка нет, подготовь описание изображения и сообщи об ограничении.
-Ссылка на другой навык означает чтение его инструкции на нужном этапе, а не
-автоматический запуск отдельного агента или очистку текущего контекста.
+This skill owns the script and learning sequence. Read the technical audio skill
+only at the audio stage. Use an available image-generation skill when new images
+are part of the agreed concept; otherwise prepare an image description and explain
+the missing capability. A skill reference means reading instructions when needed,
+not automatically launching another agent or clearing the current context.
 
-## 1. Тема и задача
+## 1. Topic and objective
 
-Если тема неизвестна, сначала задай один короткий вопрос: «На какую тему сделаем
-аудирование?» — и дождись ответа. Если тема уже дана, не спрашивай повторно.
-Продолжение существующего урока начинай с сохранённых решений.
+If the topic is unknown, first ask one short question, e.g. «На какую тему сделаем
+аудирование?», and wait. Do not ask again if already provided. Resume existing
+lessons from saved decisions.
 
-После ответа уточни только то, что влияет на замысел: класс/уровень русского,
-учебную цель, примерную длительность. Используй уже известные сведения; при
-необязательных пробелах предложи предварительный вариант с явными допущениями.
-Не превращай начало в длинную анкету. Для ЕНТ уточняй дисциплину и нужный навык;
-не называй упражнение экзаменационным форматом без установленного основания.
+Then clarify only details affecting the concept: grade/Russian proficiency,
+learning objective, approximate duration. Reuse known information; for optional
+gaps propose a provisional version with explicit assumptions. Avoid a long intake
+form. For ENT, establish subject and target skill; do not claim exam-format fidelity
+without an established basis.
 
-## 2. Предложение и фидбэк
+## 2. Proposal and feedback
 
-Предложи 2–3 коротких, различающихся по смыслу варианта, например:
+Offer 2–3 short, meaningfully different options, such as:
 
-- рассказ одного персонажа с картинкой места или последовательностью кадров;
-- диалог двух персонажей, при необходимости с рассказчиком;
-- сценка или звуковая загадка, если она помогает выбранной учебной цели.
+- one character's story with a setting illustration or sequence of frames;
+- two-character dialogue, optionally with a narrator;
+- a scene or sound riddle when it supports the objective.
 
-Для каждого укажи ситуацию, кто говорит, что ученики должны понять на слух,
-какие картинки/опоры помогут и какие действия будут после прослушивания.
-Это предложение содержания, не обещание обязательной генерации картинок.
-Можно выбрать вариант без иллюстраций или использовать уже имеющиеся ресурсы.
+For each, describe the situation, speakers, what pupils should understand by
+listening, useful visual supports, and follow-up actions. This proposes content,
+not mandatory image generation. A no-image version or existing assets may suffice.
 
-Дай владельцу выбрать, объединить или поправить варианты и дождись фидбэка.
-Не генерируй платное аудио, изображения и готовую игру вместо обсуждения.
-Если пользователь уже описал и утвердил вариант, не устраивай повторный выбор.
+Let the owner choose, combine, or revise options and wait for feedback. Do not
+substitute paid audio, images, or a finished game for discussion. If a concept is
+already described and approved, do not restart the selection step.
 
-## 3. Согласованный сценарий и упражнения
+## 3. Agreed script and exercises
 
-По выбранному варианту подготовь конкретный материал для рассмотрения:
+Turn the selected concept into concrete reviewable material:
 
-- чистый текст рассказа/реплик; для диалога — роли и порядок реплик, отдельно
-  необязательный рассказчик, особенности голосов и опоры для картинки;
-- до прослушивания: понятная задача и только необходимые новые слова;
-- первое прослушивание: общий смысл; повторное: детали, последовательность или
-  целевая языковая конструкция; затем короткая самостоятельная реплика/пересказ;
-- вопросы и задания с ответами, короткими объяснениями и опорой в аудиотексте.
-  Проверяемые детали должны звучать в записи, а не угадываться лишь по картинке.
+- clean story/lines; for dialogue, roles and turn order, optional narrator separately,
+  voice characteristics, and visual-support plan;
+- before listening: a clear task and only essential new vocabulary;
+- first listen: overall meaning; repeat: details, sequence, or target construction;
+  then a short independent response/retelling;
+- questions/tasks with answers, brief explanations, and evidence in the audio text.
+  Assessed details must be audible, not merely inferable from the image.
 
-Реальные жизненные ситуации, короткие естественные реплики и посильная лексика
-важнее количества эффектов. Объём, число прослушиваний и задания подбирай под
-уровень; последовательность выше — исходный вариант, не обязательный шаблон
-экрана. RU/KZ-поддержку сохраняй или добавляй по задаче, без обязательного перевода
-каждой реплики. Не подменяй упражнение на понимание аудио чтением полного текста
-до прослушивания; текстовый доступный вариант должен оставаться доступен.
+Real-life situations, short natural turns, and manageable vocabulary matter more
+than effects. Adapt length, listening count, and tasks to proficiency; the sequence
+above is a starting point, not a mandatory screen layout. Preserve/add RU/KZ
+support as appropriate, without requiring every line's translation. Do not replace
+listening comprehension with reading the full transcript beforehand; retain an
+accessible text alternative.
 
-Покажи сценарий, задания и визуальный план, внеси фидбэк. Прежние согласованные
-решения сохраняй при точечной правке. Если фидбэк касается только персонажей или
-сюжета, не считай не показанные реплики автоматически утверждёнными. Когда
-готовый сценарий уже согласован и создание материалов входит в запрос, переходи
-к нему без повторного формального разрешения. Если пользователь попросил только
-придумать план/обновить навык, генерация и разработка игры не входят в этот запрос.
+Show the script, tasks, and visual plan; incorporate feedback. Preserve earlier
+agreements in targeted edits. Feedback on characters/plot alone does not approve
+unseen lines. Once the concrete script is agreed and asset creation is requested,
+proceed without repeated formal permission. A request only to plan/update a skill
+does not include generation or game implementation.
 
-## 4. Создание аудио и визуальных ресурсов
+## 4. Audio and visual assets
 
-Для выразительного диалога, нескольких персонажей, рассказчика или референсов
-прочитай [openrouter-voice](../openrouter-voice/SKILL.md). Для явно выбранной
-офлайн-озвучки — [silero-tts](../silero-tts/SKILL.md). Не копируй их API-инструкции
-сюда. В OpenRouter Seed — исходная модель, если пользователь не выбрал другую.
+For expressive dialogue, multiple characters, narration, or references, read
+[openrouter-voice](../openrouter-voice/SKILL.md). For explicitly selected offline
+speech, read [silero-tts](../silero-tts/SKILL.md). Do not duplicate their API
+instructions here. Seed is the initial OpenRouter model unless another is chosen.
 
-Передай навыку озвучки согласованные слова, роли, подачу, примерную длительность
-и новые имена файлов. Для сценки нужен полный промпт, а не обёртка одиночного
-рассказчика. Рассказчик — отдельный голос, только если он нужен, а не автоматически
-добавленный текст. В ролях укажи, кто произносит каждую реплику; названия ролей
-и режиссёрские указания не должны произноситься.
+Pass agreed wording, roles, delivery, approximate duration, and new output names
+to the audio skill. Scenes need a complete prompt rather than a solo-narration
+wrapper. Add a narrator as a separate voice only when needed, not automatically.
+Specify the speaker of each line; role labels and directions must not be spoken.
 
-Если нужны несколько референсов или голос по картинке, читай соответствующий
-раздел [памятки Seed](../openrouter-voice/references/classroom.md), не весь каталог
-моделей. У Seed до трёх аудиореференсов; рассказчик с собственным референсом
-занимает один из них. Учитывай лимиты промпта/длительности из технического навыка.
-Более длинный сценарий разбивай на согласованные эпизоды, не меняя исходные аудио.
+For multiple references or image-derived voices, read the relevant section of the
+[Seed reference](../openrouter-voice/references/classroom.md), not the whole model
+catalog. Seed accepts up to three audio references; a narrator's reference uses one.
+Respect technical prompt/duration limits. Split longer scripts into agreed episodes
+without modifying original audio.
 
-Используй согласованные или уже имеющиеся картинки; генерацию новых выполняй
-в доступном инструменте изображений только при необходимости. Их содержание
-должно совпадать с репликами и заданиями. Источники референсов и ключи не публикуй.
+Use agreed/existing images; generate new ones in the available image tool only
+when needed. Their content must match the lines and tasks. Do not publish private
+reference sources or keys.
 
-Дай владельцу ссылку на результат и дождись его оценки, если приёмка ещё не дана.
-Не объявляй голос, ударения или разделение персонажей подтверждёнными только
-потому, что API вернул файл. Не запускай дополнительные тестовые генерации ради
-перечня возможностей; повтор — по конкретному фидбэку/запросу. Не меняй темп,
-не обрезай и не перекодируй результат OpenRouter.
+Give the owner a result link and wait for evaluation when acceptance is pending.
+Successful API output does not confirm voice, stress, or speaker separation.
+Do not run extra trial generations to complete a feature checklist; retry for
+specific feedback/requests. Do not change tempo, trim, or re-encode OpenRouter audio.
 
-## 5. Перенос в тренажёр и продолжение работы
+## 5. Trainer integration and resuming
 
-Разработка игры начинается, когда она входит в запрос и содержание определено.
-Перед реализацией прочитай документы проекта из `AGENTS.md`; используй общие
-компоненты и структуру данных. Для начального уровня с аудированием назначай
-`category: primary`, `subcategory: listening`; не переноси автоматически в ЕНТ.
-Запуск/повтор аудио — явным касанием, выход останавливает запись. Текстовая
-альтернатива, отдельная проверка, объяснение, явный переход и повтор сохраняются.
+Implement a game when it is requested and content is established. First read the
+project documents listed in `AGENTS.md`; reuse shared components/data structures.
+Beginner listening uses `category: primary`, `subcategory: listening`; do not
+place it in ENT automatically. Explicit taps start/replay audio; exiting stops it.
+Retain a text alternative, separate checking, explanations, explicit continuation,
+and replay.
 
-Текущие решения фиксируй в `docs/lessons/<slug>.md` по
-[заготовке плана](references/lesson-plan.md). Держи там актуальный сценарий,
-ответы, статусы и следующий шаг, а не полный журнал переписки. Указывай, что
-согласовано, что предложено и что ещё не прослушано. Промпты и приватные референсы
-хранятся локально; запись урока содержит только нужные публичные относительные
-пути. При переносе в игру добавь запись в `docs/MIGRATION.md` по правилам проекта.
+Record current decisions in `docs/lessons/<slug>.md` using the
+[plan template](references/lesson-plan.md). Keep the current script, answers,
+statuses, and next step rather than a full chat log. Distinguish approved material,
+proposals, and audio not yet auditioned. Prompts/private references remain local;
+lesson records contain only necessary public relative paths. On game integration,
+add a `docs/MIGRATION.md` entry under project rules.
 
-После перерыва читай план нужного урока и только документацию текущего этапа.
-Не загружай все навыки и справочники заранее. Правила RusLang о проверках
-сохраняются: сборка, тесты и браузерные прогоны — лишь по отдельному запросу.
+After a break, read the specific lesson plan and current-stage documentation only.
+Do not preload every skill/reference. RusLang verification rules remain: builds,
+tests, and browser walkthroughs require a separate request.

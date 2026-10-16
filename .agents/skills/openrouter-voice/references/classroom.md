@@ -21,8 +21,12 @@ For a problematic word, try capitalizing only its stressed vowel and explain tha
 the capital marks stress, with no spelling out of letters. This exact approach
 worked for the listener on `На мокрой траве блестели капли росЫ.`:
 
-> В слове «росЫ» заглавная гласная Ы обозначает ударение на последний слог.
-> Произнеси это слово слитно и естественно, не называя буквы отдельно.
+Successful synthesis instruction (Russian wording retained as an executable example):
+
+```text
+В слове «росЫ» заглавная гласная Ы обозначает ударение на последний слог.
+Произнеси это слово слитно и естественно, не называя буквы отдельно.
+```
 
 This is one successful word, not guaranteed general stress markup. Keep a clean
 correctly spelled transcript for learners; capitalization is synthesis input only.

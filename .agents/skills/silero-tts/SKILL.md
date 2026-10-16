@@ -1,42 +1,42 @@
 ---
 name: silero-tts
-description: Локально озвучивать русский текст и учебные материалы RusLang через Silero TTS, сохранять WAV и готовить аудиоресурсы игр, когда нужна локальная или офлайн-генерация. Не для облачной озвучки, распознавания речи и клонирования голоса; для Seed/OpenRouter есть отдельный проектный навык.
+description: Generate local/offline Russian speech and game audio assets for RusLang with Silero TTS, saving WAV. Excludes cloud speech, transcription, and voice cloning; Seed/OpenRouter has a separate project skill.
 ---
 
-# Локальная озвучка RusLang
+# Local RusLang narration
 
-При выборе локальной озвучки используй существующий `tts.bat` в корне проекта. Не дублируй генератор и не заменяй локальную задачу облачным TTS. Для запросов на Seed/OpenRouter, голоса по референсу или звуковые сцены используй соседний [openrouter-voice](../openrouter-voice/SKILL.md); его правила ударений отличаются от Silero. Корень репозитория определяется относительно этого файла: `../../..`.
+For local speech use the existing root `tts.bat`. Do not duplicate the generator or replace a local task with cloud TTS. For Seed/OpenRouter, voice references, or sound scenes, use neighboring [openrouter-voice](../openrouter-voice/SKILL.md); stress notation differs. Repository root relative to this file: `../../..`.
 
-Установленная конфигурация: русская модель `v5_5_ru`, CPU, 48000 Гц, моно PCM WAV 16 бит. Доступные голоса: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. Технический голос по умолчанию CLI — `xenia`; для похожих рассказов начального уровня используй выбранный владельцем `kseniya`, темп `slow`, дополнительные паузы между предложениями 700 мс, если нет других указаний. Казахская модель и клонирование голоса в этой конфигурации отсутствуют.
+Installed: Russian `v5_5_ru`, CPU, 48000 Hz, mono 16-bit PCM WAV. Voices: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. CLI default is `xenia`; for similar beginner stories use the owner's `kseniya`, `slow`, and 700 ms extra sentence gaps unless directed otherwise. No Kazakh model or voice cloning is installed.
 
-Перед озвучкой рассказа или исправлением произношения прочитай [сохранённые предпочтения](references/narration.md): там зафиксированы паузы, ударения, эмоциональное завершение и ещё не подтверждённая попытка подъёма тона в перечислении. Учитывай актуальные решения, а не отклонённые варианты из истории миграции.
+Before story generation or pronunciation fixes, read [saved preferences](references/narration.md): pauses, stress, emotional ending, and an unconfirmed rising-list-intonation attempt. Follow current decisions, not rejected migration-history variants.
 
-## Генерация
+## Generate
 
-Сохрани полученный текст в UTF-8-файл внутри `.local/silero/input/` и передай его через `--file`. Это сохраняет кавычки и многострочный текст и исключает интерпретацию содержимого оболочкой. Сохраняй учебный исходник; исправления произношения делай в отдельном тексте для синтеза. Для явного ударения поставь `+` перед гласной: `з+амок`.
+Save UTF-8 text inside `.local/silero/input/` and pass `--file`. This preserves quotation marks/multiline text and avoids shell interpretation. Retain clean learning text; make pronunciation corrections in a separate synthesis file. Mark stress with `+` before the vowel: `з+амок`.
 
-Из корня репозитория в PowerShell:
+From the repository root in PowerShell:
 
 ```powershell
 .\tts.bat --file .local\silero\input\lesson.txt --speaker kseniya --rate slow --pause-ms 700 --output .local\silero\output\lesson.wav
 ```
 
-Выбери осмысленное имя результата. Для самостоятельной записи используй `.local/silero/output/`; для аудиоресурса конкретной игры — `src/games/<slug>/assets/`. Существующий файл не заменяй случайно: выбери новое имя; `--overwrite` применяй при запрошенной замене записи.
+Use descriptive output names. Standalone recordings go in `.local/silero/output/`; game assets in `src/games/<slug>/assets/`. Choose a new filename to avoid accidental replacement; use `--overwrite` only for a requested replacement.
 
-Дождись завершения команды и сообщи фактический результат. При ошибке не утверждай, что запись создана. Для самостоятельного аудио покажи результат через `![Озвучка](<абсолютный путь к WAV>)`. Рядом генератор создаёт `*.wav.json` с текстом, голосом и параметрами; сохрани его для воспроизводимости.
+Wait for completion and report the actual outcome. Do not claim creation on failure. For standalone audio show `![Narration](<absolute WAV path>)`. Preserve the adjacent `*.wav.json` with text, voice, and parameters for reproducibility.
 
-Генерация по просьбе озвучить текст — основная работа. Пробные генерации, прослушивание и другие проверки выполняй только по явной просьбе пользователя согласно `AGENTS.md`; создание или изменение этого скилла само по себе такой просьбой не является.
+Requested narration is the core task. Trial generations, listening, and other checks require an explicit user request under `AGENTS.md`; adding/updating this skill does not itself authorize them.
 
-Для более медленной речи добавь `--rate slow`; для очень медленной — `--rate x-slow`. Темп задаётся при синтезе через SSML prosody и сохраняется в метаданных WAV. По умолчанию `--rate medium`. В учебный текст не добавляй SSML-разметку: генератор сам оборачивает текст. Явные ударения храни в отдельном файле для синтеза, например `story-tts.txt`, а обычный рассказ — в `story.txt`.
+Use `--rate slow` for slower speech, `--rate x-slow` for very slow; default `medium`. Rate is set during synthesis via SSML prosody and saved in WAV metadata. Keep SSML out of the learner text: the generator wraps it. Store marked text separately, e.g. `story-tts.txt` versus clean `story.txt`.
 
-## Подключение и восстановление
+## Integration and recovery
 
-Для пауз внутри предложения используй отдельный SSML-файл и `--ssml-file`: корень `<speak>`, отдельные предложения в `<s>`, паузы `<break time="450ms"/>`. `--rate` задаёт темп, `--pause-ms` — дополнительную тишину между предложениями. SSML сохраняется отдельно от обычного учебного текста и записывается в метаданные WAV. Пример для «Моей комнаты»: `src/games/my-room/story-tts-kseniya.ssml`; имя произносится «Ам+ина», с ударением на «и».
+For internal pauses, pass a separate `--ssml-file`: root `<speak>`, sentences in `<s>`, pauses as `<break time="450ms"/>`. `--rate` sets speed; `--pause-ms` adds silence between sentences. SSML stays separate from clean text and is recorded in WAV metadata. «Моя комната» example: `src/games/my-room/story-tts-kseniya.ssml`, with `Ам+ина` stressed on и.
 
-Техническое значение `--pause-ms` по умолчанию — 200 мс. Для похожих рассказов используй исходный профиль владельца `--rate slow --pause-ms 700`. Не переходи на `x-slow` без отдельного запроса: в «Моей комнате» этот темп отвергнут. Значение паузы сохраняется в метаданных записи.
+Technical `--pause-ms` default: 200 ms. For similar stories retain `--rate slow --pause-ms 700`. Do not switch to `x-slow` without a request: it was rejected for «Моя комната». Gap length is recorded in metadata.
 
-При подключении аудио к игре используй относительный импорт Vite. На GitHub Pages публикуется готовая запись; локальный Python в браузере не запускается. Не меняй интерфейс и содержание игры, если запрошено только создание записи.
+Import game audio relatively through Vite. GitHub Pages serves finished recordings; no Python runs in the browser. Do not change UI/content when only audio creation was requested.
 
-Если отсутствует окружение или модель, прочитай [документацию локального TTS](../../../docs/LOCAL_TTS.md), затем используй существующий `tools/silero/setup.ps1` в пределах запроса пользователя. Установка требует сети; обычный синтез использует локальный файл модели и работает офлайн. Не обновляй модель, контрольную сумму или зависимости без необходимости для задачи.
+If the environment/model is missing, read [local TTS setup](../../../docs/LOCAL_TTS.md), then use existing `tools/silero/setup.ps1` within the requested scope. Setup needs network access; ordinary synthesis uses the local model offline. Do not update the model, checksum, or dependencies without a task-related need.
 
-В той же документации приведены параметры автоударений/ё, повторная установка и лицензия. Для установленной модели указана CC BY-NC-SA 4.0 с ограничением некоммерческого использования; не представляй её как модель под MIT.
+That document covers automatic stress/ё, recovery, and licensing. The installed model is CC BY-NC-SA 4.0 with noncommercial restrictions; do not present it as MIT.

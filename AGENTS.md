@@ -1,61 +1,61 @@
-# Правила работы над RusLang
+# RusLang contributor instructions
 
-Этот репозиторий — каталог интерактивных тренажёров по русскому языку для занятий на сенсорной панели 75″. Игры переносятся из старых HTML по одной, с обратной связью после каждой. Актуальный список и статус — в `docs/MIGRATION.md`.
+This repository is a catalog of interactive Russian-language trainers for a 75″ touch panel. Migrate legacy HTML games one at a time, collecting feedback after each. See `docs/MIGRATION.md` for the current inventory and status.
 
-## Перед любой новой игрой или переносом
+Write maintainer documentation and agent instructions in English. Preserve Russian/Kazakh learning content, exact UI labels, filenames, and pronunciation examples where their wording matters. Continue discussing tasks in the user's language.
 
-1. Прочитай [документ по UX](docs/UX.md), [правила тем и возраста](docs/THEMES.md), [навигацию по каталогу](docs/NAVIGATION.md) и [план переноса](docs/MIGRATION.md).
-2. Определи учебную цель, рекомендованный класс и источник этой рекомендации, язык интерфейса, тип ответа, способ проверки и ожидаемую обратную связь.
-3. Сверь новый сценарий с перечнем существующих типов взаимодействия в UX-документе. Для нового типа дополни документ и общие компоненты.
-4. Сохраняй учебные тексты, правильные ответы и объяснения из источника; исправления фактических ошибок отмечай в карточке переноса.
+## Before adding or migrating a game
 
-## Новый урок с аудированием
+1. Read [UX rules](docs/UX.md), [age and theme rules](docs/THEMES.md), [catalog navigation](docs/NAVIGATION.md), and the [migration plan](docs/MIGRATION.md).
+2. Identify the learning objective, recommended grade and its source, interface language, answer format, evaluation method, and expected feedback.
+3. Compare the scenario with the interaction types in the UX document. For a new type, update that document and shared components.
+4. Preserve source learning texts, answers, and explanations; record factual corrections in the migration entry.
 
-- Для запроса на урок/тренажёр с аудированием начинай с [listening-lesson](.agents/skills/listening-lesson/SKILL.md): если тема неизвестна, сначала спроси её и дождись ответа; затем предложи варианты рассказа/диалога и картинок-опор, учти фидбэк и согласуй конкретные реплики и задания. Для одной уже готовой записи можно сразу использовать навык озвучки.
-- Навык урока ведёт подготовку содержания; [openrouter-voice](.agents/skills/openrouter-voice/SKILL.md) подключается на этапе согласованной озвучки нескольких персонажей и необязательного рассказчика. Не генерируй платные ресурсы вместо обсуждения и не запрашивай повторное разрешение на уже согласованные действия. Не начинай разработку игры, если запрос ограничен сценарием урока.
-- Текущий план и решения сохраняй в `docs/lessons/<slug>.md`, при продолжении читай его и инструкции текущего этапа. Справочники навыков загружай по необходимости. Подробный процесс хранится в навыке, а не дублируется в `AGENTS.md`.
+## New listening lessons
 
-## Предпочтение владельца: словарная змейка
+- For a listening lesson/trainer, start with [listening-lesson](.agents/skills/listening-lesson/SKILL.md): if the topic is unknown, ask and wait; then propose story/dialogue and visual-support options, incorporate feedback, and agree on exact lines and exercises. For a single already-defined recording, use the audio skill directly.
+- The lesson skill handles content planning; [openrouter-voice](.agents/skills/openrouter-voice/SKILL.md) joins at the agreed audio stage for multiple characters and an optional narrator. Do not generate paid assets in place of discussion or request permission again for already-agreed actions. Do not implement a game when only a lesson script was requested.
+- Save the current plan and decisions in `docs/lessons/<slug>.md`. On resuming, read it and the current stage's instructions. Load skill references on demand; keep the detailed workflow in the skill rather than duplicating it here.
 
-- Владелец одобрил поиск слов змейкой в третьем уровне «Круглого года» и планирует часто использовать этот формат при изучении новой лексики. При создании словарного тренажёра рассматривай его как один из стандартных вариантов и предлагай, когда он помогает учебной цели; не добавляй автоматически в каждую игру.
-- Используй общий `src/components/WordSnakeTrainer.vue` и генератор `src/games/word-snake.js`, а не копию уровня месяцев. Параметры и готовая заготовка описаны в [шаблоне словарной змейки](docs/WORD_SNAKE.md).
-- Сохраняй касания по соседним буквам, отмену последнего шага, отдельную проверку, блокировку после ответа, явное продолжение и повтор. В многоуровневой игре переход между уровнями — одним касанием с сохранением состояния; вводные описания по умолчанию не нужны.
+## Owner preference: vocabulary word snake
 
-## Озвучка и проектные навыки
+- The owner approved word-snake search in level three of «Круглый год» and intends to reuse it for vocabulary learning. Consider it a standard option when it serves the objective; do not add it to every game automatically.
+- Reuse `src/components/WordSnakeTrainer.vue` and `src/games/word-snake.js`, not a copy of the months level. See the [word-snake template](docs/WORD_SNAKE.md) for parameters and a starter.
+- Preserve adjacent-letter taps, undo, separate checking, input locking after an answer, explicit continuation, and replay. In multilevel games, switch levels with one tap while preserving state; introductory descriptions are unnecessary by default.
 
-- Для выразительной облачной озвучки, голосов персонажей, аудиореференсов, диалогов и звуковых заданий используй [openrouter-voice](.agents/skills/openrouter-voice/SKILL.md). Модель по умолчанию внутри этого навыка — Seed Audio. Подключение на рабочей машине и команды описаны в [docs/OPENROUTER_AUDIO.md](docs/OPENROUTER_AUDIO.md). Для обычной локальной/офлайн-озвучки сохраняется Silero; не переключай уже выбранный генератор без причины или указания пользователя.
-- Перед диктовкой, исправлением ударений или созданием аудиосцен прочитай [результаты прослушивания Seed](.agents/skills/openrouter-voice/references/classroom.md). Написание `росЫ` сработало, знак ударения не помог, а `+` был прочитан буквально; разметка Silero и Seed различается. Служебную разметку храни отдельно от текста, который видят ученики. Не обещай точные паузы или возраст голоса только по принятому API запросу.
-- Готовое аудио OpenRouter сохраняй без изменения темпа, обрезки, нормализации или повторного кодирования. Примерную длительность регулируй длиной текста и указаниями при генерации. Промпты, референсы и метаданные оставляй в `.local/openrouter/`; в игру переносится нужный аудиофайл и чистый учебный текст. Не добавляй в репозиторий частные записи и локальные пути из метаданных генерации.
-- Ключ `OPENROUTER_API_KEY` или `OPENROUTER_KEY` владелец добавляет на рабочей машине в корневой `.env` либо в окружение. Не копируй ключи между машинами и не используй префикс `VITE_` для них. Генерация выполняется разработчиком заранее: ключ и обращения к платному API не должны попадать в браузер, GitHub Pages или клиентскую сборку.
-- Просьба добавить/обновить навык не разрешает пробные платные генерации. Не повторяй уже выполненный ресёрч без необходимости: используй сохранённые параметры и рецепты; текущие цены проверяй при вопросе о цене. Диалог с несколькими референсами документирован, но не протестирован нами; владелец отказался от отдельного теста этой возможности.
+## Audio and project skills
 
-## Архитектура
+- Use [openrouter-voice](.agents/skills/openrouter-voice/SKILL.md) for expressive cloud narration, character voices, audio references, dialogues, and sound exercises. Its default model is Seed Audio. Setup and commands: [docs/OPENROUTER_AUDIO.md](docs/OPENROUTER_AUDIO.md). Keep Silero for ordinary local/offline speech; do not change an already-selected generator without a reason or user instruction.
+- Before dictation, stress correction, or audio scenes, read the [Seed listening results](.agents/skills/openrouter-voice/references/classroom.md). `росЫ` worked, an acute accent did not, and `+` was spoken literally; Silero and Seed use different notation. Keep synthesis markup separate from learner text. API acceptance does not establish exact pauses or perceived voice age.
+- Preserve OpenRouter audio without tempo changes, trimming, normalization, or re-encoding. Control approximate duration through text length and generation directions. Keep prompts, references, and metadata in `.local/openrouter/`; copy only the required audio and clean learning text into a game. Do not commit private recordings or local paths from generation metadata.
+- The owner configures `OPENROUTER_API_KEY` or `OPENROUTER_KEY` in the working machine's root `.env` or environment. Do not copy keys between machines or prefix them with `VITE_`. Developers generate audio ahead of time: credentials and paid API calls must not enter the browser, GitHub Pages, or client bundle.
+- Adding/updating a skill does not authorize paid trial generations. Use saved parameters and recipes instead of repeating research unnecessarily; verify current prices when asked. Multi-reference dialogue is documented but not tested here; the owner declined a separate trial.
 
-- Для локальной генерации русской озвучки используй проектный скилл [silero-tts](.agents/skills/silero-tts/SKILL.md) и установленный `tts.bat`; параметры и повторная установка описаны в [docs/LOCAL_TTS.md](docs/LOCAL_TTS.md). Модель `v5_5_ru`; для похожих рассказов начального уровня исходный профиль владельца — `kseniya`, `slow`, паузы между предложениями 700 мс. Перед генерацией прочитай [сохранённые нюансы озвучки](.agents/skills/silero-tts/references/narration.md): явные ударения, паузы перечисления и интонация. Генерация работает офлайн; модель и окружение хранятся в `.local/silero/`. Для игр сохраняй готовое аудио в ресурсы конкретной игры. Учитывай указанную в документации лицензию модели.
+## Architecture
 
-- Vue 3 + Vite. Каждый тренажёр — отдельный Vue-модуль в `src/games/<slug>/`, данные заданий хранятся отдельно от представления.
-- Общие цвета, размеры, отступы и состояния находятся в `src/styles/`; общие элементы управления — в `src/components/`. Не копируй стили кнопок, карточек и обратной связи в каждую игру.
-- Класс и тема оформления — отдельные метаданные в реестре. Если класс не указан в источнике, помечай рекомендацию как предварительную или неизвестную. Тема задаёт декоративные токены через `src/styles/themes.css`; пользователь может выбрать другую тему без изменения содержания и результатов.
-- Каталог и загрузка игр находятся в `src/games/registry.js`. Подключай игру лениво через `import()`; не загружай весь каталог при открытии главной страницы.
-- Каждой игре назначай ровно один раздел `category`: `speech` (Развитие речи), `ent` (ЕНТ) или `primary` (Начальный уровень). Главная показывает эти три раздела без поиска и фильтров — решение владельца от 10 октября 2026 года. Контролируемые метаданные `facets` из `src/catalog/filtering.js` сохраняй; правила распределения — в `docs/NAVIGATION.md`.
-- Пути к ресурсам должны работать при размещении сайта в подпапке GitHub Pages. Используй относительную базу Vite и локальные ресурсы без обязательного CDN. Не прописывай абсолютные пути от `/`.
-- Учебный контент отделяй от компонентов. Не вставляй пользовательский текст через `v-html`, если это не выверенный и обоснованно необходимый фрагмент.
-- Для одного упражнения предусмотри понятные состояния: вступление/инструкция, задание, ответ, объяснение, переход, итог, повтор.
+- For local Russian speech, use the project [silero-tts](.agents/skills/silero-tts/SKILL.md) and installed `tts.bat`; parameters and recovery: [docs/LOCAL_TTS.md](docs/LOCAL_TTS.md). Model: `v5_5_ru`. For similar beginner stories, the owner's baseline is `kseniya`, `slow`, and 700 ms between sentences. Before generation read the [saved narration notes](.agents/skills/silero-tts/references/narration.md): stress, list pauses, and intonation. Generation is offline; model and environment live in `.local/silero/`. Put game audio in that game's assets. Respect the documented model license.
+- Vue 3 + Vite. Each trainer is a Vue module in `src/games/<slug>/`, with exercise data separate from presentation.
+- Shared colors, sizes, spacing, and states live in `src/styles/`; shared controls in `src/components/`. Do not copy button, card, and feedback styles into every game.
+- Grade and visual theme are independent registry metadata. Mark an unspecified grade recommendation provisional or unknown. Themes supply decorative tokens through `src/styles/themes.css`; changing a theme must not change content or results.
+- Catalog and loading live in `src/games/registry.js`. Use lazy `import()`; do not load all games on the home page.
+- Assign exactly one `category`: `speech` (Развитие речи), `ent` (ЕНТ), or `primary` (Начальный уровень). Home displays these three sections without search or filters, per the owner's October 10, 2026 decision. Preserve controlled `facets` from `src/catalog/filtering.js`; placement rules: `docs/NAVIGATION.md`.
+- Assets must work under a GitHub Pages subdirectory. Use Vite's relative base and local assets without a mandatory CDN. Avoid root-absolute `/` paths.
+- Keep educational content separate from components. Do not insert user text through `v-html` unless the fragment is vetted and its use justified.
+- Each exercise needs clear instruction/introduction, task, answer, explanation, transition, result, and replay states.
 
-## Сенсорное управление и доступность
+## Touch interaction and accessibility
 
-- В категории «Начальный уровень» упражнения с аудированием размещай в подразделе «Аудирование»: `category: 'primary'`, `subcategory: 'listening'`. Первый тренажёр — «Среда Али: покупки и рассказ». Подраздел открывается отдельной карточкой; игра возвращает в свой подраздел.
+- Beginner listening exercises belong to «Аудирование»: `category: 'primary'`, `subcategory: 'listening'`. The first trainer is «Среда Али: покупки и рассказ». The subsection has its own card; games return to that subsection.
+- The main path must work by touch without hover, precise dragging, keyboard, or required sound. Always provide “select item → select destination” alongside dragging.
+- Use semantic buttons, visible focus, readable labels, and textual feedback. Never indicate correctness by color alone.
+- After an answer, lock repeated input, show the correct answer and explanation, then an explicit «Дальше» action. Accidental taps must not advance the task.
+- Preserve source RU/KZ pairs; do not shorten translations for layout.
+- Run checks only at the user's explicit request, per the October 10, 2026 owner preference. Without it, do not run builds, tests, browser checks, touch walkthroughs, layout measurements, or create/view screenshots. An interface complaint alone does not request checks. This rule overrides testing recommendations elsewhere in the project.
+- When responsive checks are requested, use 1920×1080, 1366×768, and a narrow screen. Avoid horizontal scrolling and clipped controls during implementation.
 
-- Основной путь выполнения должен работать касанием: без `hover`, точного перетаскивания, клавиатуры или звука. Для перетаскивания всегда предоставляй вариант «выбрать предмет → выбрать место».
-- Используй семантические кнопки, заметный фокус, читаемые подписи и текстовую обратную связь. Не обозначай правильность одним цветом.
-- При ответе блокируй повторный ввод, показывай правильный ответ и объяснение, затем отдельное действие «Дальше». Случайное нажатие не должно автоматически сменять задание.
-- RU/KZ-пары сохраняй там, где они были в источнике; не сокращай перевод ради оформления.
-- Проверки запускай только по явной просьбе пользователя — предпочтение владельца от 10 октября 2026 года. Без такой просьбы не запускай сборку, тесты, браузерные проверки, touch-прогоны, измерения макета, создание или просмотр скриншотов. Жалоба на интерфейс сама по себе не означает просьбу провести проверки. Это правило имеет приоритет над рекомендациями о проверках в остальных документах проекта.
-- Если пользователь попросил проверить адаптивность, используй 1920×1080, 1366×768 и узкий экран. Не допускай горизонтальной прокрутки или обрезанных управляющих элементов при реализации.
+## Migration and verification
 
-## Перенос и проверка
-
-- Переноси старые HTML строго по одному. После каждой игры остановись для обратной связи пользователя, затем переходи к следующей. Отмечай статус и особенности в `docs/MIGRATION.md`. Исходные файлы в старой папке не удаляй.
-- Поведение новой игры сравнивай с исходником: количество и тип заданий, оценивание, подсказки, повтор, двуязычный текст.
-- По явной просьбе проверить изменения запускай `pnpm build` (или `npm run build`, если используется npm). Если запрошена проверка нового типа взаимодействия, проверь сценарий касанием или эмуляцией touch, неверный ответ, завершение и повтор.
-- Публикация на GitHub Pages выполняется workflow `.github/workflows/pages.yml` после push в `main`. Сборку и текущую игру проверяй только по явной просьбе пользователя; сохраняй ленивую загрузку и относительные пути к ресурсам.
+- Migrate legacy HTML strictly one game at a time. Stop for owner feedback after each, then proceed. Record status and details in `docs/MIGRATION.md`. Do not delete legacy sources.
+- Compare new behavior with the source: task count/types, scoring, hints, replay, and bilingual text.
+- When verification is explicitly requested, run `pnpm build` (or `npm run build` with npm). For a requested new interaction check, cover touch/emulated touch, wrong answers, completion, and replay.
+- `.github/workflows/pages.yml` deploys GitHub Pages on pushes to `main`. Check the build/current game only when explicitly requested; preserve lazy loading and relative asset paths.

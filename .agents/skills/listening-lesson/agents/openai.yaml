@@ -1,4 +1,4 @@
 interface:
-  display_name: "Урок с аудированием"
-  short_description: "Сценарий, фидбэк, персонажи и озвучка урока RusLang"
-  default_prompt: "Используй $listening-lesson, чтобы вместе со мной подготовить упражнение с аудированием: начни с темы и вариантов сценария."
+  display_name: "Listening Lesson"
+  short_description: "Plan RusLang listening lessons, feedback, and narration"
+  default_prompt: "Use $listening-lesson to prepare a listening exercise with me, starting with the topic and scenario options."

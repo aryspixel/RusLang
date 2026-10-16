@@ -1,40 +1,39 @@
-# Заготовка актуального плана урока
+# Current lesson plan template
 
-При работе над конкретным уроком сохрани заполненную версию в
-`docs/lessons/<slug>.md`. Создавай только нужные уроку материалы. Эта заготовка
-не означает просьбу начать урок или выполнить генерацию прямо сейчас.
+For an actual lesson save a completed version in `docs/lessons/<slug>.md`.
+Create only assets the lesson needs. This template does not request starting
+a lesson or generating assets now.
 
-## Цель и аудитория
+## Objective and audience
 
-- Тема, учебная цель, класс/уровень русского и источник рекомендации.
-- Известные ограничения, предварительные допущения, что ещё надо уточнить.
-- Формат: рассказ/диалог/сценка; примерная длительность.
+- Topic, learning objective, grade/Russian proficiency, recommendation source.
+- Known constraints, provisional assumptions, remaining questions.
+- Format: story/dialogue/scene; approximate duration.
 
-## Решение владельца
+## Owner decisions
 
-- Выбранный вариант, необходимый визуальный материал.
-- Что согласовано: замысел, точные реплики, задания, голос/иллюстрации.
-- Что не согласовано или ожидает прослушивания.
+- Selected concept and required visuals.
+- Approved items: concept, exact lines, tasks, voice/images.
+- Unapproved items or recordings awaiting listening.
 
-## Сценарий
+## Script
 
-Роли и подача отдельно от текста ученика. Для диалога — реплики по порядку,
-рассказчик только при необходимости. Никаких ключей и частных референсов.
+Separate roles/delivery from learner text. Dialogue has ordered turns and a
+narrator only if needed. Include no keys or private references.
 
-## Этапы урока
+## Lesson stages
 
-Подготовка → первое прослушивание/общий смысл → повтор/детали → речевая практика.
-Для выбранных упражнений укажи действие, ответ, объяснение и подтверждающую
-реплику текста. Для открытого ответа — критерии, без фиктивного автопроверяемого
-единственного ответа.
+Preparation → first listen/overall meaning → repeat/details → speaking practice.
+For each selected exercise specify action, answer, explanation, and supporting
+line. For open responses give criteria, not a fictitious uniquely auto-graded answer.
 
-## Ресурсы и реализация
+## Assets and implementation
 
-Публичные относительные пути к утверждённым материалам, генератор и текущая
-версия, выбранные компоненты/раздел каталога, если реализация входит в запрос.
-Промпты с локальными путями, метаданные API и частные записи в этот файл не копируй.
+Public relative paths to approved materials, generator/current version, selected
+components/catalog section when implementation is requested. Do not copy prompts
+with local paths, API metadata, or private recordings into this file.
 
-## Статус и следующий шаг
+## Status and next step
 
-Конкретный следующий шаг и необходимый фидбэк. Укажи отдельно, что создано,
-что прослушано владельцем и какие проверки выполнялись либо не запрашивались.
+State the concrete next action and required feedback. Distinguish created assets,
+owner-auditioned assets, and checks performed or not requested.

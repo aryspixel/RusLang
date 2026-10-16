@@ -1,25 +1,25 @@
-# Отдельные предметы комнаты
+# Separate room objects
 
-## Мебель под перспективу комнаты (`*-room-v2`)
+## Furniture matching room perspective (`*-room-v2`)
 
-15 октября встроенным ImageGen созданы четыре новых PNG; референс для стиля и перспективы — `../room.png`, не цель редактирования. Для игры подготовлены WebP quality 85 с исходной прозрачностью. Старые варианты сохранены.
+On October 15, built-in ImageGen created four PNGs using `../room.png` as a style/perspective reference, not an edit target. Game WebPs use quality 85 and original transparency. Earlier variants remain.
 
-Общий промпт: один отдельный предмет мебели на прозрачном фоне, стиль и перспектива предоставленной комнаты, тёплое дерево, чёткие тёмные контуры, мягкое иллюстративное затенение, вертикальные линии вертикальны, перспектива интерьера с одной точкой схода вместо изометрического вида сверху. Весь объект виден, плотное кадрирование с небольшим полем, без комнаты, пола, внешних теней, свечения, надписей и водяных знаков.
+Shared prompt: one isolated furniture object on transparent background, matching the supplied room's style/perspective; warm wood, clean dark outlines, soft illustrated shading, vertical lines vertical, one-point interior perspective rather than top-down isometric. Entire object visible, tight framing with a small margin; no room, floor, external shadow, glow, text, or watermark.
 
-- `wardrobe-room-v2`: высокий узкий двухдверный шкаф (около 200×95 см), отношение ширины к высоте около 0,48, почти фронтальный вид, узкая правая боковина, верхняя поверхность не видна. Нужная ориентация уже в рисунке.
-- `table-room-v2`: стол около 120×75×55 см у дальней стены, ящики справа, открытое место для ног слева, почти фронтальный вид, узкая видимая столешница, без вещей.
-- `bed-room-v2`: односпальная кровать вдоль левой стены у окна, изголовье сзади слева, изножье впереди справа, синее покрывало и белая подушка, перспектива по линиям пола комнаты.
-- `chair-room-v2`: деревянный стул с синими сиденьем и спинкой, высота около 90 см, почти фронтальный вид с небольшим поворотом влево, вертикальные ножки.
+- `wardrobe-room-v2`: tall narrow two-door wardrobe (about 200×95 cm), width/height about 0.48, nearly frontal, narrow right side visible, no visible top. Required orientation already in drawing.
+- `table-room-v2`: desk about 120×75×55 cm at far wall, drawers right, open legroom left, nearly frontal, narrow visible tabletop, empty.
+- `bed-room-v2`: single bed along left wall near window, headboard back-left, foot front-right, blue cover/white pillow, perspective follows room floor lines.
+- `chair-room-v2`: wooden chair with blue seat/back, about 90 cm high, nearly frontal/slightly left-turned, vertical legs.
 
-15 октября добавлены `rug`, `shelf`, `plant`, `clock` (PNG-исходники и WebP для игры). Встроенный ImageGen; общий стиль — чёткая учебная иллюстрация с тёмными контурами, прозрачным фоном, без свечения и внешних теней. Отдельные промпты: один овальный кремово-голубой ковёр; одна пустая деревянная настенная полка с двумя кронштейнами; одно зелёное комнатное растение в терракотовом горшке; одни круглые настенные часы с голубой рамкой, делениями без цифр и стрелками на три часа. Без сцены, других объектов, надписей и водяных знаков. WebP quality 85, исходные разрешение и прозрачность сохранены.
+October 15 additions: `rug`, `shelf`, `plant`, `clock`, with PNG sources/WebP game files. Built-in ImageGen; shared clear textbook style, dark outlines, transparent background, no glow/external shadows. Individual prompts: one oval cream/light-blue rug; one empty wooden wall shelf with two brackets; one green houseplant in a terracotta pot; one round light-blue-framed wall clock, tick marks without digits, hands at three o'clock. No scene, extra objects, text, or watermark. Quality 85 WebP retains dimensions/transparency.
 
-Для игры используются WebP-версии с теми же именами: исходное разрешение и прозрачность сохранены, качество сжатия 85. PNG оставлены как исходники и не импортируются игрой. Конвертация выполнена Pillow без изменения содержания иллюстраций для уменьшения объёма загрузки.
+The game imports same-named WebP versions, preserving source dimensions/transparency at quality 85. PNGs remain sources, not game imports. Pillow conversion reduced downloads without changing illustration content.
 
-Созданы 14 октября 2026 года встроенным ImageGen по просьбе владельца заменить смешанные фрагменты общего листа. Каждый PNG — один объект с прозрачным фоном. Исходный `../objects.png` сохранён как архив исходных иллюстраций.
+Created October 14, 2026 with built-in ImageGen at owner request to replace mixed source-sheet fragments. Each PNG contains one transparent object. `../objects.png` remains an archive of the original illustrations.
 
-Общий промпт: "Single isolated sprite for a children's Russian vocabulary room game. ONE object only on a genuinely transparent background. Crisp polished friendly textbook cartoon, bold clean dark outlines, simple readable shapes, warm colors and honey wood where relevant, very light soft shading, three-quarter view from slightly above. Entire subject fully visible, tight frame with tiny transparent margins. No scene, no room, no accompanying objects, no people, no floor, no floor shadows, no sticker cut lines, no text, no watermark. Individual cutout PNG, not a sheet or collage."
+Shared prompt: "Single isolated sprite for a children's Russian vocabulary room game. ONE object only on a genuinely transparent background. Crisp polished friendly textbook cartoon, bold clean dark outlines, simple readable shapes, warm colors and honey wood where relevant, very light soft shading, three-quarter view from slightly above. Entire subject fully visible, tight frame with tiny transparent margins. No scene, no room, no accompanying objects, no people, no floor, no floor shadows, no sticker cut lines, no text, no watermark. Individual cutout PNG, not a sheet or collage."
 
-Темы отдельных генераций:
+Individual generation subjects:
 
 - `bed.png`: single wooden child's bed with blue mattress cover, simple integral white pillow; headboard upper left, foot toward lower right.
 - `table.png`: empty wooden writing desk with four clearly separated legs, small drawers at right, open space underneath, bare tabletop.
@@ -32,4 +32,4 @@
 - `bear.png`: seated brown plush teddy bear, simple red bow, complete paws visible.
 - `lamp.png`: standalone small table lamp with cream lampshade and wooden pedestal base, no table or nightstand.
 
-Файлы подключены статическими относительными импортами Vite в `data.js`. Используется исходный alpha-канал генерации; цветовое смешивание с фоном не применяется. Браузерные проверки и сборка не запускались согласно предпочтению владельца.
+Files use static relative Vite imports in `data.js`. Original generated alpha is retained; no background color blending. Browser checks/build not run, per owner preference.
