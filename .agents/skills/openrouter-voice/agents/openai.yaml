@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenRouter Voice"
+  short_description: "Generate speech with Seed and voice references"
+  default_prompt: "Use $openrouter-voice to generate a Russian narration with Seed Audio, preserving the original API audio."

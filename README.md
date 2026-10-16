@@ -8,6 +8,8 @@
 
 Локальная генерация русского голоса: [Silero TTS](docs/LOCAL_TTS.md). Команда: `.\tts.bat --text "Привет!" --output .local\silero\output\hello.wav`.
 
+Выразительная озвучка через Seed Audio/OpenRouter, голоса по референсам и учебные аудиосцены: [подключение и команды](docs/OPENROUTER_AUDIO.md), [проектный навык](.agents/skills/openrouter-voice/SKILL.md). Ключ добавляется только на рабочей машине; готовые аудиофайлы подключаются к играм без API-запросов из браузера.
+
 Для обычного Windows-терминала можно использовать npm:
 
 ```powershell
