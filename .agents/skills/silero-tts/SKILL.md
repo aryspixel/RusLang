@@ -7,13 +7,15 @@ description: Generate local/offline Russian speech and game audio assets for Rus
 
 For local speech use the existing root `tts.bat`. Do not duplicate the generator or replace a local task with cloud TTS. For Seed/OpenRouter, voice references, or sound scenes, use neighboring [openrouter-voice](../openrouter-voice/SKILL.md); stress notation differs. Repository root relative to this file: `../../..`.
 
-Installed: Russian `v5_5_ru`, CPU, 48000 Hz, mono 16-bit PCM WAV. Voices: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. CLI default is `xenia`; for similar beginner stories use the owner's `kseniya`, `slow`, and 700 ms extra sentence gaps unless directed otherwise. No Kazakh model or voice cloning is installed.
+CLI target: Russian `v5_6_ru`, CPU, 48000 Hz, mono 16-bit PCM WAV. Run [setup](../../../docs/LOCAL_TTS.md#upgrade-and-reinstallation) on the destination computer to download weights and save their checksum under Git-ignored `.local/`; no manual checksum is required. Keep models out of the repository. Do not claim that it is installed merely because the CLI default changed. Use `--model v5_5_ru` for an existing previous installation. Voices: `aidar`, `baya`, `kseniya`, `xenia`, `eugene`. CLI default is `xenia`; for similar beginner stories use the owner's `kseniya`, `slow`, and 700 ms extra sentence gaps unless directed otherwise. No Kazakh model or voice cloning is installed.
 
 Before story generation or pronunciation fixes, read [saved preferences](references/narration.md): pauses, stress, emotional ending, and an unconfirmed rising-list-intonation attempt. Follow current decisions, not rejected migration-history variants.
 
 ## Generate
 
 Save UTF-8 text inside `.local/silero/input/` and pass `--file`. This preserves quotation marks/multiline text and avoids shell interpretation. Retain clean learning text; make pronunciation corrections in a separate synthesis file. Mark stress with `+` before the vowel: `з+амок`.
+
+For `v5_6_ru`, mark emphasis with double asterisks (`Я **люблю** свою комнату!`), question focus with single asterisks (`Это *твоя* комната?`), and exclamations with `!`. Keep service markup out of learner text. The CLI passes it through during synthesis, including SSML text nodes used for slower speech; combinations with rate/SSML have not been listened to in this checkout. See [release notes and examples](../../../docs/LOCAL_TTS.md#what-changed-in-v5_6_ru). Retain the model's default intonation intensity. New emphasis support does not establish the requested rising contour in a furniture list.
 
 From the repository root in PowerShell:
 
@@ -39,4 +41,4 @@ Import game audio relatively through Vite. GitHub Pages serves finished recordin
 
 If the environment/model is missing, read [local TTS setup](../../../docs/LOCAL_TTS.md), then use existing `tools/silero/setup.ps1` within the requested scope. Setup needs network access; ordinary synthesis uses the local model offline. Do not update the model, checksum, or dependencies without a task-related need.
 
-That document covers automatic stress/ё, recovery, and licensing. The installed model is CC BY-NC-SA 4.0 with noncommercial restrictions; do not present it as MIT.
+That document covers the four automatic stress/ё/homograph flags, recovery, and licensing. `--no-stress` and `--no-yo` also disable their respective homograph passes; the homograph-only switches are `--no-stress-homo` and `--no-yo-homo`. The Russian model is CC BY-NC-SA 4.0 with noncommercial restrictions; do not present it as MIT. Preserve historical game recordings and their model metadata unless regeneration is requested.
