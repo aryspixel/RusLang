@@ -9,14 +9,17 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Section | ID | Trainers |
 | --- | --- | --- |
 | Развитие речи | speech | Типы текста: осень; Типы речи и художественные средства |
-| ЕНТ | ent | Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак; Н и НН в частях речи; НЕ с разными частями речи; Средства выразительности |
+| ЕНТ | ent | Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак; Н и НН в частях речи; НЕ с разными частями речи; Средства выразительности; Литература: подготовка к ЕНТ |
 | Начальный уровень | primary | Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ; Моя комната |
 
 The main learning objective determines placement: text/expressiveness → «Развитие речи»; syntax/punctuation/spelling → «ЕНТ»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень». ENT groups relevant topics; placement does not mean every trainer reproduces the exam format. Recommended grade remains separate metadata.
 
 «Средства выразительности» belongs to «ЕНТ» by the owner's explicit October 16, 2026 instruction.
 
+«Литература: подготовка к ЕНТ» belongs to «ЕНТ» by the owner's explicit October 19, 2026 instruction. Controlled topic `literature` covers works, authors, characters, and literary details.
+
 ## Cards and transitions
+
 
 «Обставь мою комнату» sits directly in `primary`, continuing «Моя комната». Its main activities are object placement and sentence construction, without required audio, so it has no `listening` subsection. Its controlled format is `placement`.
 
@@ -35,3 +38,4 @@ Controlled `facets` (grade, learning topic, format, language) and `src/catalog/f
 Assign one section by the main objective and retain suitable facets. Shared topics include `literary-devices`, `months-seasons`, `place-prepositions`, and `orthography`; `word-search` covers word search, including word snakes.
 
 Load games lazily with `import()` on opening. Home and section pages do not load game modules. Paths and hash navigation support a GitHub Pages subdirectory.
+

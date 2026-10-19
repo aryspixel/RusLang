@@ -1,6 +1,18 @@
 # Legacy HTML migration plan
 
-As of October 16, 2026: 18 trainers—2 in «Развитие речи», 9 in «ЕНТ», 7 in «Начальный уровень». Migration history follows.
+As of October 19, 2026: 19 trainers—2 in «Развитие речи», 10 in «ЕНТ», 7 in «Начальный уровень». Migration history follows.
+
+## Migration entry: «Литература: подготовка к ЕНТ»
+
+Migrated `trenazher_literatura_ENT.html` into «ЕНТ» at the owner's request on October 19, 2026. Implemented; checks not run; awaiting feedback.
+
+- Objective: recognize works from descriptions, connect authors and works, recall characters, details, and meaning. Provisional grades 9–11 based on content and ENT preparation; no exact source grade. Russian UI/content, senior theme, senior / literature / choice / ru metadata.
+- Directly extracted all 333 questions and 197 work passports/revision cards across nine sections. Preserved choices, correct answers, hints, explanations, reasoning methods, and all passport fields in separate `src/games/literature-ent/data.json`. No factual content changes; source HTML unchanged.
+- Preserved learning/test modes, section/type selection, 10/20/40/all questions, shuffled questions/choices, two hints and disabling help, question navigation, editable test choices before completion. Learning uses separate checking, locks the response, reveals explanations, and advances explicitly. Tests hide correctness/passports until completion. Finishing with skipped questions requires a separate action.
+- Preserved accuracy, errors/skips, hint usage, time, section summaries, full review with an error filter, comparison against a wrongly selected work, retry of current errors, and localStorage error history with the original key. Reference search covers author/title/characters with a section filter. Leaving an active attempt for settings/reference requires confirmation; storage failures do not prevent practice.
+- Reused existing interaction types and SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, ProgressMeter. Shared typography/touch controls; collapsible question map. Lazy import, no external assets.
+- No build, tests, browser/touch checks, measurements, or screenshots under the owner's preference. Owner requested publication; pushing main triggers the standard Pages workflow.
+
 
 ## Migration entry: «Средства выразительности»
 
@@ -228,3 +240,4 @@ October 9, 2026: migrated `trenazher_BSP.html` at owner request. Catalog now fif
 - Preserved shuffle, block restart, accuracy percentage, error-only retry including repeated errors. UX improvement: independent choices/order/hint/progress/result for every block/mode across switches. Open directly into a task with short instructions, no extra start screen.
 - Data src/games/bsp/data.js; Game.vue view; separate import(), relative base, no external assets. Shared ChoiceGroup.vue now supports arrays while preserving single choice. Multiple-number selection documented in UX.
 - October 9, 2026 checks: pnpm build; exact automatic comparison of 36 source tasks/choice sets; all four blocks in learning/self-check touch-tested at 1920×1080, 1366×768, 390×844, 320×700. Covered errors/hints, multi-number selection/deselection, locks, explicit continuation, stateful switches, results/review, successful error retry, restart/shuffle. No JS errors/overflow/clipped labels; targets at least 48 px. Rechecked the previous 30 one-member-sentence tasks at three sizes after ChoiceGroup changes. No screenshots created/viewed. Ready for owner feedback.
+
