@@ -1,6 +1,16 @@
 # Legacy HTML migration plan
 
-As of October 19, 2026: 19 trainers—2 in «Развитие речи», 10 in «ЕНТ», 7 in «Начальный уровень». Migration history follows.
+As of October 20, 2026: 20 trainers—2 in «Развитие речи», 10 in «ЕНТ», 8 in «Начальный уровень». Migration history follows.
+
+## New trainer: «Падежи: первые шаги»
+
+Created October 20, 2026 at the owner's request for beginner case questions and identifying a noun's case in a sentence. Implemented; checks not run; awaiting feedback. New authored material, not a legacy migration.
+
+- Objective: connect all six case question pairs with nouns in context and identify their case. Russian UI/content; provisional grades 3–4 by editorial assessment, not a confirmed curriculum source. `primary`, junior theme, primary / noun-cases / choice / ru metadata.
+- Two independently accessible blocks: 12 question-pair tasks (two per case), 24 case-identification tasks (four per case). All tasks in each bank appear in a shuffled attempt; question pairs/case names retain their standard order. Includes animate/inanimate examples and contextual explanations; prepositional examples distinguish place questions from case questions. No source learning texts or corrections.
+- Separate selection and check; one point per correct answer; lock after checking; show correct answer and word relationship; explicit «Дальше», result, error review, error-only retry including repeated errors, and full replay. Switching blocks retains state until exit. Collapsible six-case reference; no timer, audio, or extra start screen.
+- Reuses existing choice, tabs, reference and result interactions plus SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, ProgressMeter. Data in `src/games/noun-cases/data.js`, view in `Game.vue`, lazy import, no external assets. Added controlled `noun-cases` topic and documented beginner placement.
+- No builds, tests, browser/touch checks, measurements, or screenshots: no explicit owner request.
 
 ## Migration entry: «Литература: подготовка к ЕНТ»
 

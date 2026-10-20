@@ -20,6 +20,8 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 ## Cards and transitions
 
+«Падежи: первые шаги» belongs directly to `primary`, following the owner's October 20, 2026 choice of beginner practice. It covers case questions and noun cases in simple sentences. The controlled topic is `noun-cases`; the provisional grade recommendation is 3–4. It has no listening subsection.
+
 
 «Обставь мою комнату» sits directly in `primary`, continuing «Моя комната». Its main activities are object placement and sentence construction, without required audio, so it has no `listening` subsection. Its controlled format is `placement`.
 
