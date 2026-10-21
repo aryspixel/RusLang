@@ -22,6 +22,10 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 
 ## Common screen structure
 
+### Searching a picture with numbered objects
+
+«Перепутанный дом Али» uses shared `SceneSearchBoard.vue`: scene regions correspond to numbered, fully labeled large buttons below the picture. The complete task can be opened through either path. At smaller widths, the list provides touch targets while preserving an uncropped scene without horizontal scrolling. Opening an object shows a native task dialog with optional explicit speech, choices, separate checking, locked feedback, correct answer/explanation, and explicit continuation. Closing an unanswered task returns to the picture without counting it; closing a checked task retains its result. Completed objects have a check mark and textual status. Focus returns to the initiating button or the next available list button. Results appear only after the last explanation is explicitly dismissed.
+
 ### Object placement in a scene
 
 «Обставь мою комнату» uses shared `RoomPlacementBoard.vue`: select an object, then a large destination button below the scene. Button numbers match image markers; neither precision tapping nor dragging is required. An expandable text list describes objects/positions. Separate checking fixes the answer, locks input, and shows the correct phrase/explanation. After explicit continuation the item occupies its correct place and remains. Free arrangement is ungraded, allows moving/removing items and finishing the room for an oral description. `ImageSprite.vue` renders a source-sheet rectangle via SVG viewBox without editing the file. Sentence construction uses card taps: add a word, tap it in the answer to remove, check separately.

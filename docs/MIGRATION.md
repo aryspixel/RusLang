@@ -1,6 +1,24 @@
 # Legacy HTML migration plan
 
-As of October 20, 2026: 20 trainers—2 in «Развитие речи», 10 in «ЕНТ», 8 in «Начальный уровень». Migration history follows.
+As of October 21, 2026: 21 trainers—2 in «Развитие речи», 10 in «ЕНТ», 9 in «Начальный уровень». Migration history follows.
+
+## Migration entry: «Перепутанный дом Али»
+
+October 21, 2026: owner requested publication after the standalone revision below. Migrated this game only, into `primary` without a listening subsection. Awaiting owner feedback. Publishing by pushing `main`, which triggers the existing Pages workflow.
+
+- Objective: household-object vocabulary and appropriate rooms. Russian UI/content; provisional grades 1–4 by vocabulary complexity, not a confirmed curriculum source. Junior theme; primary / place-prepositions / choice / ru metadata. Lazy-loaded `src/games/ali-house/Game.vue`, separate `data.js`, original embedded PNG extracted to a local asset. Legacy HTML and its backup remain intact.
+- Preserved all ten source questions, choices, answers, explanations, and scene positions. Corrected the introduction/result claim of ten mistakes to ten objects, including a correctly placed washing machine. Source room assertions have not been visually verified. One point per correct response, separate checking, input locking, correct answer/explanation, explicit continuation including the final question, result, complete answer review, and replay. Replaces the original unlimited wrong-answer guessing and 700 ms automatic finish. No hints or bilingual content in this source.
+- Added shared `SceneSearchBoard.vue` for semantic numbered scene buttons and matching large list buttons. Small screens use the list as the touch path, preserving the full picture without horizontal scrolling. Reuses SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, ProgressMeter, and SpeechControls. Optional explicit browser speech playback; no paid audio generation. Native task dialog traps focus; closing returns to the picture; restart has explicit confirmation.
+- No builds, tests, browser/touch checks, measurements, or screenshots run: publication was requested, checks were not. Pages runs its standard build as part of deployment.
+
+## Standalone legacy revision: «Перепутанный дом Али»
+
+October 21, 2026: owner requested improvements to `pereputannyi_dom_Ali_real_house (1).html` in the legacy desktop folder and to see the result. Edited that standalone file; no catalog migration. Preserved the original in a sibling `.html.bak` file and retained the embedded house illustration and all ten question/answer/explanation sets.
+
+- Objective: identify household objects and discuss suitable rooms. Russian UI/content; provisional grades 1–4 by vocabulary complexity, not a confirmed source recommendation. Single-choice answers with separate checking, one point per correct first response, locked feedback, explicit continuation, results, answer review, and replay.
+- Corrected the misleading claim of ten mistakes: the source includes a correctly placed washing machine and another washing-machine location question. Instructions/results now refer to ten objects, without inventing a factual mistake count. Original room assertions remain unverified against the illustration.
+- Added semantic numbered scene buttons and a matching large-button list, keyboard focus, native dialogs, returning to the picture, restart confirmation, optional speech off by default, speech-support/error handling, and speech cancellation. Removed the automatic final transition that hid the last explanation after 700 ms.
+- No build, tests, browser/touch checks, measurements, or screenshots requested or run. Opened the edited standalone game for owner feedback.
 
 ## New trainer: «Падежи: первые шаги»
 
