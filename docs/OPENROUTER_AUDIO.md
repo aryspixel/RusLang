@@ -6,14 +6,16 @@ global skills. Ask the agent: “Use `$openrouter-voice` to narrate this text in
 character voice.” If the client does not discover project skills automatically,
 ask it to read that `SKILL.md`; a global installation is not required.
 
-Seed Audio handles expressive narration, described/reference voices, dialogues,
-and sound riddles. Keep [Silero](LOCAL_TTS.md) for local offline speech.
-Its `+` and SSML conventions are not Seed markup.
+The default cloud model is **Gemini 3.8 Flash TTS**, selected by the owner on
+October 22, 2026. The successful backpack narration used `Puck` at a normal pace.
+Use Seed Audio when requested or when its scene/reference capabilities are needed.
+Keep [Silero](LOCAL_TTS.md) for local offline speech. Its `+` and SSML conventions
+are not interchangeable with Gemini or Seed pronunciation input.
 
 ## Working-machine setup
 
-Requires Python 3.10+, `ffmpeg` and `ffprobe` on PATH, OpenRouter access, and account
-balance. No Python packages or application dependencies are needed by this
+Requires Python 3.10+, OpenRouter access, and account balance. Non-Gemini
+generation and audio references also need `ffmpeg` and `ffprobe` on PATH. No Python packages or application dependencies are needed by this
 standard-library script.
 
 The owner creates the root `.env` from [.env.example](../.env.example), setting
@@ -35,24 +37,25 @@ Save text in `.local/openrouter/input/story.txt`. Prepare without API calls or
 creating a recording:
 
 ```powershell
-py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --text-file .local/openrouter/input/story.txt --description "A warm, expressive elderly Russian grandfather" --output .local/openrouter/output/story.mp3 --dry-run
+py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --text-file .local/openrouter/input/story.txt --voice Puck --description "A clear young male Russian narrator, natural normal pace" --output .local/openrouter/output/story.wav --dry-run
 ```
 
 For requested generation, omit `--dry-run`. The script reads the key itself.
-This is a paid network request. Execution was verified in the original Linux
-workspace; these Windows-adapted commands have not run on the target machine.
+This is a paid network request. Gemini narration ran on this Windows machine
+through the direct speech endpoint with PCM; the helper integration was then
+updated without an additional generation or check.
 Installing the skill alone does not configure Python, FFmpeg, or credentials.
 
 For a voice reference instead of a description:
 
 ```powershell
-py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --text-file .local/openrouter/input/story.txt --reference C:/path/to/reference.ogg --output .local/openrouter/output/story-reference.mp3
+py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --model seed --env .env --text-file .local/openrouter/input/story.txt --reference C:/path/to/reference.ogg --output .local/openrouter/output/story-reference.mp3
 ```
 
-For dialogue/sound riddles, save the complete prompt in `scene.txt`:
+For a Seed dialogue/sound riddle, save the complete prompt in `scene.txt`:
 
 ```powershell
-py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --env .env --prompt-file .local/openrouter/input/scene.txt --output .local/openrouter/output/scene.mp3
+py -3 .agents/skills/openrouter-voice/scripts/speech.py generate --model seed --env .env --prompt-file .local/openrouter/input/scene.txt --output .local/openrouter/output/scene.mp3
 ```
 
 This bypasses the solo-narration wrapper. Do not combine it with `--reference`,
@@ -60,6 +63,11 @@ This bypasses the solo-narration wrapper. Do not combine it with `--reference`,
 references and image-derived voices have request recipes in the
 [reference](../.agents/skills/openrouter-voice/references/classroom.md); these modes
 currently need a separate API request, not invented CLI flags.
+
+Gemini uses `.wav` output. The helper saves the original PCM as a sibling
+`.pcm` file and adds a WAV container for playback without altering audio samples.
+Delivery directions are sent in `instructions`, never in the spoken text.
+The Gemini MP3 attempt returned HTTP 400; use the established PCM route.
 
 ## Outputs and game integration
 
@@ -69,7 +77,7 @@ audio/request records block accidental duplicate submissions. On timeout or
 interruption do not delete the record to retry immediately: determine whether
 the paid request completed first.
 
-Copy the required MP3 to `src/games/<slug>/assets/` and use a relative Vite import.
+Copy the required WAV or MP3 to `src/games/<slug>/assets/` and use a relative Vite import.
 Keep clean learner text separate from synthesis prompts. The browser runs neither
 Python nor paid generation. Do not copy `.request.json`, private references, or
 keys into game assets.

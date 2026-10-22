@@ -3,6 +3,8 @@
 import argparse
 import base64
 import json
+import io
+import wave
 import os
 import shutil
 import subprocess
@@ -13,6 +15,7 @@ from pathlib import Path
 
 API = "https://openrouter.ai/api/v1/audio/speech"
 MODELS = {
+    "gemini": "google/gemini-3.8-flash-tts",
     "seed": "bytedance-seed/seed-audio-1-0",
     "fish": "fish-audio/s2.1-pro",
     "qwen-flash": "qwen/qwen-audio-3.0-tts-flash",
@@ -69,6 +72,8 @@ def build_payload(args):
     text = args.text_file.read_text(encoding="utf-8").strip()
     if not text:
         raise ValueError("Spoken text is empty")
+    if args.model == "gemini" and args.reference:
+        raise ValueError("Gemini reference input is not supported by this helper; select a documented reference route explicitly")
     if args.model.startswith("qwen"):
         if args.description or args.reference:
             raise ValueError("Qwen reference/voice-description control is unverified on this route")
@@ -77,7 +82,17 @@ def build_payload(args):
     if args.voice and args.reference:
         raise ValueError("Use a preset voice or a reference, not both")
     payload = {"model": MODELS[args.model], "input": text, "response_format": "mp3"}
-    if args.model == "seed":
+    if args.model == "gemini":
+        payload["response_format"] = "pcm"
+        payload["voice"] = args.voice or "Puck"
+        payload["instructions"] = (
+            f"Read the supplied text verbatim in {args.language}, at a natural normal pace, "
+            "with short natural pauses. No music, effects, background voices, introduction "
+            "or closing remarks. Directions are not spoken text."
+        )
+        if args.description:
+            payload["instructions"] += " Voice and delivery: " + args.description
+    elif args.model == "seed":
         direction = (
             f"Generate clean solo narration in {args.language}, no music or background sounds."
         )
@@ -116,6 +131,9 @@ def summary(payload, args):
         result["reference_file"] = str(args.reference.resolve())
     result["output_file"] = str(args.output.resolve())
     result["post_processing"] = "none; original API response bytes"
+    if args.model == "gemini":
+        result["original_audio_file"] = str(args.output.with_suffix(".pcm").resolve())
+        result["post_processing"] = "original PCM preserved; WAV header only, no sample changes"
     return result
 
 
@@ -143,13 +161,16 @@ def inspect_audio(path):
 
 
 def generate(args):
-    for executable in ("ffmpeg", "ffprobe"):
-        if not shutil.which(executable):
-            raise ValueError(f"Missing executable: {executable}")
-    if args.output.suffix.lower() != ".mp3":
-        raise ValueError("Output must have .mp3 extension")
+    if args.model != "gemini" or args.reference:
+        for executable in ("ffmpeg", "ffprobe"):
+            if not shutil.which(executable):
+                raise ValueError(f"Missing executable: {executable}")
+    expected_suffix = ".wav" if args.model == "gemini" else ".mp3"
+    if args.output.suffix.lower() != expected_suffix:
+        raise ValueError(f"Output for {args.model} must have {expected_suffix} extension")
     metadata_path = args.output.with_suffix(".request.json")
-    if args.output.exists() or metadata_path.exists():
+    original_path = args.output.with_suffix(".pcm") if args.model == "gemini" else args.output
+    if any(path.exists() for path in (args.output, original_path, metadata_path)):
         raise ValueError("Output or request record exists; inspect before another paid submission")
     payload = build_payload(args)
     metadata = summary(payload, args)
@@ -172,10 +193,32 @@ def generate(args):
             metadata["generation_id"] = response.headers.get("X-Generation-Id")
             if not response.headers.get("Content-Type", "").startswith("audio/") or not data:
                 raise ValueError("API returned an empty or non-audio response")
-        with args.output.open("xb") as handle:
+        with original_path.open("xb") as handle:
             handle.write(data)
         metadata["status"] = "saved"
-        metadata["duration_seconds"] = inspect_audio(args.output)
+        if args.model == "gemini":
+            # Gemini returns 24 kHz mono signed 16-bit little-endian PCM.
+            # Preserve original bytes separately; the playback WAV adds only a header.
+            if data[:4] == b"RIFF" and data[8:12] == b"WAVE":
+                with wave.open(io.BytesIO(data), "rb") as source:
+                    channels = source.getnchannels()
+                    width = source.getsampwidth()
+                    sample_rate = source.getframerate()
+                    samples = source.readframes(source.getnframes())
+            else:
+                channels, width, sample_rate, samples = 1, 2, 24000, data
+            if len(samples) % (channels * width):
+                raise ValueError("Incomplete PCM frame; original response retained")
+            with args.output.open("xb") as playback:
+                with wave.open(playback, "wb") as wav:
+                    wav.setnchannels(channels)
+                    wav.setsampwidth(width)
+                    wav.setframerate(sample_rate)
+                    wav.writeframes(samples)
+            metadata["sample_rate"] = sample_rate
+            metadata["duration_seconds"] = len(samples) / (channels * width * sample_rate)
+        else:
+            metadata["duration_seconds"] = inspect_audio(args.output)
         metadata["status"] = "complete"
     except Exception as error:
         # Keep uncertain requests reserved; never retry paid calls automatically.
@@ -194,7 +237,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     command = commands.add_parser("generate")
-    command.add_argument("--model", choices=MODELS, default="seed")
+    command.add_argument("--model", choices=MODELS, default="gemini")
     inputs = command.add_mutually_exclusive_group(required=True)
     inputs.add_argument("--text-file", type=Path)
     inputs.add_argument("--prompt-file", type=Path)

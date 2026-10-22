@@ -1,6 +1,6 @@
 ---
 name: openrouter-voice
-description: Generate audio through OpenRouter, primarily Seed Audio, from text, voice descriptions, or audio references. Use for narration, Russian voiceovers, voice comparisons, and classroom listening scenes or sound exercises; excludes music production and video generation.
+description: Generate audio through OpenRouter, primarily Gemini 3.8 Flash TTS, from text, voice descriptions, or audio references. Use for narration, Russian voiceovers, voice comparisons, and classroom listening scenes or sound exercises; excludes music production and video generation.
 ---
 
 # OpenRouter Voice
@@ -11,8 +11,13 @@ scenario, visual supports, feedback and exercises. Return here at the audio stag
 do not restart that discussion for an already agreed script.
 
 Use `scripts/speech.py` instead of rebuilding API requests or researching the
-catalog each time. Default to Seed unless the user chooses another model.
-Seed worked well for this user's expressive Russian narration and voice references.
+catalog each time. Default to **Gemini 3.8 Flash TTS** (`gemini`,
+`google/gemini-3.8-flash-tts`), per the owner's October 22, 2026 choice after
+listening to the backpack story. The successful narrator was `Puck`, normal
+pace; the helper uses it if no voice is supplied. Match voice directions to the
+task rather than making every character a young man. Keep Silero for explicit
+local/offline requests. Seed remains available for explicit requests and its
+scene/reference capabilities.
 
 ## Generate
 
@@ -27,16 +32,31 @@ Replace `<skill-dir>` with this skill's directory:
 python3 <skill-dir>/scripts/speech.py generate \
   --env /path/to/project/.env --text-file /path/to/story.txt \
   --description 'A warm, expressive elderly Russian grandfather, naturally aged and slightly gravelly.' \
-  --output /path/to/outputs/voice/grandfather.mp3
+  --output /path/to/outputs/voice/narration.wav
 
 python3 <skill-dir>/scripts/speech.py generate \
-  --env /path/to/project/.env --text-file /path/to/story.txt \
+  --model seed --env /path/to/project/.env --text-file /path/to/story.txt \
   --reference /path/to/reference.ogg \
   --output /path/to/outputs/voice/reference-narration.mp3
 ```
 
 Report the audio link and measured duration. API acceptance does not prove that
 the requested age, timbre, or reference similarity was achieved; assess by listening.
+
+For Gemini use `--text-file`, optional `--voice` (default `Puck`), and
+`--description` for delivery instructions. Supply spoken words only in the text
+file; the helper sends directions as top-level `instructions`. Use `.wav`
+output: the successful route uses PCM; the preceding MP3 request returned 400.
+The helper retains original `.pcm` bytes and adds a WAV header for playback,
+without changing samples, tempo, pitch, or volume. It does not support Gemini
+multi-speaker turns or references; do not use Seed `--prompt-file` for Gemini.
+
+For pronunciation preparation use [silero-stress](../silero-stress/SKILL.md).
+Silero `+` is not Gemini markup: convert it to reading accents in a separate
+synthesis text and explain those cues in delivery instructions. The backpack
+recording used acute accents plus a direction to stress «не» in «не было».
+Creation succeeded; this does not establish that every accent was pronounced
+correctly. Keep explicit owner corrections in subsequent recordings.
 
 ## Audio invariants
 
@@ -55,7 +75,7 @@ the requested age, timbre, or reference similarity was achieved; assess by liste
 
 ## Execution
 
-- Requires Python 3 standard library, `ffmpeg`, `ffprobe`, and network access.
+- Requires Python 3 standard library and network access. Non-Gemini generation and audio references also require `ffmpeg` and `ffprobe`.
 - Reads `OPENROUTER_API_KEY` or `OPENROUTER_KEY` from environment, then selected
   `.env` (default: current working directory). Never print/copy secrets or source
   `.env` as shell code. Follow current task authorization and sandbox rules.
@@ -63,12 +83,12 @@ the requested age, timbre, or reference similarity was achieved; assess by liste
 - No automatic paid retries. A sibling `.request.json` reserves the output before
   submission. Existing audio or request records block duplicates. After interruption
   or timeout inspect metadata and account activity: a local failure may still be billed.
-- Model aliases: `seed` (default), `fish`, `qwen-flash`, `qwen-plus`. Qwen needs
+- Model aliases: `gemini` (default), `seed`, `fish`, `qwen-flash`, `qwen-plus`. Qwen needs
   `--voice`; the helper rejects Qwen descriptions/references because those controls
   are not established through its current OpenRouter endpoint.
 
 Read [references/models.md](references/models.md) for comparisons, pricing,
-capability errors, or provider-specific work. Routine Seed generation needs no
+capability errors, or provider-specific work. Routine generation with an established route needs no
 browsing. Verify live prices for current quotes and refresh capabilities when
 a saved route fails or the user asks for current options.
 
@@ -90,7 +110,7 @@ For Seed scenes or non-speech audio, use a complete UTF-8 prompt with
 
 ```bash
 python3 <skill-dir>/scripts/speech.py generate \
-  --env /path/to/project/.env --prompt-file /path/to/scene.txt \
+  --model seed --env /path/to/project/.env --prompt-file /path/to/scene.txt \
   --output /path/to/outputs/voice/scene.mp3
 ```
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Russian Stress Preparation"
+  short_description: "Russian stress, ё, and contextual homographs"
+  default_prompt: "Use $silero-stress to prepare the supplied Russian text with stress marks for the selected speech generator."

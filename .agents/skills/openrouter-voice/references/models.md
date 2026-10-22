@@ -1,9 +1,18 @@
 # Verified routes and listening results
 
-Snapshot: 2026-10-16. Availability, capabilities, and prices can change.
+Default updated October 22, 2026: **Gemini 3.8 Flash TTS**, chosen by the owner
+after the backpack narration. Voice `Puck`, normal pace. Direct speech endpoint,
+`instructions` separate from `input`, `response_format: pcm`. Original PCM plus
+WAV header for playback; 98.2 seconds. The MP3 request returned HTTP 400. This
+records generation success and the owner's model choice, not verified correctness
+of every stress. Preserve «не было» stress on «не» and «дождь» corrections.
+
+The remaining comparison/pricing snapshot is from October 16, 2026; do not use
+its prices as current without verification.
 
 | Alias | OpenRouter model | Verified input |
 |---|---|---|
+| gemini (default) | `google/gemini-3.8-flash-tts` | Spoken text, top-level instructions, voice `Puck`, PCM |
 | seed | `bytedance-seed/seed-audio-1-0` | Natural-language prompt; optional audio reference |
 | fish | `fish-audio/s2.1-pro` | Text and top-level `instructions`; no preset voice needed in trial |
 | qwen-flash | `qwen/qwen-audio-3.0-tts-flash` | Text and voice `loongjohn` or `longanhuan_v3.6` |
@@ -51,7 +60,7 @@ Do not resume either experiment without a new request. A Seed voice reference
 conditions newly generated speech; it does not guarantee preservation of source
 pronunciation/timing as a dedicated speech-to-speech conversion would aim to do.
 
-Sequential comparison reached Fish, then Seed. Gemini is next if resumed.
+The earlier sequential comparison reached Fish, then Seed; Gemini was subsequently used for the backpack story and selected as the default.
 Other available families included ElevenLabs, MiniMax, Microsoft MAI Voice,
 Grok Voice, and Mistral Voxtral. Check the chosen endpoint before promising
 Russian or reference support. Do not assume identical family-wide capabilities.
