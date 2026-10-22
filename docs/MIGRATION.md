@@ -1,6 +1,17 @@
 # Legacy HTML migration plan
 
-As of October 21, 2026: 21 trainers—2 in «Развитие речи», 10 in «ЕНТ», 9 in «Начальный уровень». Migration history follows.
+As of October 22, 2026: 22 trainers—2 in «Развитие речи», 11 in «ЕНТ», 9 in «Начальный уровень». Migration history follows.
+
+## Migration entry: «Причастия и деепричастия»
+
+October 22, 2026: owner requested publication of `trenazher_prichastiya_deeprichastiya.html` in «ЕНТ». Implemented; checks not run; awaiting owner feedback. Publishing through the existing push-to-main Pages workflow.
+
+- Objective: distinguish participles/adverbial participles and short forms, apply Н/НН spelling, identify construction boundaries and commas, and avoid grammatical errors. Russian UI/content; provisional grades 7–11 by content, with no explicit source grade. Senior theme, middle/senior / orthography/syntax / choice / ru metadata.
+- Directly extracted all 60 questions and six reference cards across six sections into `src/games/participles/data.json`. Preserved prompts, passages, four answer choices with the first as the correct answer, both hints, explanations, reasoning methods, reference rules/traps/examples, and source auxiliary fields. No factual content corrections. Legacy HTML unchanged.
+- Preserved learning/test modes, section/type selection, 10/20/40/all questions, shuffled questions/choices, two hints and disabling help, question navigation, editable test answers until completion, one point per correct answer, and delayed test review. Learning locks separately checked answers, displays the correct answer and four-step explanation, and requires explicit continuation. Finishing with unanswered questions requires a separate action.
+- Preserved accuracy, errors/skips, hint usage, elapsed time, section summaries, full answer review with an error filter, current-error retry, and browser-local error history using the original `shortforms-ent-mistakes-v1` key. Reference search covers title/rule/method/trap/example with a section filter. Storage failures do not prevent practice.
+- Extracted the existing literature session flow and its layout into shared `PracticeSessionTrainer.vue`; both trainers supply their own data, labels, reference search fields, review, and reference slots. Literature keeps its data, error-history key, and subject-specific review. Reuses SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, and ProgressMeter; no new interaction type. Lazy loading and local assets retained.
+- No builds, tests, browser/touch checks, measurements, or screenshots requested or run. Pages runs its standard build during deployment.
 
 ## Migration entry: «Перепутанный дом Али»
 
