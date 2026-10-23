@@ -13,8 +13,12 @@ const mode = computed(() => modes.find(item => item.id === active.value))
 const session = computed(() => sessions[active.value])
 const task = computed(() => session.value.items[session.value.index])
 const answer = computed(() => cases.find(item => item.id === task.value.caseId))
-const options = computed(() => cases.map(item => ({ value: item.id, label: active.value === 'questions' ? item.questions : item.name })))
-const answerLabel = computed(() => active.value === 'questions' ? answer.value.questions : `${answer.value.name} падеж`)
+const options = computed(() => task.value.forms
+  ? task.value.forms.map(form => ({ value: form, label: form }))
+  : cases.map(item => ({ value: item.id, label: active.value === 'questions' ? item.questions : item.name })))
+const answerValue = computed(() => task.value.correctForm || task.value.caseId)
+const answerLabel = computed(() => task.value.correctForm || (active.value === 'questions' ? answer.value.questions : `${answer.value.name} падеж`))
+const followingMode = computed(() => modes[modes.findIndex(item => item.id === active.value) + 1])
 
 function shuffled(items) {
   const result = [...items]
@@ -35,7 +39,7 @@ function check() {
   const s = session.value
   if (s.checked || s.selected === null || s.finished) return
   s.checked = true
-  if (s.selected === task.value.caseId) s.score++
+  if (s.selected === answerValue.value) s.score++
   else s.misses.push({ task: task.value, selected: options.value.find(item => item.value === s.selected).label, correct: answerLabel.value })
 }
 function next() {
@@ -74,12 +78,13 @@ for (const item of modes) {
       <div class="action-row">
         <TouchButton v-if="session.misses.length" @click="repeatErrors">Повторить ошибки</TouchButton>
         <TouchButton variant="secondary" @click="start()">Пройти заново</TouchButton>
-        <TouchButton v-if="active === 'questions'" variant="secondary" @click="active = 'cases'">Дальше: определи падеж</TouchButton>
+        <TouchButton v-if="followingMode" variant="secondary" @click="active = followingMode.id">Дальше: {{ followingMode.title }}</TouchButton>
       </div>
       <template v-if="session.misses.length">
         <h3>Разбор ошибок</h3>
         <article v-for="(error, index) in session.misses" :key="index" class="game-help">
-          <p>{{ error.task.before }}<strong>{{ error.task.word }}</strong>{{ error.task.after }}</p>
+          <p v-if="error.task.prompt"><strong>{{ error.task.prompt }}</strong></p>
+          <p v-else>{{ error.task.before }}<strong>{{ error.task.correctForm || error.task.word }}</strong>{{ error.task.after }}</p>
           <p>Твой ответ: {{ error.selected }}. Правильно: {{ error.correct }}.</p>
           <p>{{ error.task.link }} {{ cases.find(item => item.id === error.task.caseId).name }} падеж.</p>
         </article>
@@ -90,12 +95,15 @@ for (const item of modes) {
       <ProgressMeter :current="session.index + 1" :total="session.items.length" label="Задание" />
       <p v-if="session.retry">Повтор ошибок</p>
       <h2>{{ mode.instruction }}</h2>
-      <p class="case-sentence">{{ task.before }}<strong class="case-word">{{ task.word }}</strong>{{ task.after }}</p>
-      <p>Выделенное слово: «{{ task.word }}».</p>
+      <p v-if="task.prompt" class="case-sentence"><strong>{{ task.prompt }}</strong></p>
+      <template v-else>
+        <p class="case-sentence">{{ task.before }}<strong class="case-word">{{ task.forms ? (session.checked ? task.correctForm : '…') : task.word }}</strong>{{ task.after }}</p>
+        <p>{{ task.forms ? 'Начальная форма' : 'Выделенное слово' }}: «{{ task.word }}».</p>
+      </template>
       <ChoiceGroup :options="options" :selected="session.selected" :disabled="session.checked"
         :label="mode.instruction" @select="choose" />
-      <FeedbackMessage v-if="session.checked" :kind="session.selected === task.caseId ? 'success' : 'error'"
-        :title="session.selected === task.caseId ? 'Верно!' : 'Пока неверно.'">
+      <FeedbackMessage v-if="session.checked" :kind="session.selected === answerValue ? 'success' : 'error'"
+        :title="session.selected === answerValue ? 'Верно!' : 'Пока неверно.'">
         <p>Правильный ответ: {{ answerLabel }}.</p>
         <p>{{ task.link }} {{ answer.name }} падеж: {{ answer.questions }}</p>
       </FeedbackMessage>

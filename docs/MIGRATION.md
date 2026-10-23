@@ -1,5 +1,12 @@
 # Legacy HTML migration plan
 
+## October 23, 2026: two additional blocks in «Падежи: первые шаги»
+
+- Added «Узнай падеж по вопросу»: 12 prompts, two per case, covering standard question pairs and questions with supporting words/prepositions. Added «Выбери форму слова»: 12 contextual gap sentences, two per case, each with three explicitly authored word forms and one correct answer.
+- Beginner Russian content; provisional grades 3–4, junior theme and primary placement remain. The original 12 question-pair and 24 case-identification tasks are preserved. Four independent blocks now total 60 tasks; this adds no catalog card.
+- Reused the existing single-choice flow, separate check, locked answer, explanation, explicit continuation, results, full replay and repeated error-only retry. Gap tasks reveal the completed sentence only after checking; question prompts and correct forms also appear in error review. Each block preserves progress during switches; results link to the next block.
+- No local builds, tests, browser checks, measurements or screenshots: not explicitly requested. The owner subsequently requested publication on October 23; publishing through the existing push-to-main Pages workflow, which runs its standard deployment build.
+
 As of October 22, 2026: 22 trainers—2 in «Развитие речи», 11 in «ЕНТ», 9 in «Начальный уровень». Migration history follows.
 
 ## Migration entry: «Причастия и деепричастия»
