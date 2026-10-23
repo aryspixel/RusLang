@@ -9,6 +9,34 @@ import ProgressMeter from './ProgressMeter.vue'
 const props = defineProps({ data: { type: Object, required: true }, config: { type: Object, required: true } })
 const DATA = props.data
 const config = props.config
+const soundEnabled = ref(false)
+let audioContext = null
+function toggleSound() {
+  soundEnabled.value = !soundEnabled.value
+  try { localStorage.setItem(config.soundStorageKey, soundEnabled.value ? 'on' : 'off') } catch { /* Sound is optional. */ }
+}
+async function playAnswerSound(correct) {
+  if (!config.answerSound || !soundEnabled.value) return
+  try {
+    const AudioEngine = window.AudioContext || window.webkitAudioContext
+    if (!AudioEngine) return
+    if (!audioContext || audioContext.state === 'closed') audioContext = new AudioEngine()
+    const context = audioContext
+    if (context.state === 'suspended') await context.resume()
+    if (context !== audioContext || context.state !== 'running') return
+    const start = context.currentTime
+    const notes = correct ? [[660, 0, .12], [880, .13, .19]] : [[260, 0, .16], [175, .17, .20]]
+    for (const [frequency, delay, duration] of notes) {
+      const oscillator = context.createOscillator(), volume = context.createGain()
+      oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(frequency, start + delay)
+      volume.gain.setValueAtTime(0, start + delay)
+      volume.gain.linearRampToValueAtTime(.09, start + delay + .015)
+      volume.gain.exponentialRampToValueAtTime(.001, start + delay + duration)
+      oscillator.connect(volume); volume.connect(context.destination)
+      oscillator.start(start + delay); oscillator.stop(start + delay + duration + .02)
+    }
+  } catch { /* Practice remains available without audio. */ }
+}
 
 const kinds = config.kinds
 const storageKey = config.storageKey
@@ -64,6 +92,7 @@ function select(value) { if (!current.value.checked) { current.value.selected = 
 function check() {
   if (current.value.checked || current.value.selected === null) return
   current.value.checked = true; record(current.value); save()
+  playAnswerSound(current.value.selected === 0)
 }
 function go(index) { session.value.index = index; confirmFinish.value = false }
 function requestFinish() {
@@ -71,6 +100,8 @@ function requestFinish() {
   else finish()
 }
 function finish() {
+  if (session.value.finished) return
+  if (session.value.mode === 'test') playAnswerSound(session.value.queue.every(item => item.selected === 0))
   session.value.finished = true; session.value.ended = Date.now()
   for (const item of session.value.queue) { item.checked = true; record(item) }
   save(); confirmFinish.value = false; view.value = 'results'
@@ -87,7 +118,11 @@ function leave() { view.value = pendingTarget.value; session.value = null; pendi
 function retryWrong() { begin(shuffle(wrong.value.map(item => item.q)), 'learn'); session.value.hints = true }
 function beforeUnload(event) { if (session.value && !session.value.finished) { event.preventDefault(); event.returnValue = '' } }
 window.addEventListener('beforeunload', beforeUnload)
-onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', beforeUnload)
+  const context = audioContext; audioContext = null
+  if (context && context.state !== 'closed') context.close().catch(() => {})
+})
 </script>
 
 <template>
@@ -129,6 +164,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
     <template v-else-if="view === 'session'">
       <SurfacePanel class="game-layout">
         <h2>{{ session.mode === 'test' ? 'Тест без подсказок' : 'Обучение с разбором' }}</h2>
+        <TouchButton v-if="config.answerSound" variant="secondary" :aria-pressed="soundEnabled" @click="toggleSound">Звук: {{ soundEnabled ? 'вкл.' : 'выкл.' }}</TouchButton>
         <ProgressMeter :current="session.index + 1" :total="session.queue.length" label="Вопрос" />
         <p>Ответов выбрано: {{ answered }} из {{ session.queue.length }}</p>
         <p class="muted">{{ kinds[current.q.kind] }} · {{ DATA.sections[current.q.section] }}</p>
@@ -194,7 +230,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
       <p v-if="!passports.length">{{ config.emptySearch }}</p>
       <template v-for="work in passports" :key="work.id"><slot name="reference" :work="work" /></template>
     </SurfacePanel>
-    <p class="muted">Учебный тренажёр по презентации «{{ config.referenceTitle }}». Задания составлены для обучения и не являются официальными заданиями ЕНТ. История ошибок хранится только в этом браузере.</p>
+    <p v-if="config.answerSound" class="muted">{{ config.footer }}</p>
+    <p v-else class="muted">Учебный тренажёр по презентации «{{ config.referenceTitle }}». Задания составлены для обучения и не являются официальными заданиями ЕНТ. История ошибок хранится только в этом браузере.</p>
   </div>
 </template>
 

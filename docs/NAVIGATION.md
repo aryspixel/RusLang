@@ -22,6 +22,8 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 ## Cards and transitions
 
+«Стихотворные размеры» belongs to `ent`, following the source's literature/ENT framing and the owner's October 23, 2026 publication request. It covers five syllabic-tonic meters, scansion and foot counts. Controlled topic: `literature`; format: `choice`; provisional grades 5–11 by content, with no explicit source grade.
+
 «Перепутанный дом Али» belongs directly to `primary`, by the owner's October 21, 2026 publication request. Its objective is household vocabulary and room choice; optional question playback does not make it a listening lesson. On October 23 the owner added a separate «Обставь дом» block with the same empty house, a furniture palette, dragging, and tap placement. Both blocks preserve state; the furnishing view loads on first opening. Provisional grades 1–4; controlled topic `place-prepositions`, formats `choice` and `placement`.
 
 «Падежи: первые шаги» belongs directly to `primary`, following the owner's October 20, 2026 choice of beginner practice. It covers case questions and noun cases in simple sentences. On October 23, two blocks were added: recognizing cases from questions and choosing contextual noun forms. The controlled topic is `noun-cases`; the provisional grade recommendation is 3–4. It has no listening subsection.

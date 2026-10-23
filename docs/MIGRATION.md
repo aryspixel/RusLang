@@ -1,5 +1,15 @@
 # Legacy HTML migration plan
 
+## Migration entry: «Стихотворные размеры»
+
+October 23, 2026: owner requested publication of `Новая папка/trenazher_stihotvornye_razmery.html`. Implemented in «ЕНТ»; awaiting owner feedback. Publishing through the existing push-to-main Pages workflow.
+
+- Objective: distinguish five syllabic-tonic meters, recognize stress patterns and word models, scan poetic lines, count feet, and avoid common mistakes. Russian UI/content; provisional grades 5–11 by content, with no explicit source grade. Senior theme; middle/senior, literature, choice, ru metadata.
+- Extracted all 60 questions and six reference cards across six sections into `src/games/poetic-meters/data.json`. Preserved learning texts, passages, four choices (first is correct), both hints, explanations, analysis with capitals and foot separators, methods, and auxiliary fields. No factual content corrections; legacy HTML unchanged.
+- Reused shared PracticeSessionTrainer with learning/test modes, section/type selection, 10/20/40/all questions, shuffled questions/choices, two hints, navigation, editable test answers until completion, one point per correct answer, delayed test review, separate checking/locked learning feedback, and explicit continuation. Results retain accuracy, errors/skips, hint usage, elapsed time, section summaries, complete review/error filter, retry, and browser-local history with the source `meter-ent-mistakes-v1` key. Reference search includes title/rule/method/trap/example and a section filter.
+- Retained optional synthesized answer sounds through opt-in shared configuration; sound starts off and its audio context closes on exit. Other trainers do not enable this feature. Source sound-on default changed to the shared UX sound-off default. Dedicated review renders scansion as plain, wrapping text without HTML injection. Lazy loading and local assets retained; no new interaction type.
+- No local builds, tests, browser/touch checks, measurements, or screenshots requested or run. Pages runs its standard deployment build.
+
 ## October 23, 2026: two additional blocks in «Падежи: первые шаги»
 
 - Added «Узнай падеж по вопросу»: 12 prompts, two per case, covering standard question pairs and questions with supporting words/prepositions. Added «Выбери форму слова»: 12 contextual gap sentences, two per case, each with three explicitly authored word forms and one correct answer.
