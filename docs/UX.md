@@ -22,9 +22,11 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 
 ## Common screen structure
 
-### Searching a picture with numbered objects
+### Searching a picture without revealing target locations
 
-«Перепутанный дом Али» uses shared `SceneSearchBoard.vue`: scene regions correspond to numbered, fully labeled large buttons below the picture. The complete task can be opened through either path. At smaller widths, the list provides touch targets while preserving an uncropped scene without horizontal scrolling. Opening an object shows a native task dialog with optional explicit speech, choices, separate checking, locked feedback, correct answer/explanation, and explicit continuation. Closing an unanswered task returns to the picture without counting it; closing a checked task retains its result. Completed objects have a check mark and textual status. Focus returns to the initiating button or the next available list button. Results appear only after the last explanation is explicitly dismissed.
+«Перепутанный дом Али» uses shared `SceneSearchBoard.vue`: invisible semantic scene buttons cover both misplaced and correctly placed objects. No numbers, borders, or hover highlighting reveal unvisited targets. A check mark appears only after the object has been answered. Keyboard focus stays visible. An optional collapsed «Список предметов» provides large touch controls with neutral object names, no numbering, and no correct/incorrect grouping; completed controls have textual status. Scene buttons remain enabled for touch at all widths; the list offers the larger targets on narrow screens. The full scene fits its container without horizontal scrolling.
+
+Opening an object shows a native task dialog with optional explicit speech, choices, separate checking, locked feedback, correct answer/explanation, and explicit continuation. Closing an unanswered task returns to the picture without counting it; closing a checked task retains its result. Focus returns to the initiating button or the scene container, without highlighting the next unanswered object. Results appear only after the last explanation is explicitly dismissed.
 
 ### Object placement in a scene
 

@@ -7,7 +7,7 @@ import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
 import SpeechControls from '../../components/SpeechControls.vue'
 import SceneSearchBoard from '../../components/SceneSearchBoard.vue'
-import house from './assets/house.png'
+import house from './assets/house-v2.png'
 import { tasks } from './data.js'
 
 const answers = ref({})
@@ -44,7 +44,7 @@ async function closeTask() {
   await nextTick()
   if (finished.value) document.getElementById('ali-house-result')?.focus()
   else if (trigger?.isConnected && !trigger.disabled) trigger.focus()
-  else board.value?.querySelector('.search-items button:not(:disabled)')?.focus()
+  else board.value?.focus({ preventScroll: true })
 }
 async function restart() {
   answers.value = {}
@@ -53,7 +53,7 @@ async function restart() {
   finished.value = false
   confirmRestart.value = false
   await nextTick()
-  board.value?.querySelector('.search-items button:not(:disabled)')?.focus()
+  board.value?.focus({ preventScroll: true })
 }
 onBeforeUnmount(() => dialog.value?.close())
 </script>
@@ -61,7 +61,7 @@ onBeforeUnmount(() => dialog.value?.close())
 <template>
   <div class="game-layout">
     <h1>Перепутанный дом Али</h1>
-    <p>Рассмотри 10 предметов. Всё ли лежит на своём месте? Выбери предмет, затем ответь на вопрос.</p>
+    <p>В доме есть предметы на своих местах и перепутанные вещи. Рассмотри комнаты, нажми на любой предмет и ответь на вопрос.</p>
     <div class="game-stats"><span>Верно: {{ score }}</span><span>Разобрано: {{ completed.length }} из {{ tasks.length }}</span></div>
     <ProgressMeter :current="completed.length" :total="tasks.length" label="Разобрано предметов" />
     <div class="action-row">
@@ -75,7 +75,7 @@ onBeforeUnmount(() => dialog.value?.close())
     <SurfacePanel v-if="finished" class="game-layout">
       <h2 id="ali-house-result" tabindex="-1">Все предметы разобраны!</h2>
       <p>Верных ответов: {{ score }} из {{ tasks.length }}.</p>
-      <p>Не каждый предмет расположен неправильно: стиральная машина может стоять в ванной.</p>
+      <p>Ты разобрался, какие вещи стоят на своих местах, а какие лучше переставить.</p>
       <details class="game-help"><summary>Ответы и объяснения</summary>
         <article v-for="item in tasks" :key="item.id" class="house-review">
           <h3>{{ item.label }}</h3><p>{{ item.question }}</p>
@@ -85,14 +85,13 @@ onBeforeUnmount(() => dialog.value?.close())
       </details>
       <div class="action-row"><TouchButton @click="restart">Сыграть ещё раз</TouchButton><TouchButton variant="secondary" @click="finished = false">Посмотреть дом</TouchButton></div>
     </SurfacePanel>
-    <div v-else ref="board">
-      <SceneSearchBoard :image="house" description="Дом Али в разрезе. Некоторые предметы оказались не в своих комнатах. Предметы для обсуждения отмечены номерами."
+    <div v-else ref="board" tabindex="-1" aria-label="Дом Али">
+      <SceneSearchBoard :image="house" description="Дом Али в разрезе: спальня, детская, ванные, гостиная, кухня, прихожая и гараж. Рассмотри вещи и реши, что стоит не на своём месте."
         :items="tasks" :completed="completed" @select="openTask" />
     </div>
     <dialog ref="dialog" class="house-dialog" aria-labelledby="house-question" @cancel.prevent="closeTask">
       <div v-if="task" class="game-layout">
         <div class="action-row"><TouchButton variant="secondary" @click="closeTask">К рисунку</TouchButton></div>
-        <p>Предмет {{ tasks.indexOf(task) + 1 }} из {{ tasks.length }}</p>
         <h2 id="house-question">{{ task.question }}</h2>
         <SpeechControls :key="activeId + '-' + checked" :text="task.question + (checked ? ' ' + task.answer + ' ' + task.explanation : '')" label="Послушать" />
         <ChoiceGroup :options="options" :selected="selected" :disabled="checked" :label="task.question" @select="choose" />

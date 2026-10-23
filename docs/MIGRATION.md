@@ -22,6 +22,13 @@ October 22, 2026: owner requested publication of `trenazher_prichastiya_deeprich
 
 ## Migration entry: «Перепутанный дом Али»
 
+October 23, 2026 owner feedback: removed scene/task/list numbering and automatic target highlighting because they revealed the search locations. The object list is now collapsed by default and uses neutral names for all objects. Completed objects alone get check marks; focus fallback goes to the scene rather than outlining another unanswered target. Touch regions stay active at narrow widths, with the optional large-button list as an alternative.
+
+- Edited the original illustration using the built-in image generation tool: removed baked-in legacy title/instructions, cartoon character, score, help/reset controls, and speech toggle. Added red boots on the living-room coffee table, a frying pan at the bathroom sink, a watering can on the upper bunk, and a toaster beside the adult bed. Source `house.png` preserved; game uses `house-v2.png`. Final prompt: `docs/assets/ali-house-v2-prompt.md`.
+- Expanded from 10 to 22 interactive objects: four new misplaced items and eight already pictured correctly placed objects (wardrobe, adult bed, sofa, bath, kitchen fridge/sink, garage car/bicycle). Ordinary and misplaced objects use the same invisible regions and question flow. Counts/results derive from the complete data bank.
+- Corrected factual source assertions after reading the illustration: the toy car and ball are in the children's room, not the adult bedroom; they now receive appropriate storage questions. Narrowed the bath-toys task to the soft bear and explained that a rubber duck may remain in the bathroom. Adjusted regions to the actual object locations. Other source answers/explanations remain.
+- No builds, tests, browser/touch checks, measurements, or screenshots run: the owner requested changes, not checks. Source/generated artwork was viewed for authoring the scene, not a rendered application screenshot. Publishing the revision through the existing Pages workflow.
+
 October 21, 2026: owner requested publication after the standalone revision below. Migrated this game only, into `primary` without a listening subsection. Awaiting owner feedback. Publishing by pushing `main`, which triggers the existing Pages workflow.
 
 - Objective: household-object vocabulary and appropriate rooms. Russian UI/content; provisional grades 1–4 by vocabulary complexity, not a confirmed curriculum source. Junior theme; primary / place-prepositions / choice / ru metadata. Lazy-loaded `src/games/ali-house/Game.vue`, separate `data.js`, original embedded PNG extracted to a local asset. Legacy HTML and its backup remain intact.
