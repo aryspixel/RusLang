@@ -22,6 +22,8 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 ## Cards and transitions
 
+«Рифма и рифмовка» belongs to `ent`, following the source's literature/ENT framing and the owner's October 23, 2026 publication request. It covers line/stanza terminology, rhyming sounds, letter schemes, rhyme arrangements and masculine/feminine rhyme. Controlled topic: `literature`; format: `choice`; provisional grades 5–11 by content, with no explicit source grade.
+
 «Стихотворные размеры» belongs to `ent`, following the source's literature/ENT framing and the owner's October 23, 2026 publication request. It covers five syllabic-tonic meters, scansion and foot counts. Controlled topic: `literature`; format: `choice`; provisional grades 5–11 by content, with no explicit source grade.
 
 «Перепутанный дом Али» belongs directly to `primary`, by the owner's October 21, 2026 publication request. Its objective is household vocabulary and room choice; optional question playback does not make it a listening lesson. On October 23 the owner added a separate «Обставь дом» block with the same empty house, a furniture palette, dragging, and tap placement. Both blocks preserve state; the furnishing view loads on first opening. Provisional grades 1–4; controlled topic `place-prepositions`, formats `choice` and `placement`.

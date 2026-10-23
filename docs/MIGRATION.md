@@ -1,5 +1,15 @@
 # Legacy HTML migration plan
 
+## Migration entry: «Рифма и рифмовка»
+
+October 23, 2026: owner requested publication of `Новая папка/trenazher_rifma_rifmovka (1).html`. Implemented in «ЕНТ»; awaiting owner feedback. Publishing through the existing push-to-main Pages workflow.
+
+- Objective: distinguish lines and stanzas, identify rhyming sounds, compose letter schemes, recognize rhyme arrangements and masculine/feminine rhyme. Russian UI/content; provisional grades 5–11 by content, with no explicit source grade. Senior theme; middle/senior, literature, choice, ru metadata.
+- Extracted all 50 questions and five reference cards across five sections into `src/games/rhyme/data.json`. Preserved prompts, poem passages and line breaks, four choices with the first correct, both hints, explanations, methods, rules/traps/examples and auxiliary fields. No factual content corrections; legacy HTML unchanged.
+- Reused PracticeSessionTrainer and shared touch controls: learning/test modes, section/type selection, 10/20/40/all questions, shuffled questions/choices, two optional hints, question navigation, editable test answers until completion, separately checked and locked learning answers, correct answer/explanation and explicit continuation. Scoring remains one point per correct answer. Retained delayed test review, accuracy, errors/skips, hint usage, elapsed time, section summaries, full answer review/error filter, current-error retry and source browser history key `rhyme-ent-mistakes-v1`. Reference search covers title/rule/method/trap/example with a section filter.
+- Reused opt-in answer sounds with `rhyme-sound-enabled`; starts silent under shared UX rules and closes the audio context on exit. Passages retain authored poem line breaks through the shared passage style. No new interaction type, mandatory audio, HTML injection, CDN or eager game loading.
+- No local builds, tests, browser/touch checks, measurements or screenshots requested or run. Pages runs its standard deployment build.
+
 ## Migration entry: «Стихотворные размеры»
 
 October 23, 2026: owner requested publication of `Новая папка/trenazher_stihotvornye_razmery.html`. Implemented in «ЕНТ»; awaiting owner feedback. Publishing through the existing push-to-main Pages workflow.
