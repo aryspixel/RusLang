@@ -27,7 +27,15 @@ October 23, 2026: owner requested publication of `Новая папка/trenazhe
 - Reused the existing single-choice flow, separate check, locked answer, explanation, explicit continuation, results, full replay and repeated error-only retry. Gap tasks reveal the completed sentence only after checking; question prompts and correct forms also appear in error review. Each block preserves progress during switches; results link to the next block.
 - No local builds, tests, browser checks, measurements or screenshots: not explicitly requested. The owner subsequently requested publication on October 23; publishing through the existing push-to-main Pages workflow, which runs its standard deployment build.
 
-As of October 22, 2026: 22 trainers—2 in «Развитие речи», 11 in «ЕНТ», 9 in «Начальный уровень». Migration history follows.
+As of October 26, 2026: 26 trainers—2 in «Развитие речи», 14 in «ЕНТ», 10 in «Начальный уровень». Migration history follows.
+
+## Migration entry: «Моя семья дома»
+
+Migrated `trenazher_semya_sushchestvitelnoe_glagol_v2.html` to «Начальный уровень» on October 26, 2026. Implementation is awaiting owner feedback; no local checks were requested or run.
+
+- Objective: recognize nouns and verbs, use their questions and the one-line/double-line marking convention, and compose simple family-themed sentences. Russian interface and Russian/Kazakh grammar labels. The source does not specify a grade; recommendation 1–4 is provisional by content. Junior theme; primary / nouns-verbs / choice and sequence / ru-kz metadata.
+- Preserved all 19 source tasks in `src/games/family-nouns-verbs/data.js`: 14 multiple-choice questions with their explanations and five tap-to-order sentence tasks. The source page header says 20 tasks while its task array contains 19; the trainer displays the actual task count. Preserved the two grammar definitions, questions, example sentence, score and three result messages. Original HTML remains unchanged.
+- Rebuilt using the shared panel, choice, feedback, progress and button components. Answers lock after checking and show the correct answer/explanation; «Дальше» is explicit. Sentence words can be removed by tapping them before checking. Replay resets the attempt. No new interaction type, external assets or eager game loading.
 
 ## Migration entry: «Причастия и деепричастия»
 
