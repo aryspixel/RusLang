@@ -37,5 +37,5 @@ Correct answers, short explanations, and evidence are in `src/games/snapshot-sto
 
 ## Status and next step
 
-- Trainer and audio integration are prepared for owner review. The WAV input text was confirmed against the story. No build or browser check has been run for the audio update yet.
+- Trainer and audio integration are live for owner review. The WAV input text was confirmed against the story. The GitHub Pages workflow completed successfully; the public trainer's audio button started playback and the «Стоп» control stopped it. The complete 112-second recording has not been auditioned end to end.
 - Await feedback on the tasks, choice wording, sequence-card approach, self-scoring of the oral part, and whether the WAV matches the story.
