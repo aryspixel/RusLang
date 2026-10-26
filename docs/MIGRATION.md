@@ -27,7 +27,16 @@ October 23, 2026: owner requested publication of `Новая папка/trenazhe
 - Reused the existing single-choice flow, separate check, locked answer, explanation, explicit continuation, results, full replay and repeated error-only retry. Gap tasks reveal the completed sentence only after checking; question prompts and correct forms also appear in error review. Each block preserves progress during switches; results link to the next block.
 - No local builds, tests, browser checks, measurements or screenshots: not explicitly requested. The owner subsequently requested publication on October 23; publishing through the existing push-to-main Pages workflow, which runs its standard deployment build.
 
-As of October 26, 2026: 26 trainers—2 in «Развитие речи», 14 in «ЕНТ», 10 in «Начальный уровень». Migration history follows.
+As of October 26, 2026: 27 trainers—2 in «Развитие речи», 14 in «ЕНТ», 9 in «Начальный уровень», and 2 in «Средний уровень». Migration history follows.
+
+## Migration entry: «Падежи в кафе»
+
+Migrated `Trenazher_padezhi_v_kafe.html` to «Средний уровень» on October 26, 2026; awaiting owner feedback. No local checks were requested or run.
+
+- Objective: choose noun endings in context and identify the case of highlighted nouns. Russian instructions and RU/KZ explanations; the source does not specify a grade, so 3–6 is a provisional recommendation based on content. Middle theme; middle-level / noun-cases / choice / ru-kz metadata.
+- Preserved all 20 source task records in `src/games/cases-cafe/data.json`, used in both original 20-task modes. Retained original text fragments, lemmas, answer choices, correct cases/endings, Russian explanations, Kazakh explanations, case reference and preposition note. Original HTML remains unchanged.
+- Rebuilt with shared panels, touch buttons, choice group, feedback and progress controls. Selection is checked separately, then locked with the correct answer and explanation; continuation is explicit, including the last task. Scores count first answers; results include full replay and retry of missed tasks. Mode progress remains available during switches. Preserved optional tones with sound off by default.
+- No builds, tests, browser/touch checks, measurements or screenshots requested or run.
 
 ## Migration entry: «Моя семья дома»
 
