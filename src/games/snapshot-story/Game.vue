@@ -5,6 +5,8 @@ import TouchButton from '../../components/TouchButton.vue'
 import ChoiceGroup from '../../components/ChoiceGroup.vue'
 import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
+import SpeechControls from '../../components/SpeechControls.vue'
+import storyAudio from './assets/viewpoint-story-adult-gacrux.wav'
 import { story, questions, grammarTasks, frames, oralCriteria } from './data.js'
 
 const started = ref(false)
@@ -81,9 +83,9 @@ function resetTrainer() {
       </nav>
 
       <SurfacePanel v-if="section === 'listen'">
-        <h2>Сначала прочитай рассказ</h2>
-        <p>В исходном комплекте также приложена аудиозапись. Её соответствие этому тексту пока не подтверждено.</p>
-        <details class="game-help"><summary>Открыть рассказ</summary><p class="story-text">{{ story }}</p></details>
+        <h2>Послушай рассказ или открой текст</h2>
+        <SpeechControls :text="story" :src="storyAudio" label="Послушать рассказ" />
+        <details class="game-help"><summary>Читать рассказ</summary><p class="story-text">{{ story }}</p></details>
         <ProgressMeter :current="state.index + 1" :total="7" label="Задание" />
         <h2>{{ question.prompt }}</h2>
         <ChoiceGroup :options="question.options.map((label, value) => ({ label, value }))" :selected="currentAnswer ?? null" :disabled="currentAnswer !== undefined" label="Варианты ответа" @select="answerQuestion" />

@@ -331,7 +331,7 @@ October 9, 2026: migrated `trenazher_BSP.html` at owner request. Catalog now fif
 
 ## Migration entry: «Снимок, который не сделали»
 
-Created October 26, 2026 from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`; source explicitly names grade 9. RU, senior, `speech` / text-types / literary-devices / composition / syntax / choice / sequence / writing / ru. Source WAV is 24 kHz mono PCM, about 112 seconds; its correspondence to the supplied story has not been confirmed, so it is not wired into the trainer.
+Created October 26, 2026 from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`; source explicitly names grade 9. RU, senior, `speech` / text-types / literary-devices / composition / syntax / choice / sequence / writing / ru. The supplied WAV is 24 kHz mono PCM, 112.04 seconds. Its input text matches the DOCX story verbatim; packaged as `src/games/snapshot-story/assets/viewpoint-story-adult-gacrux.wav` and played through `SpeechControls.vue`.
 
 - Preserved the story wording and its intended targets: comprehension, fact versus narrator assumption, speech type/style, composition, epithet/metaphor/personification/simile, three sentence analyses, event ordering, opinion and retelling from Madina's viewpoint. Adapted prompts to touch cards and added explicit answer evidence/explanations.
 - Kept the 25-point scale: 13 points across scored multiple-choice tasks, six for three grammar analyses, two for event order, and four for oral work. Three additional comprehension checks are formative and do not add points. Oral work is self-reviewed by the four source criteria; its score is entered by the teacher/pupil rather than inferred from a completion tap.
