@@ -18,6 +18,7 @@ export const filterGroups = [
     { id: 'numbers', label: 'Числа' },
     { id: 'text-types', label: 'Типы текста' },
     { id: 'literary-devices', label: 'Художественные средства' },
+    { id: 'composition', label: 'Композиция текста' },
     { id: 'syntax', label: 'Синтаксис' },
   ] },
   { key: 'format', title: 'Формат', options: [
