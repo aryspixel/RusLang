@@ -12,7 +12,7 @@
 
 - User requested: «создай, посмотрю» after the concept proposal, then asked to include the supplied audio in the trainer.
 - Base story and question objectives come from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`.
-- The source document labels six event frames A–E but contains no descriptions or images for them. Current implementation uses six text event cards; new imagery is not approved or generated.
+- The source document includes six illustrated frames labeled А–Е. Their image-to-letter pairs are preserved. In document order the chronological answer is В → Д → Б → Е → Г → А.
 - The source's 25-point scale is retained: 13 points for scored selections, six for grammar, two for ordering, and four for oral work. Oral scoring is learner self-rating using the listed criteria and can be discussed with a teacher.
 
 ## Script
@@ -24,18 +24,18 @@ The supplied story «Снимок, который не сделали» is prese
 1. Listen to the story using «Послушать рассказ» or open the text alternative.
 2. Answer seven comprehension/fact questions with textual evidence.
 3. Identify speech type/style, composition, and four expressive devices; analyze three grammatical constructions and their bases.
-4. Order six text cards; explain the change from taking a photo to helping the gardener.
+4. Order the six source pictures by their letters; explain the change from taking a photo to helping the gardener. Images and letters remain paired exactly as in the DOCX.
 5. Give an opinion and retell in 5–6 sentences from Madina's point of view. Self-review against four criteria; no automatic language-quality grading.
 
 Correct answers, short explanations, and evidence are in `src/games/snapshot-story/data.js`. Source task 3's type/style and task 4's composition are represented as separate short-choice questions. Three extra comprehension checks are formative and unscored.
 
 ## Assets and implementation
 
-- Game: `src/games/snapshot-story/Game.vue`; data: `src/games/snapshot-story/data.js`; catalog section: `Развитие речи`.
+- Game: `src/games/snapshot-story/Game.vue`; data: `src/games/snapshot-story/data.js`; catalog section: `Развитие речи`. Six illustrations are extracted unchanged from the supplied DOCX to `src/games/snapshot-story/assets/frame-1.jpg` through `frame-6.jpg`; each has alt text and its original letter.
 - Source DOCX remains at its supplied local path. The supplied WAV is copied unchanged to `src/games/snapshot-story/assets/viewpoint-story-adult-gacrux.wav` and played through `SpeechControls.vue`.
 - Uses shared `ChoiceGroup`, `FeedbackMessage`, `ProgressMeter`, `SurfacePanel`, and `TouchButton` components.
 
 ## Status and next step
 
-- Trainer and audio integration are live for owner review. The WAV input text was confirmed against the story. The GitHub Pages workflow completed successfully; the public trainer's audio button started playback and the «Стоп» control stopped it. The complete 112-second recording has not been auditioned end to end.
+- Trainer and audio integration are live for owner review. The six images from the DOCX are now integrated into the third block, preserving source letter assignments and scoring the chronological sequence В → Д → Б → Е → Г → А. This image update has not been built or browser-verified yet. The WAV input text was confirmed against the story. The public trainer's audio button started playback and the «Стоп» control stopped it; the full 112-second recording has not been auditioned end to end.
 - Await feedback on the tasks, choice wording, sequence-card approach, self-scoring of the oral part, and whether the WAV matches the story.

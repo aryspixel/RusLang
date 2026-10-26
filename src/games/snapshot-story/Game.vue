@@ -7,7 +7,7 @@ import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
 import SpeechControls from '../../components/SpeechControls.vue'
 import storyAudio from './assets/viewpoint-story-adult-gacrux.wav'
-import { story, questions, grammarTasks, frames, oralCriteria } from './data.js'
+import { story, questions, grammarTasks, frames, frameOrder, oralCriteria } from './data.js'
 
 const started = ref(false)
 const section = ref('listen')
@@ -26,7 +26,7 @@ const currentAnswer = computed(() => state.answers[taskKey.value])
 const grammarTask = computed(() => grammarTasks[state.grammarIndex])
 const grammarAnswer = computed(() => state.grammarAnswers[state.grammarIndex])
 const answeredCount = computed(() => Object.keys(state.answers).length + Object.keys(state.grammarAnswers).length)
-const totalScore = computed(() => questions.reduce((n, task, i) => n + (state.answers[`q:${i}`] === task.answer ? (task.points ?? 1) : 0), 0) + grammarTasks.reduce((n, task, i) => n + (state.grammarAnswers[i] === task.answer ? task.points : 0), 0) + (state.framesChecked && state.order.every((value, i) => value === i) ? 2 : 0) + (state.oralScore ?? 0))
+const totalScore = computed(() => questions.reduce((n, task, i) => n + (state.answers[`q:${i}`] === task.answer ? (task.points ?? 1) : 0), 0) + grammarTasks.reduce((n, task, i) => n + (state.grammarAnswers[i] === task.answer ? task.points : 0), 0) + (state.framesChecked && frameOrder.every((value, i) => state.order[i] === value) ? 2 : 0) + (state.oralScore ?? 0))
 
 function answerQuestion(value) {
   if (currentAnswer.value !== undefined) return
@@ -119,12 +119,12 @@ function resetTrainer() {
 
       <SurfacePanel v-else-if="section === 'frames'">
         <h2>Расставь события по порядку</h2>
-        <p>Выбирай карточку, затем нажми «Добавить в порядок». Карточка попадёт в следующую свободную позицию. Чтобы убрать её, нажми на неё в списке порядка.</p>
-        <div class="frame-list"><button v-for="(frame, index) in frames" :key="frame" type="button" :class="{ 'frame-selected': state.selectedFrame === index }" :aria-pressed="state.selectedFrame === index" :disabled="state.framesChecked || state.order.includes(index)" @click="state.selectedFrame = index">{{ String.fromCharCode(1040 + index) }}. {{ frame }}</button></div>
+        <p>Рассмотри картинки с буквами, выбери кадр и нажми «Добавить в порядок». Он попадёт в следующую позицию. Чтобы убрать кадр, нажми на него в списке порядка.</p>
+        <div class="frame-list"><button v-for="(frame, index) in frames" :key="frame.letter" type="button" class="frame-card" :class="{ 'frame-selected': state.selectedFrame === index }" :aria-pressed="state.selectedFrame === index" :disabled="state.framesChecked || state.order.includes(index)" @click="state.selectedFrame = index"><img :src="frame.image" :alt="frame.alt" width="492" height="492"><span class="frame-letter">Кадр {{ frame.letter }}</span><span>{{ frame.text }}</span></button></div>
         <div class="action-row"><TouchButton :disabled="state.selectedFrame === null || state.framesChecked" @click="addFrame(state.selectedFrame)">Добавить в порядок</TouchButton><TouchButton variant="secondary" :disabled="!state.order.length || state.framesChecked" @click="state.order.pop()">Убрать последний</TouchButton></div>
-        <h3>Твой порядок</h3><ol class="ordered-frames"><li v-for="(frameIndex, index) in state.order" :key="`${frameIndex}-${index}`"><button type="button" :disabled="state.framesChecked" @click="removeFrame(index)">{{ String.fromCharCode(1040 + frameIndex) }}. {{ frames[frameIndex] }} — нажми, чтобы убрать</button></li></ol>
-        <FeedbackMessage v-if="state.framesChecked" :kind="state.order.every((value, i) => value === i) ? 'success' : 'error'" :title="state.order.every((value, i) => value === i) ? 'Порядок верный' : 'Сверь порядок с рассказом'">
-          <p>Правильный порядок: А → Б → В → Г → Д → Е.</p><p>Переход от фотоаппарата к помощи происходит, когда Мадина обращает внимание рассказчика на саженцы. Он понимает, что садовник защищает их от дождя, и спускается помочь.</p>
+        <h3>Твой порядок</h3><ol class="ordered-frames"><li v-for="(frameIndex, index) in state.order" :key="`${frameIndex}-${index}`"><button type="button" :disabled="state.framesChecked" @click="removeFrame(index)">Кадр {{ frames[frameIndex].letter }}: {{ frames[frameIndex].text }} — нажми, чтобы убрать</button></li></ol>
+        <FeedbackMessage v-if="state.framesChecked" :kind="frameOrder.every((value, i) => state.order[i] === value) ? 'success' : 'error'" :title="frameOrder.every((value, i) => state.order[i] === value) ? 'Порядок верный' : 'Сверь порядок с рассказом'">
+          <p>Правильный порядок: {{ frameOrder.map(index => frames[index].letter).join(' → ') }}.</p><p>Сначала рассказчик выбирает ракурс и принимает садовника за человека, который убирает материалы. Мадина обращает его внимание на саженцы; затем ребята спускаются помочь. После дождя деревья остаются под навесом.</p>
         </FeedbackMessage>
         <div class="action-row"><TouchButton v-if="!state.framesChecked" :disabled="state.order.length !== frames.length" @click="state.framesChecked = true">Проверить порядок</TouchButton><TouchButton v-else @click="section = 'speak'">К устному ответу</TouchButton><TouchButton v-if="!state.framesChecked" variant="secondary" @click="state.order = []">Сбросить порядок</TouchButton></div>
       </SurfacePanel>
@@ -155,7 +155,11 @@ function resetTrainer() {
 .grammar-block { display: grid; gap: var(--space-2); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 2px solid var(--color-border); }
 blockquote { margin: 0; padding: var(--space-3); background: var(--color-selected); border-left: 6px solid var(--color-primary); font-size: clamp(22px, 1.6vw, 30px); }
 .frame-list, .ordered-frames { display: grid; gap: var(--space-2); padding: 0; }
+.frame-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
 .frame-list button, .ordered-frames button { width: 100%; min-height: 64px; padding: 12px 18px; text-align: left; border: 2px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); color: inherit; }
+.frame-list .frame-card { display: grid; align-content: start; gap: var(--space-2); }
+.frame-card img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: calc(var(--radius-control) - 4px); }
+.frame-letter { font-size: 1.15em; font-weight: 800; }
 .frame-list button:disabled { opacity: .55; }
 .frame-list .frame-selected { border-color: var(--color-primary); background: var(--color-selected); }
 .score { font-weight: 800; font-size: 1.2em; }
