@@ -15,9 +15,13 @@ const task = computed(() => session.value.items[session.value.index])
 const answer = computed(() => cases.find(item => item.id === task.value.caseId))
 const options = computed(() => task.value.forms
   ? task.value.forms.map(form => ({ value: form, label: form }))
-  : cases.map(item => ({ value: item.id, label: active.value === 'questions' ? item.questions : item.name })))
+  : active.value === 'questions'
+    ? cases.map(item => ({ value: item.id, label: item.questions }))
+    : cases.map(item => ({ value: item.id, label: item.name })))
 const answerValue = computed(() => task.value.correctForm || task.value.caseId)
 const answerLabel = computed(() => task.value.correctForm || (active.value === 'questions' ? answer.value.questions : `${answer.value.name} падеж`))
+const promptBefore = computed(() => task.value.prompt && task.value.word ? task.value.prompt.slice(0, task.value.prompt.indexOf(task.value.word)) : '')
+const promptAfter = computed(() => task.value.prompt && task.value.word ? task.value.prompt.slice(task.value.prompt.indexOf(task.value.word) + task.value.word.length) : '')
 const followingMode = computed(() => modes[modes.findIndex(item => item.id === active.value) + 1])
 
 function shuffled(items) {
@@ -58,7 +62,7 @@ for (const item of modes) {
 
 <template>
   <div class="game-layout">
-    <h1>Падежи: первые шаги</h1>
+    <h1>Падежи существительных</h1>
     <nav class="game-tabs" aria-label="Тренировки по падежам">
       <TouchButton v-for="item in modes" :key="item.id" :variant="active === item.id ? 'primary' : 'secondary'"
         :aria-pressed="active === item.id" @click="active = item.id">
@@ -66,7 +70,10 @@ for (const item of modes) {
       </TouchButton>
     </nav>
     <details class="game-help">
-      <summary>Памятка: шесть падежей</summary>
+      <summary>Памятка: как определить падеж</summary>
+      <p>1. Найди существительное, которое нужно разобрать.</p>
+      <p>2. Найди слово, от которого зависит существительное, и задай вопрос.</p>
+      <p>3. По вопросу и смыслу выбери падеж. Если есть предлог, учитывай его вместе со значением словосочетания.</p>
       <p v-for="line in help" :key="line">{{ line }}</p>
       <p v-for="item in cases" :key="item.id"><strong>{{ item.name }} — {{ item.questions }}</strong><br>{{ item.clue }}</p>
     </details>
@@ -86,7 +93,7 @@ for (const item of modes) {
           <p v-if="error.task.prompt"><strong>{{ error.task.prompt }}</strong></p>
           <p v-else>{{ error.task.before }}<strong>{{ error.task.correctForm || error.task.word }}</strong>{{ error.task.after }}</p>
           <p>Твой ответ: {{ error.selected }}. Правильно: {{ error.correct }}.</p>
-          <p>{{ error.task.link }} {{ cases.find(item => item.id === error.task.caseId).name }} падеж.</p>
+          <p>{{ error.task.link }} <template v-if="error.task.correctQuestion">Вопрос: {{ error.task.correctQuestion }}. </template>{{ cases.find(item => item.id === error.task.caseId).name }} падеж.</p>
         </article>
       </template>
     </SurfacePanel>
@@ -95,7 +102,8 @@ for (const item of modes) {
       <ProgressMeter :current="session.index + 1" :total="session.items.length" label="Задание" />
       <p v-if="session.retry">Повтор ошибок</p>
       <h2>{{ mode.instruction }}</h2>
-      <p v-if="task.prompt" class="case-sentence"><strong>{{ task.prompt }}</strong></p>
+      <p v-if="task.prompt && task.word" class="case-sentence">{{ promptBefore }}<strong class="case-word">{{ task.word }}</strong>{{ promptAfter }}</p>
+      <p v-else-if="task.prompt" class="case-sentence"><strong>{{ task.prompt }}</strong></p>
       <template v-else>
         <p class="case-sentence">{{ task.before }}<strong class="case-word">{{ task.forms ? (session.checked ? task.correctForm : '…') : task.word }}</strong>{{ task.after }}</p>
         <p>{{ task.forms ? 'Начальная форма' : 'Выделенное слово' }}: «{{ task.word }}».</p>
@@ -105,7 +113,7 @@ for (const item of modes) {
       <FeedbackMessage v-if="session.checked" :kind="session.selected === answerValue ? 'success' : 'error'"
         :title="session.selected === answerValue ? 'Верно!' : 'Пока неверно.'">
         <p>Правильный ответ: {{ answerLabel }}.</p>
-        <p>{{ task.link }} {{ answer.name }} падеж: {{ answer.questions }}</p>
+        <p>{{ task.link }} <template v-if="active === 'cases'">Вопрос: {{ task.question }} {{ answer.name }} падеж.</template><template v-else-if="active === 'questions'">К выделенному слову здесь задаём вопрос «{{ task.question }}».</template><template v-else>{{ answer.name }} падеж: {{ answer.questions }}</template></p>
       </FeedbackMessage>
       <div class="action-row">
         <TouchButton v-if="!session.checked" :disabled="session.selected === null" @click="check">Проверить</TouchButton>

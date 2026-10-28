@@ -3,7 +3,8 @@ export const categories = [
   { id: 'speech', title: 'Развитие речи', description: 'Тексты, образы и выразительная речь', caption: 'Учимся выражать мысли', icon: 'M5 5h22v15H15l-7 7v-7H5z M10 10h12 M10 15h8' },
   { id: 'ent', title: 'ЕНТ', description: 'Синтаксис, предложения и пунктуация', caption: 'Разбираемся в правилах', icon: 'M9 5h16v23H7V5h2 M12 3h8v5h-8z M11 15l2 2 4-4 M11 23h10' },
   { id: 'primary', title: 'Начальный уровень', description: 'Дни недели, месяцы, числа и истории', caption: 'Открываем русский язык', icon: 'M16 8C12 5 7 5 3 7v20c4-2 9-2 13 1 4-3 9-3 13-1V7c-4-2-9-2-13 1z M16 8v20 M7 12h5 M7 17h5 M20 12h5 M20 17h5' },
-  { id: 'middle-level', title: 'Средний уровень', description: 'Падежи и грамматика в контексте', caption: 'Учимся применять правила', icon: 'M7 27h18 M9 27V8l7-4 7 4v19 M12 12h8 M12 17h8 M12 22h8' },
+  { id: 'middle-level', title: 'Средний уровень', description: 'Практика русского языка в контексте', caption: 'Учимся применять правила', icon: 'M7 27h18 M9 27V8l7-4 7 4v19 M12 12h8 M12 17h8 M12 22h8' },
+  { id: 'grammar', title: 'Грамматика', description: 'Части речи, формы слов и грамматические правила', caption: 'Разбираемся в устройстве языка', icon: 'M5 6h22v20H5z M10 11h12 M10 16h12 M10 21h7' },
 ]
 
 export const subcategories = [
