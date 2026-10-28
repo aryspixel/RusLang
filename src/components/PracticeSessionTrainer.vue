@@ -194,7 +194,7 @@ onBeforeUnmount(() => {
           <p>✓ — ответ выбран; «текущий» — открытый вопрос.</p>
           <div class="practice-map"><TouchButton v-for="(item, index) in session.queue" :key="item.q.id" variant="secondary" :aria-current="index === session.index ? 'step' : undefined" :aria-label="`Вопрос ${index + 1}${item.selected !== null ? ', ответ выбран' : ', без ответа'}`" @click="go(index)">{{ item.selected !== null ? '✓ ' : '' }}{{ index + 1 }}{{ index === session.index ? ' · текущий' : '' }}</TouchButton></div>
         </details>
-        <div class="action-row"><TouchButton variant="secondary" @click="requestFinish">{{ session.mode === 'test' ? 'Завершить тест' : 'Закончить подход' }}</TouchButton><TouchButton variant="secondary" @click="navigate('setup')">К настройкам</TouchButton></div>
+        <div class="action-row"><TouchButton variant="secondary" @click="requestFinish">{{ session.mode === 'test' ? 'Завершить тест' : 'Закончить подход' }}</TouchButton><TouchButton v-if="!config.hideSettingsButton" variant="secondary" @click="navigate('setup')">К настройкам</TouchButton></div>
       </SurfacePanel>
     </template>
 

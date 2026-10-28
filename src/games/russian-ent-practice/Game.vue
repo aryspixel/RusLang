@@ -8,6 +8,7 @@ const config = {
   title: 'Русский язык · тренировочный тест',
   storageKey: 'russian-ent-practice-mistakes-v1',
   defaultCount: 'all',
+  hideSettingsButton: true,
   kinds: { choice: 'Выбор ответа' },
   introTitle: 'Тренажёр по русскому языку',
   intro: '45 вопросов по орфографии, пунктуации, грамматике, лексике и средствам выразительности. Выберите обучение с объяснениями или тест без подсказок.',
