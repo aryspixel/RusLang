@@ -20,12 +20,16 @@ function shuffle(list) { const a = [...list]; for (let i = a.length - 1; i > 0; 
 function start() {
   const items = shuffle(pool.value)
   const total = count.value === 'all' ? items.length : Math.min(Number(count.value), items.length)
-  const chosen = items.slice(0, total)
+  const chosen = items.slice(0, total).map(question => {
+    const order = shuffle(question.choices.map((_, index) => index))
+    return { ...question, choices: order.map(index => question.choices[index]), answer: order.indexOf(question.answer) }
+  })
   session.value = { items: chosen, index: 0, answers: chosen.map(() => ({ selected: null, locked: false })), finished: false }
 }
 function choose(value) { if (!currentAnswer.value.locked) currentAnswer.value.selected = value }
 function check(reveal = false) { if (currentAnswer.value.locked || (!reveal && currentAnswer.value.selected === null)) return; if (reveal) currentAnswer.value.selected = null; currentAnswer.value.locked = true }
 function next() { if (session.value.index + 1 < session.value.items.length) session.value.index++; else session.value.finished = true }
+function skip() { if (mode.value !== 'test' || currentAnswer.value.selected !== null) return; currentAnswer.value.locked = true; next() }
 watch([mode, section], () => { session.value = null })
 </script>
 
@@ -46,7 +50,7 @@ watch([mode, section], () => { session.value = null })
     <SurfacePanel v-else-if="session.finished" class="result">
       <p class="eyebrow">{{ mode==='test'?'Тест завершён':'Подход завершён' }}</p><h2>{{ correctCount }} из {{ session.items.length }} — ваш результат</h2><p>{{ Math.round(100*correctCount/session.items.length) }}% верных · {{ session.items.length-correctCount }} ошибок или пропусков</p>
       <div class="actions"><TouchButton @click="start">Пройти заново</TouchButton><TouchButton variant="secondary" @click="session=null">Новый подход</TouchButton></div>
-      <details v-for="(q,i) in session.items" :key="`${i}-${q.prompt}`" class="review"><summary>{{ i+1 }}. {{ session.answers[i].selected===q.answer?'✓ Верно':session.answers[i].selected===null?'○ Пропуск':'× Ошибка' }} — {{ q.prompt }}</summary><p v-if="q.passage"><strong>{{ q.passage }}</strong></p><p>Правильный ответ: {{ q.choices[q.answer] }}</p><p>{{ q.explanation }}</p></details>
+      <details v-for="(q,i) in session.items" :key="`${i}-${q.prompt}`" class="review"><summary>{{ i+1 }}. {{ session.answers[i].selected===q.answer?'✓ Верно':session.answers[i].selected===null?'○ Пропуск':'× Ошибка' }} — {{ q.prompt }}</summary><p v-if="q.passage"><strong>{{ q.passage }}</strong></p><p><strong>Ваш ответ:</strong> {{ session.answers[i].selected===null?'Пропуск':q.choices[session.answers[i].selected] }}</p><p><strong>Правильный ответ:</strong> {{ q.choices[q.answer] }}</p><p>{{ q.explanation }}</p></details>
     </SurfacePanel>
     <SurfacePanel v-else class="question">
       <div class="topline"><span>{{ mode==='learn'?'Обучение':'Тест' }} · {{ sections[current.section] }}</span><TouchButton variant="secondary" @click="session=null">К настройкам</TouchButton></div>
@@ -55,7 +59,7 @@ watch([mode, section], () => { session.value = null })
       <ChoiceGroup :options="current.choices.map((text,i)=>({value:i,label:text}))" :selected="currentAnswer.selected" :disabled="currentAnswer.locked" label="Варианты ответа" @select="choose" />
       <FeedbackMessage v-if="currentAnswer.locked && mode==='learn'" :kind="currentAnswer.selected===current.answer?'success':'error'" :title="currentAnswer.selected===null?'Разберём ответ':currentAnswer.selected===current.answer?'Верно':'Есть ошибка'"><p><strong>Правильный ответ:</strong> {{ current.choices[current.answer] }}</p><p>{{ current.explanation }}</p></FeedbackMessage>
       <p v-if="mode==='test' && currentAnswer.locked" role="status">Ответ принят. Проверка будет в конце теста.</p>
-      <div class="actions"><TouchButton v-if="!currentAnswer.locked" :disabled="currentAnswer.selected===null" @click="check()">{{ mode==='test'?'Принять ответ':'Проверить ответ' }}</TouchButton><TouchButton v-else @click="next">{{ session.index===session.items.length-1?'Результат →':'Дальше →' }}</TouchButton><TouchButton v-if="mode==='learn' && !currentAnswer.locked" variant="secondary" @click="check(true)">Показать ответ и разбор</TouchButton></div>
+      <div class="actions"><TouchButton v-if="!currentAnswer.locked" :disabled="currentAnswer.selected===null" @click="check()">{{ mode==='test'?'Принять ответ':'Проверить ответ' }}</TouchButton><TouchButton v-if="mode==='test' && !currentAnswer.locked && currentAnswer.selected===null" variant="secondary" @click="skip">Пропустить вопрос</TouchButton><TouchButton v-else-if="currentAnswer.locked" @click="next">{{ session.index===session.items.length-1?'Результат →':'Дальше →' }}</TouchButton><TouchButton v-if="mode==='learn' && !currentAnswer.locked" variant="secondary" @click="check(true)">Показать ответ и разбор</TouchButton></div>
     </SurfacePanel>
   </div>
 </template>
