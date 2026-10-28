@@ -1,6 +1,6 @@
 # Catalog navigation
 
-Since the owner's October 10, 2026 decision, home shows these sections in order: **Развитие речи → ЕНТ → Начальный уровень → Средний уровень**. Search and filters were removed. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
+Home shows these sections in order: **Развитие речи → ЕНТ → Тесты → Начальный уровень → Средний уровень**. Search and filters are not shown. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
 
 ## Sections and assignment
 
@@ -9,11 +9,14 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Section | ID | Trainers |
 | --- | --- | --- |
 | Развитие речи | speech | Типы текста: осень; Типы речи и художественные средства; Снимок, который не сделали |
-| ЕНТ | ent | Русский язык · подготовка к ЕНТ; Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
+| ЕНТ | ent | Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
+| Тесты | tests | Русский язык · 45 вопросов |
 | Начальный уровень | primary | Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
 | Средний уровень | middle-level | Падежи: первые шаги; Падежи в кафе |
 
-The main learning objective determines placement: text/expressiveness → «Развитие речи»; syntax/punctuation/spelling → «ЕНТ»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual grammar practice → «Средний уровень». ENT groups relevant topics; placement does not mean every trainer reproduces the exam format. Recommended grade remains separate metadata.
+The main learning objective determines placement: text/expressiveness → «Развитие речи»; ЕНТ topic practice → «ЕНТ»; full single-choice practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
+
+«Тесты» is a standalone section for complete multi-topic test trainers. «Русский язык · 45 вопросов» stays separate from the subject-specific ЕНТ practice cards and offers learning and test modes.
 
 «Средства выразительности» belongs to «ЕНТ» by the owner's explicit October 16, 2026 instruction.
 
@@ -42,7 +45,7 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 Define subsections in `src/catalog/categories.js`; a game may have `subcategory` alongside its main `category`. New beginner listening trainers use `category: 'primary'`, `subcategory: 'listening'`. Do not also list them directly in the category. Subsection contents/counts derive from ready games; hide empty subsections.
 
-Home has four fully clickable cards with title, short description, and trainer count, arranged in a row on wide screens, two columns on intermediate screens, and a column on narrow screens. Trainer cards show the title, interaction format, and a large «Начать» link.
+Home has fully clickable section cards with title, short description, and trainer count, arranged in columns on wide screens, two columns on intermediate screens, and a column on narrow screens. Trainer cards show the title, interaction format, and a large «Начать» link.
 
 Section route: `#/category/<id>`; existing `#/game/<id>` links remain. Browser Back/Forward, reload, and direct section links work. Move focus to main content on navigation. Unknown sections/games show a message and return link.
 

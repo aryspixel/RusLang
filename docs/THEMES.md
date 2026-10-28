@@ -12,7 +12,7 @@ Each `src/games/registry.js` entry has `gradeMin`, `gradeMax`, and `audienceSour
 
 Sources explicitly assign grade 9 to «Типы текста: осень», «ССП или СПП?» and both «Союз или союзное слово?» versions. Weekday, Ali's day, and numbers 1–20 games have provisional grades 1–4. The exported «Как подчиняются придаточные» card has no established grade. During migration, confirm curriculum fit and wording with the owner, then update metadata.
 
-Grade is a teaching recommendation, not an access restriction. Do not hide games because the selected age range or theme differs. The catalog has «Развитие речи», «ЕНТ», «Начальный уровень», and «Средний уровень» without search or filters; grade remains separate card metadata.
+Grade is a teaching recommendation, not an access restriction. Do not hide games because the selected age range or theme differs. The catalog has «Развитие речи», «ЕНТ», «Тесты», «Начальный уровень», and «Средний уровень» without search or filters; grade remains separate card metadata.
 
 ## Themes
 

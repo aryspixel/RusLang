@@ -5,7 +5,7 @@ import AnswerReview from './AnswerReview.vue'
 import DATA from './data.js'
 
 const config = {
-  title: 'Русский язык · подготовка к ЕНТ',
+  title: 'Русский язык · тренировочный тест',
   storageKey: 'russian-ent-practice-mistakes-v1',
   defaultCount: 'all',
   kinds: { choice: 'Выбор ответа' },

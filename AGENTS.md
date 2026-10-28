@@ -39,7 +39,7 @@ Write maintainer documentation and agent instructions in English. Preserve Russi
 - Shared colors, sizes, spacing, and states live in `src/styles/`; shared controls in `src/components/`. Do not copy button, card, and feedback styles into every game.
 - Grade and visual theme are independent registry metadata. Mark an unspecified grade recommendation provisional or unknown. Themes supply decorative tokens through `src/styles/themes.css`; changing a theme must not change content or results.
 - Catalog and loading live in `src/games/registry.js`. Use lazy `import()`; do not load all games on the home page.
-- Assign exactly one `category`: `speech` (Развитие речи), `ent` (ЕНТ), or `primary` (Начальный уровень). Home displays these three sections without search or filters, per the owner's October 10, 2026 decision. Preserve controlled `facets` from `src/catalog/filtering.js`; placement rules: `docs/NAVIGATION.md`.
+- Assign exactly one `category`: `speech` (Развитие речи), `ent` (ЕНТ), `tests` (Тесты), `primary` (Начальный уровень), or `middle-level` (Средний уровень). Home displays these five sections without search or filters. Put full multi-topic test trainers in `tests`; subject-specific ЕНТ topic practice stays in `ent`. Preserve controlled `facets` from `src/catalog/filtering.js`; placement rules: `docs/NAVIGATION.md`.
 - Assets must work under a GitHub Pages subdirectory. Use Vite's relative base and local assets without a mandatory CDN. Avoid root-absolute `/` paths.
 - Keep educational content separate from components. Do not insert user text through `v-html` unless the fragment is vetted and its use justified.
 - Each exercise needs clear instruction/introduction, task, answer, explanation, transition, result, and replay states.
