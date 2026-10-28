@@ -9,7 +9,7 @@ import { questions, reference, sections } from './data.js'
 
 const mode = ref('learn')
 const section = ref('all')
-const count = ref('10')
+const count = ref('20')
 const session = ref(null)
 const current = computed(() => session.value?.items[session.value.index])
 const currentAnswer = computed(() => session.value?.answers[session.value.index])
@@ -33,13 +33,13 @@ watch([mode, section], () => { session.value = null })
   <div class="trainer">
     <header class="trainer-heading"><p class="eyebrow">Морфология · ЕНТ</p><h1>Местоимения</h1><p class="audience-label">9–11 классы · рекомендация предварительная</p></header>
     <SurfacePanel v-if="!session" class="setup">
-      <p>Повторите разряды местоимений, их формы, синтаксическую роль и правописание. В обучении после проверки открывается разбор; в тесте ответы проверяются в конце.</p>
+      <p>Повторите разряды местоимений, их формы, синтаксическую роль и правописание. В отдельном блоке — 33 предложения: найдите все местоимения и определите разряд каждого. В обучении после проверки открывается разбор; в тесте ответы проверяются в конце.</p>
       <div class="section-list" aria-label="Разделы тренажёра"><span v-for="part in usedSections" :key="part.index" class="section-chip">{{ part.index + 1 }}. {{ part.name }} <small>({{ part.count }})</small></span></div>
       <fieldset><legend>Режим</legend><div class="row"><TouchButton :variant="mode==='learn'?'primary':'secondary'" :aria-pressed="mode==='learn'" @click="mode='learn'">Обучение</TouchButton><TouchButton :variant="mode==='test'?'primary':'secondary'" :aria-pressed="mode==='test'" @click="mode='test'">Тест</TouchButton></div></fieldset>
       <label class="field-label">Раздел<select v-model="section"><option value="all">Все разделы</option><option v-for="part in usedSections" :key="part.index" :value="String(part.index)">{{ part.name }}</option></select></label>
-      <label class="field-label">Заданий в подходе<select v-model="count"><option value="10">10</option><option value="20">20</option><option value="all">Все доступные ({{ pool.length }})</option></select></label>
+      <label class="field-label">Заданий в подходе<select v-model="count"><option value="10">10</option><option value="20">20</option><option value="40">40</option><option value="all">Все доступные ({{ pool.length }})</option></select></label>
       <details class="reference"><summary>Краткая памятка по теме</summary><article v-for="work in reference" :key="work.title"><h3>{{ work.title }}</h3><p>{{ work.text }}</p></article></details>
-      <p class="muted">{{ pool.length }} авторских заданий в выбранном разделе</p>
+      <p class="muted">{{ pool.length }} авторских заданий в выбранном разделе · всего 66</p>
       <TouchButton @click="start">Начать тренировку →</TouchButton>
       <p class="muted note">Учебные задания для подготовки к ЕНТ; это не официальный вариант экзамена.</p>
     </SurfacePanel>
