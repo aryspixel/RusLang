@@ -48,7 +48,7 @@ const view = ref('setup')
 const mode = ref('learn')
 const sections = ref(DATA.sections.map((_, index) => index))
 const kind = ref('all')
-const count = ref('20')
+const count = ref(config.defaultCount || '20')
 const hints = ref(true)
 const session = ref(null)
 const pendingTarget = ref(null)
@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
       <template v-for="work in passports" :key="work.id"><slot name="reference" :work="work" /></template>
     </SurfacePanel>
     <p v-if="config.answerSound" class="muted">{{ config.footer }}</p>
-    <p v-else class="muted">Учебный тренажёр по презентации «{{ config.referenceTitle }}». Задания составлены для обучения и не являются официальными заданиями ЕНТ. История ошибок хранится только в этом браузере.</p>
+    <p v-else class="muted">{{ config.footer || `Учебный тренажёр по теме «${config.title}». Задания составлены для обучения и не являются официальными заданиями ЕНТ. История ошибок хранится только в этом браузере.` }}</p>
   </div>
 </template>
 

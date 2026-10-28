@@ -1,5 +1,13 @@
 # Legacy HTML migration plan
 
+## New trainer: «Русский язык · подготовка к ЕНТ»
+
+Created October 28, 2026 at the owner's request. No source HTML or official question bank was present; the supplied screenshot folder showed a 40-plus item single-choice interface covering Russian orthography, punctuation, grammar, vocabulary, expressive devices, and some literature. The trainer intentionally covers Russian language only. Russian UI/content; provisional grades 9–11 by preparation purpose; senior theme; `ent` / orthography, syntax, literary-devices / choice / ru metadata.
+
+- Added 45 original questions, nine each in five sections: orthography, punctuation, grammar and syntax, vocabulary and phraseology, and expressive devices. Each has four choices, two hints, and an explanation. Questions are author-written and are not represented as official ЕНТ items.
+- Reused `PracticeSessionTrainer`, `ChoiceGroup`, progress and touch controls. The two modes are «Обучение с разбором» (separate checking, locked answer, explanation and explicit continuation) and «Тест без подсказок» (answers editable until finish, results and answer review afterward). The initial attempt contains all 45 questions; the learner can select a shorter count or sections. Added a compact reference card per topic and error retry.
+- No original screenshot content was transcribed as source data; legacy HTML sources remain unchanged. No build, tests, browser/touch checks, measurements, or screenshots requested or run. Awaiting owner feedback.
+
 ## Migration entry: «Рифма и рифмовка»
 
 October 23, 2026: owner requested publication of `Новая папка/trenazher_rifma_rifmovka (1).html`. Implemented in «ЕНТ»; awaiting owner feedback. Publishing through the existing push-to-main Pages workflow.
@@ -27,7 +35,7 @@ October 23, 2026: owner requested publication of `Новая папка/trenazhe
 - Reused the existing single-choice flow, separate check, locked answer, explanation, explicit continuation, results, full replay and repeated error-only retry. Gap tasks reveal the completed sentence only after checking; question prompts and correct forms also appear in error review. Each block preserves progress during switches; results link to the next block.
 - No local builds, tests, browser checks, measurements or screenshots: not explicitly requested. The owner subsequently requested publication on October 23; publishing through the existing push-to-main Pages workflow, which runs its standard deployment build.
 
-As of October 26, 2026: 27 trainers—2 in «Развитие речи», 14 in «ЕНТ», 9 in «Начальный уровень», and 2 in «Средний уровень». Migration history follows.
+As of October 28, 2026: 28 trainers—2 in «Развитие речи», 15 in «ЕНТ», 9 in «Начальный уровень», and 2 in «Средний уровень». Migration history follows.
 
 ## Migration entry: «Падежи в кафе»
 
