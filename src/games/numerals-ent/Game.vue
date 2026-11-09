@@ -6,7 +6,9 @@ import ChoiceGroup from '../../components/ChoiceGroup.vue'
 import FeedbackMessage from '../../components/FeedbackMessage.vue'
 import ProgressMeter from '../../components/ProgressMeter.vue'
 import { data } from './data.js'
+import Declension from '../numeral-declension/Declension.vue'
 
+const part = ref('general')
 const kinds = { theory: 'Разряд и строение', spelling: 'Правописание', form: 'Выбор формы' }
 const mode = ref('learn')
 const sections = ref(data.sections.map((_, i) => i))
@@ -67,6 +69,8 @@ const reviewItems = computed(() => session.value?.items.map((item, index) => ({ 
 <template>
   <div class="trainer">
     <header><p class="eyebrow">Русский язык · Практика</p><h1>Имя числительное</h1><p>Разряды, правописание и падежные формы · рекомендация 5–11 классы предварительная</p></header>
+    <nav class="row" aria-label="Части тренажёра"><TouchButton :variant="part === 'general' ? 'primary' : 'secondary'" :aria-pressed="part === 'general'" @click="part = 'general'">Общая практика</TouchButton><TouchButton :variant="part === 'declension' ? 'primary' : 'secondary'" :aria-pressed="part === 'declension'" @click="part = 'declension'">Склонение числительных · 45 заданий</TouchButton></nav>
+    <div v-show="part === 'general'" class="trainer">
     <SurfacePanel v-if="!session" class="stack">
       <p>Определяйте разряды, выбирайте падежные формы и исправляйте ошибки. Мягкий знак, составные числительные, даты, дроби и трудные сочетания. После ответа — объяснение и памятка.</p>
       <fieldset><legend>Режим</legend><div class="row"><TouchButton :variant="mode === 'learn' ? 'primary' : 'secondary'" :aria-pressed="mode === 'learn'" @click="mode = 'learn'">Обучение</TouchButton><TouchButton :variant="mode === 'test' ? 'primary' : 'secondary'" :aria-pressed="mode === 'test'" @click="mode = 'test'">Тест</TouchButton></div><p>{{ mode === 'learn' ? 'После каждого ответа — подробный разбор.' : 'Без подсказок и оценки по ходу. Результат и объяснения — после завершения.' }}</p></fieldset>
@@ -84,6 +88,8 @@ const reviewItems = computed(() => session.value?.items.map((item, index) => ({ 
       <p v-if="session.mode === 'test'" role="status">Выбор сохраняется. Ответ можно изменить до завершения теста.</p><div class="row"><TouchButton v-if="session.mode === 'learn' && !current.checked" :disabled="current.selected === null" @click="check">Проверить ответ</TouchButton><TouchButton v-if="session.index > 0" variant="secondary" @click="go(session.index - 1)">← Назад</TouchButton><TouchButton v-if="session.mode === 'test' || current.checked" @click="next">{{ session.index === session.items.length - 1 ? 'Результат →' : 'Дальше →' }}</TouchButton><TouchButton v-if="session.mode === 'test'" variant="secondary" @click="requestFinish">Завершить тест</TouchButton></div>
       <div v-if="session.confirmFinish" class="reference" role="alert"><p>Без ответа: {{ session.items.filter(x => x.selected === null).length }}. Можно вернуться к вопросам или завершить с пропусками.</p><div class="row"><TouchButton @click="finish">Завершить с пропусками</TouchButton><TouchButton variant="secondary" @click="session.confirmFinish = false">Вернуться к вопросам</TouchButton></div></div><details class="reference"><summary>Карта подхода</summary><div class="map"><button v-for="(item, i) in session.items" :key="i" type="button" :aria-current="i === session.index ? 'step' : undefined" :aria-label="`Вопрос ${i + 1}${item.selected !== null ? ', ответ выбран' : ''}`" :disabled="session.mode === 'learn' && !current.checked && i > session.index" @click="go(i)">{{ i + 1 }}{{ item.selected !== null ? ' ✓' : '' }}</button></div></details>
     </SurfacePanel>
+    </div>
+    <Declension v-show="part === 'declension'" />
   </div>
 </template>
 
