@@ -8,11 +8,11 @@ import ProgressMeter from '../../components/ProgressMeter.vue'
 import { tasks, sentences, directions } from './data.js'
 
 const blocks = [
-  { id: 'choice', title: '1 · Выбери предлог', instruction: 'Прочитай ситуацию и выбери подходящий предлог.', items: tasks },
-  { id: 'sentence', title: '2 · Собери предложение', instruction: 'Нажимай слова по порядку. Слово в ответе можно нажать, чтобы убрать.', items: sentences },
+  { id: 'sentence', title: '1 · Собери предложение', instruction: 'Нажимай слова по порядку. Слово в ответе можно нажать, чтобы убрать.', items: sentences },
+  { id: 'choice', title: '2 · Выбери предлог', instruction: 'Прочитай ситуацию и выбери подходящий предлог.', items: tasks },
   { id: 'direction', title: '3 · Где или куда?', instruction: 'Сравни место и направление. Выбери предложение, которое подходит к ситуации.', items: directions },
 ]
-const mode = ref('choice')
+const mode = ref('sentence')
 const states = reactive(Object.fromEntries(blocks.map(block => [block.id, { index: 0, selected: null, words: [], checked: false, finished: false, score: 0 }])))
 const block = computed(() => blocks.find(item => item.id === mode.value))
 const state = computed(() => states[mode.value])
