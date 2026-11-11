@@ -18,6 +18,7 @@ export const filterGroups = [
     { id: 'routine', label: 'Распорядок дня' },
     { id: 'numbers', label: 'Числа' },
     { id: 'text-types', label: 'Типы текста' },
+    { id: 'reading-literacy', label: 'Грамотность чтения' },
     { id: 'literary-devices', label: 'Художественные средства' },
     { id: 'composition', label: 'Композиция текста' },
     { id: 'syntax', label: 'Синтаксис' },
