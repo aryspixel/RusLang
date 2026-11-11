@@ -1,6 +1,6 @@
 # Catalog navigation
 
-Home shows these sections in order: **Развитие речи → ЕНТ → Тесты → Начальный уровень → Средний уровень**. Search and filters are not shown. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
+Home shows these sections in order: **Развитие речи → ЕНТ → Грамотность чтения → Тесты → Начальный уровень → Средний уровень**. Search and filters are not shown. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
 
 ## Sections and assignment
 
@@ -9,12 +9,13 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Section | ID | Trainers |
 | --- | --- | --- |
 | Развитие речи | speech | Типы текста: осень; Типы речи и художественные средства; Снимок, который не сделали |
-| ЕНТ | ent | Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
+| ЕНТ | ent | Имя числительное; Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
+| Грамотность чтения | reading-literacy | Грамотность чтения · ЕНТ |
 | Тесты | tests | Русский язык · 45 вопросов |
-| Начальный уровень | primary | Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
-| Средний уровень | middle-level | Падежи: первые шаги; Падежи в кафе |
+| Начальный уровень | primary | Цветная мастерская; Испеки яблочный пирог!; Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
+| Средний уровень | middle-level | Падежи существительных; Причастие и причастный оборот; Падежи в кафе; Предлоги |
 
-The main learning objective determines placement: text/expressiveness → «Развитие речи»; ЕНТ topic practice → «ЕНТ»; full single-choice practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
+The main learning objective determines placement: text/expressiveness → «Развитие речи»; ЕНТ language and literature topic practice → «ЕНТ»; reading comprehension → «Грамотность чтения»; full multi-topic practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
 
 «Тесты» is a standalone section for complete multi-topic test trainers. «Русский язык · 45 вопросов» stays separate from the subject-specific ЕНТ practice cards and offers learning and test modes.
 
@@ -32,16 +33,20 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 «Перепутанный дом Али» belongs directly to `primary`, by the owner's October 21, 2026 publication request. Its objective is household vocabulary and room choice; optional question playback does not make it a listening lesson. On October 23 the owner added a separate «Обставь дом» block with the same empty house, a furniture palette, dragging, and tap placement. Both blocks preserve state; the furnishing view loads on first opening. Provisional grades 1–4; controlled topic `place-prepositions`, formats `choice` and `placement`.
 
-«Падежи: первые шаги» belongs directly to `middle-level` following the owner's October 26, 2026 request to group case trainers in «Средний уровень». It covers case questions and noun cases in simple sentences. On October 23, two blocks were added: recognizing cases from questions and choosing contextual noun forms. The controlled topic is `noun-cases`; the provisional grade recommendation is 3–4. It has no listening subsection.
+«Падежи существительных» belongs directly to `middle-level` as a neutral foundational grammar trainer. It covers choosing noun forms, selecting the case-question pair for a highlighted noun in context, identifying the case from a phrase, and recognizing cases from their questions. The controlled topic is `noun-cases`; the provisional grade recommendation is 3–4. It has no listening subsection.
 
-«Падежи в кафе» belongs directly to `middle-level` following the owner's October 26, 2026 publication request. It covers noun endings and case identification in a café story, with RU/KZ explanations; the two 20-task blocks preserve state when switching. Controlled topic: `noun-cases`; provisional grade recommendation 3–6.
+«Падежи в кафе» belongs directly to `middle-level` following the owner's October 26, 2026 publication request. It covers noun endings and case identification in a café story, with RU/KZ explanations; the two 20-task blocks preserve state when switching. Controlled topic: `noun-cases`; provisional grade recommendation 3–6. The neutral trainer «Падежи существительных» is listed alongside it in «Среднем уровне».
 
 «Моя семья дома» belongs directly to `primary`. It teaches noun/verb recognition, sentence order, and the one-line/double-line marking convention. The controlled topic is `nouns-verbs`; choice and sentence-order formats; provisional grades 1–4. It has no listening subsection.
+
+«Испеки яблочный пирог!» belongs directly to `primary`. It combines product and quantity selection, recipe ordering, verb agreement, sentence-part identification, prepositions, sentence construction, and a learner's own retelling. Russian content; provisional grades 1–4 by the beginner language material. Controlled topics: `routine`, `nouns-verbs`; formats: `choice`, `sequence`, `writing`. It is not a listening trainer.
 
 
 «Обставь мою комнату» sits directly in `primary`, continuing «Моя комната». Its main activities are object placement and sentence construction, without required audio, so it has no `listening` subsection. Its controlled format is `placement`.
 
-«Начальный уровень» contains **«Аудирование»** (`listening`) with «Среда Али: покупки и рассказ» and «Моя комната»; the other seven trainers appear directly in the category. The subsection card opens `#/category/primary/listening`. Games return to «Аудирование», which returns to «Начальный уровень». Category counts include games inside subsections.
+«Начальный уровень» contains **«Аудирование»** (`listening`) with «Среда Али: покупки и рассказ» and «Моя комната»; other trainers appear directly in the category. The subsection card opens `#/category/primary/listening`. Games return to «Аудирование», which returns to «Начальный уровень». Category counts include games inside subsections.
+
+«Цветная мастерская» belongs directly to `primary`. It teaches six color names and agreement of color adjectives with masculine, feminine, and neuter nouns. Russian content; grades 1–4 were requested by the owner. Controlled topic `colors`, format `choice`.
 
 Define subsections in `src/catalog/categories.js`; a game may have `subcategory` alongside its main `category`. New beginner listening trainers use `category: 'primary'`, `subcategory: 'listening'`. Do not also list them directly in the category. Subsection contents/counts derive from ready games; hide empty subsections.
 

@@ -1,12 +1,60 @@
 # Legacy HTML migration plan
 
-## New trainer: «Русский язык · 45 вопросов»
+## Migration entry: «Грамотность чтения · ЕНТ»
+
+November 11, 2026: migrated `trenazher_gramotnost_chteniya_ENT_11.html` into the new «Грамотность чтения» section at the owner's request. Objective: find information, identify main ideas and author position, interpret examples, and draw text-supported conclusions. The source explicitly specifies grade 11. Russian interface and content; senior theme; `reading-literacy` / `choice` / `ru` metadata.
+
+Preserved all three passages, ten five-option questions, correct answers, hints, explanations, the learning and 20-minute test modes, ten-point scoring, per-text and advanced-question result summaries, answer review, replay, and result copying. Learning responses lock after checking and require explicit continuation. The source HTML remains unchanged. No factual corrections. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another migration.
+
+## New trainer: «Цветная мастерская»
+
+Created November 10, 2026 from the owner-approved concept for primary grades. The learning objective is to identify six colors and use the matching masculine, feminine, or neuter adjective with a noun. Russian interface and content; grades 1–4 requested by the owner; `primary` / `colors` / `choice` / `ru` metadata.
+
+The trainer has 18 tasks in three stages: name a displayed color, select the adjective form for a named object, and assemble an adjective–noun phrase. Each task has separate checking, locked feedback with the correct answer and explanation, explicit continuation, result, and replay. The final oral prompt asks pupils to describe three real objects; it is not automatically scored. Data and presentation are separate in `src/games/color-workshop/`. No legacy source was migrated or changed. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback.
+
+## Migration entry: «Склонение имён числительных»
+
+November 9, 2026: migrated `trenazher_sklonenie_chislitelnyh.html` into the existing «Имя числительное» card in «ЕНТ» at the owner's suggestion to combine them. Awaiting owner feedback before another legacy game.
+
+- Objective: choose case forms of simple, complex, compound quantitative and ordinal numerals, then correct errors. The source explicitly frames the trainer as ЕНТ preparation but gives no grade; the existing card's 5–11 recommendation remains provisional. Russian interface and content; `ent` / orthography / choice / ru metadata.
+- Preserved all 45 questions across six blocks, source rules, three answer choices, explanations, learning and test modes, one point per correct answer, source result thresholds, error review, replay, and separate blocks. The test uses the source's sixth review block. Shared controls provide separate checking, locked responses, and explicit continuation; test answers stay hidden until the result.
+- Factual corrections: two source questions repeated the same correct option twice. The second option in block 2 question 1 is now the distinct incorrect «пятьдесяти»; the first option in block 2 question 2 is now «семьдесяти». Source HTML remains unchanged.
+- No build, tests, browser checks, touch walkthroughs, layout measurements, or screenshots were requested or run.
+
+## Migration entry: «Причастие и причастный оборот»
+
+November 9, 2026: migrated `Тренажер_Причастие_и_причастный_оборот.html` into «Средний уровень» at the owner's request. Awaiting owner feedback before the next legacy game.
+
+- Objective: recognize participles and their forms, identify a participial phrase and its head word, place commas, and correct agreement errors. The source gives no grade; 7–8 is a provisional editorial recommendation. Russian interface with preserved Kazakh rule summaries; `middle-level` / syntax / choice / ru-kz metadata.
+- Preserved five selectable blocks and all 30 single-choice questions, the two modes, rules, Kazakh summaries, hints, explanations, one point per correct answer, conditional mark thresholds, per-block results, full review, replay, and print action. Learning mode checks and locks each response before explicit continuation. Test mode keeps answers editable and defers the review until submission, including a prompt for unanswered questions.
+- The source itself corrected question 1.3 to use «написать» as the precise producing verb; the migrated data uses that corrected final version. No other factual corrections. Legacy HTML remains in place.
+- No build, tests, browser checks, touch walkthroughs, layout measurements, or screenshots were requested or run.
+
+## Migration entry: «Испеки яблочный пирог!»
+
+Migrated `ispeki_yablochnyi_pirog_vybor_zadaniya.html` at the owner's request on November 2, 2026. Added as a direct card in «Начальный уровень»; awaiting owner feedback before another legacy game is migrated.
+
+- Objective: practice food vocabulary and quantities, recipe order, present-tense verb agreement, subject/action/place identification, prepositions, sentence order, and a short retelling. The source does not state a grade; recommendation 1–4 is provisional from the beginner language material. Russian UI/content; junior theme; `primary` / routine and nouns-verbs / choice, sequence, writing / ru metadata.
+- Preserved four freely switchable stages, seven pie ingredients and six distractors, four quantity questions, seven recipe steps and four verb questions, three sentence analyses, four preposition questions, three sentence-building prompts, oral story cue, and celebratory result. Kept the source quantities and wording. No source assets; original HTML remains unchanged.
+- Rebuilt the controls with shared panels, touch buttons, choice groups, and feedback. Added separate checking, locked feedback, correction actions, explicit transitions, visible textual role markings, tap-based sentence assembly, and optional writing alongside oral retelling. All stage state remains available when switching tabs. No new shared component required; documented sentence-part identification in the UX rules.
+- Implementation: `src/games/apple-pie/data.js`, `src/games/apple-pie/Game.vue`; lazy catalog import. No build, tests, browser/touch checks, measurements, or screenshots run, per owner preference. Awaiting owner feedback.
+
+## New trainer: «Русский язык · подготовка к ЕНТ»
 
 Created October 28, 2026 at the owner's request. No source HTML or official question bank for this test was provided; the supplied screenshot folder showed a 40-plus item single-choice interface covering Russian orthography, punctuation, grammar, vocabulary, expressive devices, and some literature. The trainer intentionally covers Russian language only. Russian UI/content; provisional grades 9–11 by preparation purpose; senior theme; `tests` / orthography, syntax, literary-devices / choice / ru metadata.
 
 - Added 45 original questions, nine each in five sections: orthography, punctuation, grammar and syntax, vocabulary and phraseology, and expressive devices. Each has four choices, two hints, and an explanation. Questions are author-written and are not represented as official ЕНТ items.
 - Reused `PracticeSessionTrainer`, `ChoiceGroup`, progress and touch controls. The two modes are «Обучение с разбором» (separate checking, locked answer, explanation and explicit continuation) and «Тест без подсказок» (answers editable until finish, results and answer review afterward). The initial attempt contains all 45 questions; the learner can select a shorter count or sections. Added a compact reference card per topic and error retry.
 - No original screenshot content was transcribed as source data; legacy HTML sources remain unchanged. No build, tests, browser/touch checks, measurements, or screenshots requested or run. Awaiting owner feedback.
+
+## New trainer: «Местоимения»
+
+Created October 28, 2026 at the owner's request for ЕНТ preparation. Author-written learning material; no legacy source or official exam question bank was supplied. Russian interface/content; provisional grades 9–11; senior theme; `ent` / `orthography` / `choice` / `ru` metadata.
+
+- Objective: review pronoun categories, inflection and syntactic roles, distinguish homonymous categories in context, and apply pronoun spelling rules.
+- Added 33 questions in nine blocks: personal, reflexive, possessive, demonstrative/definitive/interrogative, relative, negative, indefinite, contextual categories/forms, and spelling. Added four compact reference cards.
+- Reused shared SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, and ProgressMeter. Learning checks and locks each answer with explanation and explicit continuation. Test defers scoring feedback until results and includes answer review. Sessions support all or one block, 10/all questions, replay, and return to settings. No new interaction type or external assets.
+- No build, tests, browser/touch checks, measurements, or screenshots requested or run. Awaiting owner feedback.
 
 ## Migration entry: «Рифма и рифмовка»
 
@@ -36,6 +84,8 @@ October 23, 2026: owner requested publication of `Новая папка/trenazhe
 - No local builds, tests, browser checks, measurements or screenshots: not explicitly requested. The owner subsequently requested publication on October 23; publishing through the existing push-to-main Pages workflow, which runs its standard deployment build.
 
 As of October 28, 2026: 28 trainers—2 in «Развитие речи», 14 in «ЕНТ», 1 in «Тесты», 9 in «Начальный уровень», and 2 in «Средний уровень». Migration history follows.
+
+October 28, 2026: considered a separate «Грамматика» section, then placed «Падежи существительных» in «Средний уровень» alongside «Падежи в кафе» per owner direction. No empty catalog section remains.
 
 ## Migration entry: «Падежи в кафе»
 
@@ -67,6 +117,10 @@ October 22, 2026: owner requested publication of `trenazher_prichastiya_deeprich
 
 ## Migration entry: «Перепутанный дом Али»
 
+October 23, 2026 furnishing scale feedback: increased the authored furniture sizes and replaced independent width/height fitting with dimensions derived from each sprite's visible framing and the house's 3:2 aspect ratio. `ImageSprite.vue` now accepts intrinsic image dimensions; viewBox metadata excludes unused margins without rewriting the PNG/WebP sources. The same framing renders in the palette, house, and drag ghost. Large items no longer receive an unintended second reduction from `object-fit: contain`; cropped lower edges anchor to the floor.
+
+Upstairs placement now uses the actual full room height and sloped ceilings instead of a shallow rectangle near the floor. The shared placement calculation moves tall furniture away from low eaves, scaling uniformly only when required by room/roof bounds. Room hit regions exclude the roof; drag previews use the same dimensions as the final placement. Existing room choices, free arrangement, undo, and the search block are preserved. No local builds, tests, browser/touch checks, layout measurements, or screenshots requested or run; source image dimensions/framing were read for authoring only. Publishing via the standard Pages workflow.
+
 October 23, 2026 follow-up: owner requested a separate furnishing block with this same house empty and furniture at the side. Added «Что перепутано?» / «Обставь дом» tabs in the existing trainer, preserving each block's state. No new catalog entry. Beginner furniture/room vocabulary, Russian UI, provisional grades 1–4 and `primary` placement retained; added controlled `placement` format.
 
 - New empty illustration preserves the house shell, room layout, stairs, doors, and surrounding garden while removing furnishings and appliances. Background: `assets/house-empty.png`; built-in image generation. Seven new transparent cutouts: sofa, fridge, cooker, sink cabinet, bath, toilet, and washer. Other cutouts reuse existing local furniture assets. Original search artwork/data are unchanged. Final prompts: `docs/assets/ali-house-furnishing-prompts.md`.
@@ -97,14 +151,14 @@ October 21, 2026: owner requested improvements to `pereputannyi_dom_Ali_real_hou
 - Added semantic numbered scene buttons and a matching large-button list, keyboard focus, native dialogs, returning to the picture, restart confirmation, optional speech off by default, speech-support/error handling, and speech cancellation. Removed the automatic final transition that hid the last explanation after 700 ms.
 - No build, tests, browser/touch checks, measurements, or screenshots requested or run. Opened the edited standalone game for owner feedback.
 
-## New trainer: «Падежи: первые шаги»
+## New trainer: «Падежи существительных»
 
-Created October 20, 2026 at the owner's request for beginner case questions and identifying a noun's case in a sentence. Implemented; checks not run; awaiting feedback. New authored material, not a legacy migration.
+Created October 20, 2026 at the owner's request for beginner case questions and identifying a noun's case in a sentence. Expanded October 28, 2026 with phrase-based question and case identification blocks; checks not run; awaiting owner feedback. New authored material, not a legacy migration.
 
-- Objective: connect all six case question pairs with nouns in context and identify their case. Russian UI/content; provisional grades 3–4 by editorial assessment, not a confirmed curriculum source. `primary`, junior theme, primary / noun-cases / choice / ru metadata.
-- Two independently accessible blocks: 12 question-pair tasks (two per case), 24 case-identification tasks (four per case). All tasks in each bank appear in a shuffled attempt; question pairs/case names retain their standard order. Includes animate/inanimate examples and contextual explanations; prepositional examples distinguish place questions from case questions. No source learning texts or corrections.
+- Objective: connect all six case question pairs with nouns in context and identify their case. Russian UI/content; provisional grades 3–4 by editorial assessment, not a confirmed curriculum source. `middle-level`, junior theme, primary / noun-cases / choice / ru metadata.
+- Four independently accessible blocks: choose a form (12 tasks); choose the case-question pair (24 tasks, including 12 phrase-based tasks); identify the case (36 tasks, preserving the original 24 and adding 12 phrase-based tasks); identify the case from a question prompt (12 tasks). Questions/case names retain their standard order. Includes animate/inanimate examples and contextual explanations; prepositional examples distinguish place questions from case questions. No source learning texts or corrections.
 - Separate selection and check; one point per correct answer; lock after checking; show correct answer and word relationship; explicit «Дальше», result, error review, error-only retry including repeated errors, and full replay. Switching blocks retains state until exit. Collapsible six-case reference; no timer, audio, or extra start screen.
-- Reuses existing choice, tabs, reference and result interactions plus SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, ProgressMeter. Data in `src/games/noun-cases/data.js`, view in `Game.vue`, lazy import, no external assets. Added controlled `noun-cases` topic and documented beginner placement.
+- Reuses existing choice, tabs, reference and result interactions plus SurfacePanel, TouchButton, ChoiceGroup, FeedbackMessage, ProgressMeter. Neutral title «Падежи существительных» is listed in «Средний уровень» alongside «Падежи в кафе». Data in `src/games/noun-cases/data.js`, view in `Game.vue`, lazy import, no external assets. Added controlled `noun-cases` topic and documented placement.
 - No builds, tests, browser/touch checks, measurements, or screenshots: no explicit owner request.
 
 ## Migration entry: «Литература: подготовка к ЕНТ»
@@ -346,11 +400,28 @@ October 9, 2026: migrated `trenazher_BSP.html` at owner request. Catalog now fif
 - Data src/games/bsp/data.js; Game.vue view; separate import(), relative base, no external assets. Shared ChoiceGroup.vue now supports arrays while preserving single choice. Multiple-number selection documented in UX.
 - October 9, 2026 checks: pnpm build; exact automatic comparison of 36 source tasks/choice sets; all four blocks in learning/self-check touch-tested at 1920×1080, 1366×768, 390×844, 320×700. Covered errors/hints, multi-number selection/deselection, locks, explicit continuation, stateful switches, results/review, successful error retry, restart/shuffle. No JS errors/overflow/clipped labels; targets at least 48 px. Rechecked the previous 30 one-member-sentence tasks at three sizes after ChoiceGroup changes. No screenshots created/viewed. Ready for owner feedback.
 
-## Migration entry: «Снимок, который не сделали»
 
-Created October 26, 2026 from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`; source explicitly names grade 9. RU, senior, `speech` / text-types / literary-devices / composition / syntax / choice / sequence / writing / ru. The supplied WAV is 24 kHz mono PCM, 112.04 seconds. Its input text matches the DOCX story verbatim; packaged as `src/games/snapshot-story/assets/viewpoint-story-adult-gacrux.wav` and played through `SpeechControls.vue`.
+## Migration entry: «Имя числительное»
+
+Migrated `trenazher_chislitelnye.html` into the `ent` catalog section on November 3, 2026. Objective: identify numeral classes and structure, choose spelling and case forms, and apply agreement rules. The source does not name a grade; recommendation 5–11 is provisional. Interface and content are Russian; answers use single-choice cards with exact-match scoring and explanatory feedback.
+
+Preserved 70 questions across seven sections, seven reference cards, all answer options, hints, explanations, method notes, and analysis text in `src/games/numerals-ent/data.js`. Learning offers two optional hints and checks each answer before explicit continuation. Test mode withholds feedback until the result. Both modes offer shuffled questions/options, 10/20/40/all counts, topic and task-type selection, error review, replay, and saved error practice. No source text or factual answers were changed. The legacy file remains in place. Build and interface checks were not run under the owner's verification preference; awaiting feedback on this game before another migration.
+
+## Migration entry: «Гласные в корне слова»
+
+Migrated `trenazher_glasnye_v_korne.html` into the `ent` catalog section at the owner's request. Objective: distinguish checked and unchecked vowels, root alternations, and И/Ы after Ц. The source does not establish a grade; recommendation 5–11 is provisional. Russian interface/material; senior theme; orthography / choice / ru.
+
+Preserved all 110 source questions, seven sections, 14 rule cards, answer choices, hints, explanations, method notes, and analysis text in `src/games/root-vowels/data.json`. Added a Vue trainer with configurable section and 10/20/40/all question sessions, separate learning and test modes, answer locking, explicit continuation, results, and review. The standalone source remains unchanged. Migration has not been built or otherwise verified; awaiting owner feedback.
+
+## New trainer: «Снимок, который не сделали»
+
+Created October 26, 2026 from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`; source explicitly names grade 9. RU, senior, `speech` / text-types / literary-devices / composition / syntax / choice / sequence / writing / ru. Source WAV is 24 kHz mono PCM, about 112 seconds; its correspondence to the supplied story has not been confirmed, so it is not wired into the trainer.
 
 - Preserved the story wording and its intended targets: comprehension, fact versus narrator assumption, speech type/style, composition, epithet/metaphor/personification/simile, three sentence analyses, event ordering, opinion and retelling from Madina's viewpoint. Adapted prompts to touch cards and added explicit answer evidence/explanations.
 - Kept the 25-point scale: 13 points across scored multiple-choice tasks, six for three grammar analyses, two for event order, and four for oral work. Three additional comprehension checks are formative and do not add points. Oral work is self-reviewed by the four source criteria; its score is entered by the teacher/pupil rather than inferred from a completion tap.
 - The DOCX labels six visual frames A–E but provides no actual image descriptions/assets. Implemented six neutral text cards instead; no imagery generated. Oral work is not auto-graded; criteria and a sample are disclosed separately.
 - Data in `src/games/snapshot-story/data.js`; view in `Game.vue`; lazy import in registry. Source DOCX and WAV remain unmodified. `pnpm build` succeeds (existing large-chunk warning remains). Browser interaction confirmed catalog discovery, game start, wrong-answer correction/lock, correct-answer feedback, explicit continuation, and updated task counter. Full completion/replay and touch emulation remain unverified; awaiting owner feedback.
+## New trainer: «Предлоги»
+
+Created November 10, 2026 at the owner's request for spatial prepositions. The attached `Den_v_parke_rabochie_listy.pdf` was available but could not be extracted in the working environment, so its learning text was not copied or attributed. The owner placed it in `middle-level` and named it «Предлоги»; recommended grades 1–4 remain provisional by content. Expanded at owner request to three independent blocks: 20 tap-to-assemble sentences first, 18 original preposition choices second, and eight contrasts between location and direction third. Each has exact-match scoring, immediate correction and explanation, explicit continuation, result, and replay. The `place-prepositions`, `choice`, and `sequence` facets are controlled metadata; the game loads lazily. No build or interface checks were run under the owner's verification preference. Awaiting owner feedback.
+

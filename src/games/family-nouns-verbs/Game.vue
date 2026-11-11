@@ -42,8 +42,13 @@ function restart() {
 
 <template>
   <div class="game-layout family-game">
-    <h1>Моя семья дома</h1>
-    <p class="family-subtitle">Существительное и глагол • {{ tasks.length }} заданий</p>
+    <div class="family-header">
+      <div>
+        <h1>Моя семья дома</h1>
+        <p class="family-subtitle">Существительное и глагол • {{ tasks.length }} заданий</p>
+      </div>
+      <TouchButton variant="secondary" @click="restart">Начать заново</TouchButton>
+    </div>
 
     <div class="family-rules" aria-label="Памятка">
       <SurfacePanel v-for="rule in rules" :key="rule.title">
@@ -57,7 +62,6 @@ function restart() {
       <h2>Готово!</h2>
       <p class="family-result">Твой результат: <strong>{{ score }} из {{ tasks.length }}</strong></p>
       <p>{{ score >= 17 ? 'Отлично! Ты хорошо различаешь существительные и глаголы.' : score >= 12 ? 'Хорошо! Ещё немного тренировки — и будет отлично.' : 'Повтори правило и пройди тренажёр ещё раз.' }}</p>
-      <TouchButton @click="restart">Начать заново</TouchButton>
     </SurfacePanel>
 
     <SurfacePanel v-else class="game-layout">
@@ -80,7 +84,6 @@ function restart() {
       <div class="action-row">
         <TouchButton v-if="!checked" :disabled="task.type === 'choice' ? selected === null : built.length !== task.words.length" @click="check">Проверить</TouchButton>
         <TouchButton v-else @click="next">{{ index === tasks.length - 1 ? 'Показать результат' : 'Дальше' }}</TouchButton>
-        <TouchButton variant="secondary" @click="restart">Начать сначала</TouchButton>
       </div>
     </SurfacePanel>
   </div>
@@ -88,6 +91,7 @@ function restart() {
 
 <style scoped>
 .family-subtitle { font-size: clamp(20px, 2vw, 28px); font-weight: 700; }
+.family-header { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
 .family-rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin-block: var(--space-3); }
 .family-rules p { margin-block: 8px 0; }
 .one-line { text-decoration: underline 3px; text-underline-offset: 4px; }
@@ -97,5 +101,5 @@ function restart() {
 .family-built { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-height: 76px; padding: var(--space-3); border: 2px dashed var(--color-border); border-radius: var(--radius-control); }
 .family-built button { min-height: var(--touch-min); padding-inline: 16px; border: 2px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text); font-size: 20px; }
 .family-result { font-size: 28px; }
-@media (max-width: 800px) { .family-rules { grid-template-columns: 1fr; } }
+@media (max-width: 800px) { .family-rules { grid-template-columns: 1fr; } .family-header { align-items: flex-start; flex-direction: column; } }
 </style>
