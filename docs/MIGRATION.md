@@ -2,6 +2,8 @@
 
 ## Migration entry: «Грамотность чтения · ЕНТ»
 
+November 11, 2026: added an independent, more demanding second variant at the owner's request. Three new original passages and ten tasks include inference, evaluation of claims, limitations of conclusions, and three written passage headings. The source's three passages and ten questions remain intact as variant 1. The source titles are hidden in variant 2 until review; written headings are compared with examples and meaning-based criteria, then marked by the learner or teacher. The score combines seven automatically checked choices and three manually marked headings. Both variants retain learning and timed test modes. No build, tests, browser checks, layout measurements, or screenshots were requested or run; awaiting owner feedback.
+
 November 11, 2026: migrated `trenazher_gramotnost_chteniya_ENT_11.html` into the new «Грамотность чтения» section at the owner's request. Objective: find information, identify main ideas and author position, interpret examples, and draw text-supported conclusions. The source explicitly specifies grade 11. Russian interface and content; senior theme; `reading-literacy` / `choice` / `ru` metadata.
 
 Preserved all three passages, ten five-option questions, correct answers, hints, explanations, the learning and 20-minute test modes, ten-point scoring, per-text and advanced-question result summaries, answer review, replay, and result copying. Learning responses lock after checking and require explicit continuation. The source HTML remains unchanged. No factual corrections. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another migration.

@@ -13,6 +13,7 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 | Tabs and modes | «Типы текста», extended conjunction trainer, subordination card | Keep mode names/selection visible; preserve each mode's state during accidental switches. |
 | Hint, vocabulary, reference | «Типы текста», «Собери неделю» | Explicit touch-accessible expansion; do not obscure the task. |
 | Free text and example | «Типы текста: осень» | Large field, clear prompt, separate example disclosure; no automatic grading without a verifiable criterion. |
+| Writing a title for a passage | «Грамотность чтения · ЕНТ», variant 2 | Hide the source title until review; accept a learner's heading, then show a sample and meaning-based criterion. Learner or teacher marks it manually; do not treat wording differences as automatic errors. |
 | Diagram with switchable examples | «Подчинение придаточных» | Readable diagram with textual description, large tabs/labels; no precise tapping on thin lines. |
 | Basket multiselection | «Среда Али» | Tap to add/remove; separately check the full set, then lock. Shared `SelectionBasket.vue`. |
 | Selecting a season's months | «Круглый год: 12 месяцев» | Existing `SelectionBasket.vue` with neutral labels, maximum three months, textual image description, correct set/explanation after checking, explicit continuation. |
