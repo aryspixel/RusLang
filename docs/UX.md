@@ -21,6 +21,7 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 | Inserting commas | «Союзы и запятые» | Numbered gap buttons at least 48 px with `aria-pressed`; tap toggles comma, check separately. Shared `CommaSentence.vue`. |
 | Identifying sentence parts | «Испеки яблочный пирог!» | Select a role, then tap the word; show each marked word and role, allow clearing the sentence, and give textual correction. No color-only marking. |
 | Listening with text equivalent | «Среда Али», «Моя комната» | Explicit playback; sound off by default. Story/tasks remain available as text; game completable without sound on missing voice/failure. Shared `SpeechControls.vue`; answer sounds optional. In «Моя комната», replay at any step, separate transcript disclosure, stop on part switch. |
+| Route navigation with sentence assembly | «Дана и Арман: по городу» | Pick an active bus and adjacent stop using large labeled controls beside the schematic map. Assemble a case-marked sentence from word cards, check separately, read the correct answer, then continue explicitly. |
 
 ## Common screen structure
 

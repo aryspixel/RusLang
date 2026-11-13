@@ -13,7 +13,7 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Грамотность чтения | reading-literacy | Грамотность чтения · ЕНТ |
 | Тесты | tests | Русский язык · 45 вопросов |
 | Начальный уровень | primary | Цветная мастерская; Испеки яблочный пирог!; Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
-| Средний уровень | middle-level | Падежи существительных; Причастие и причастный оборот; Падежи в кафе; Предлоги |
+| Средний уровень | middle-level | Дана и Арман: по городу; Падежи существительных; Причастие и причастный оборот; Падежи в кафе; Предлоги |
 
 The main learning objective determines placement: text/expressiveness → «Развитие речи»; ЕНТ language and literature topic practice → «ЕНТ»; reading comprehension → «Грамотность чтения»; full multi-topic practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
 

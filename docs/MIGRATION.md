@@ -1,5 +1,11 @@
 # Legacy HTML migration plan
 
+## Migration entry: «Дана и Арман: по городу»
+
+November 13, 2026: migrated `Dana_Arman_marshruty.html` into «Средний уровень» at the owner's request to publish it. Objective: navigate bus routes while practising «от» + genitive, «к» + dative, and «на автобусе № …». The source explicitly names grades 7–8. Russian interface with the original Kazakh hint lines; word-card sentence assembly is checked against the exact forms, with correct-answer feedback and explicit continuation.
+
+Preserved 12 stops, three bidirectional routes, eight missions, free travel, learning/self-check modes, route journal, first-try and check counts, replay, and the source's task and hint wording. A labeled stop grid accompanies the schematic map so every trip works by large touch targets. The route numbers and school numbers remain distinct. No factual corrections; source HTML remains unchanged. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another legacy migration.
+
 ## Migration entry: «Глаголы»
 
 November 13, 2026: migrated `trenazher_glagol_ENT.html` into «ЕНТ» as «Глаголы» at the owner's request. Objective: practise verb conjugation, aspect and tense, mood, spelling, and morphology. The source does not specify a grade; grades 9–11 are a provisional recommendation based on ЕНТ preparation. Russian interface and content; single-choice answers with exact-match scoring and explanatory feedback.
