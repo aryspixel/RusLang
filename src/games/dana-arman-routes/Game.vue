@@ -25,8 +25,20 @@ const name = id => places[id][0]
 const activeRoutes = computed(() => Object.keys(routes).filter(number => routes[number].stops.includes(current.value)))
 const nextStops = computed(() => route.value ? routes[route.value].stops.filter(id => adjacent(current.value, id, route.value)) : [])
 const expected = computed(() => pending.value ? ['Мы едем', 'от', places[current.value][1], 'к', places[pending.value][2], `на автобусе № ${route.value}.`] : [])
-const mapRoutes = computed(() => Object.entries(routes).map(([number, item]) => ({ number, color: item.color, points: item.stops.map(id => places[id].slice(3).join(',')).join(' ') })))
+const mapRoutes = computed(() => Object.entries(routes).map(([number, item]) => ({ number, color: item.color, points: routePoints(number, item.stops) })))
 const stopEntries = Object.entries(places)
+function routePoints(number, stops) {
+  const points = []
+  stops.forEach((id, index) => {
+    const [x, y] = places[id].slice(3)
+    if (index) {
+      const [previousX, previousY] = places[stops[index - 1]].slice(3)
+      if (previousX !== x && previousY !== y) points.push(number === '14' && stops[index - 1] === 'square' ? [previousX, y] : [x, previousY])
+    }
+    points.push([x, y])
+  })
+  return points.map(point => point.join(',')).join(' ')
+}
 function adjacent(a, b, number) { const list = routes[number]?.stops || []; return Math.abs(list.indexOf(a) - list.indexOf(b)) === 1 && list.includes(a) && list.includes(b) }
 function say(text, kind = '') { message.value = text; messageKind.value = kind }
 function reset(index = missionIndex.value) {
@@ -95,14 +107,16 @@ reset(0)
       <h2>Карта маршрутов</h2>
       <p>1. Выбери автобус. 2. Выбери соседнюю остановку по его линии.</p>
       <div class="action-row" role="group" aria-label="Автобусы">
-        <TouchButton v-for="(item, number) in routes" :key="number" :variant="route === number ? 'primary' : 'secondary'" :disabled="!activeRoutes.includes(number) || !!pending || checked || done" :aria-pressed="route === number" @click="selectRoute(number)">Автобус № {{ number }}</TouchButton>
+        <TouchButton v-for="(item, number) in routes" :key="number" :variant="route === number ? 'primary' : 'secondary'" :disabled="!activeRoutes.includes(number) || !!pending || checked || done" :aria-pressed="route === number" @click="selectRoute(number)"><span class="route-swatch" :style="{ background: item.color }" aria-hidden="true"></span>Автобус № {{ number }}</TouchButton>
       </div>
-      <svg class="route-map" viewBox="0 0 1100 660" role="img" aria-label="Схема остановок трёх автобусных маршрутов">
+      <p class="route-current"><strong>Вы здесь:</strong> {{ name(current) }}. <strong>Доступны автобусы:</strong> {{ activeRoutes.map(number => '№ ' + number).join(', ') }}.</p>
+      <p v-if="route"><strong>Маршрут № {{ route }}:</strong> {{ routes[route].stops.map(name).join(' → ') }}. <strong>Следующие остановки:</strong> {{ nextStops.map(name).join(' или ') }}.</p>
+      <svg class="route-map" viewBox="0 0 1100 660" aria-label="Схема остановок трёх автобусных маршрутов. Нажмите доступную соседнюю остановку.">
         <rect width="1100" height="660" fill="#f0f3eb" />
-        <polyline v-for="item in mapRoutes" :key="item.number" :points="item.points" fill="none" :stroke="item.color" :stroke-width="route === item.number ? 12 : 7" :opacity="!route || route === item.number ? 1 : .3" stroke-linejoin="round" />
-        <g v-for="[id, place] in stopEntries" :key="id"><circle :cx="place[3]" :cy="place[4]" r="13" :fill="current === id ? '#7255a1' : '#fff'" stroke="#54476a" stroke-width="3" /><text :x="place[3]" :y="place[4] + 37" text-anchor="middle" font-size="18" font-weight="700" fill="#302b38">{{ place[0] }}</text></g>
+        <polyline v-for="item in mapRoutes" :key="item.number" :points="item.points" fill="none" :stroke="item.color" :stroke-width="route === item.number ? 12 : 7" :opacity="!route || route === item.number ? 1 : .3" stroke-linejoin="round" stroke-linecap="round" />
+        <g v-for="[id, place] in stopEntries" :key="id" class="map-stop" :class="{ reachable: nextStops.includes(id), here: current === id }" role="button" :tabindex="pending || checked || done ? -1 : 0" :aria-label="`Остановка ${place[0]}${current === id ? ', вы здесь' : nextStops.includes(id) ? ', следующая по маршруту' : ''}`" :aria-disabled="!!pending || checked || done" @click="selectStop(id)" @keydown.enter.prevent="selectStop(id)" @keydown.space.prevent="selectStop(id)"><rect :x="place[3] - 76" :y="place[4] - 31" width="152" height="87" rx="16" :fill="current === id ? '#e5d8ef' : nextStops.includes(id) ? '#e6f4e7' : '#fffdf9'" :stroke="nextStops.includes(id) ? '#32765b' : '#b7b4bf'" :stroke-width="nextStops.includes(id) ? 4 : 2" /><circle :cx="place[3]" :cy="place[4]" r="13" :fill="current === id ? '#7255a1' : '#fff'" stroke="#54476a" stroke-width="3" /><text :x="place[3]" :y="place[4] + 34" text-anchor="middle" font-size="17" font-weight="700" fill="#302b38">{{ place[0] }}</text></g>
       </svg>
-      <p>Маршруты работают в обе стороны. Расстояния и время поездки не указаны.</p>
+      <p>Нажми подсвеченную остановку на карте или кнопку ниже. Маршруты работают в обе стороны. Расстояния и время поездки не указаны.</p>
       <div class="stop-grid" role="group" aria-label="Остановки">
         <button v-for="[id, place] in stopEntries" :key="id" type="button" :disabled="!!pending || checked || done" :class="{ reachable: nextStops.includes(id), here: current === id }" @click="selectStop(id)">{{ place[0] }}<small v-if="current === id">Вы здесь</small><small v-else-if="nextStops.includes(id)">Следующая остановка</small></button>
       </div>
@@ -125,6 +139,11 @@ reset(0)
 <style scoped>
 .route-game select { display: block; min-height: 56px; max-width: 100%; margin: 8px 0 18px; padding: 8px; font: inherit; border: 2px solid var(--color-border); border-radius: var(--radius-control); }
 .route-map { display: block; width: 100%; height: auto; margin: 16px 0; border: 2px solid var(--color-border); border-radius: 16px; }
+.route-swatch { display: inline-block; width: 18px; height: 18px; margin-right: 8px; border: 1px solid #333; border-radius: 50%; vertical-align: middle; }
+.route-current { padding: 12px 16px; border-radius: var(--radius-control); background: var(--color-selected); }
+.map-stop { cursor: pointer; }
+.map-stop:focus-visible { outline: none; }
+.map-stop:focus-visible rect { stroke: var(--color-focus); stroke-width: 6; }
 .stop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
 .stop-grid button, .word-row button { min-height: 64px; padding: 10px 14px; border: 2px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text); font: inherit; font-weight: 700; }
 .stop-grid button.reachable { border-color: var(--color-primary); background: var(--color-selected); }

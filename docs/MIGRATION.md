@@ -2,6 +2,8 @@
 
 ## Migration entry: «Дана и Арман: по городу»
 
+November 13, 2026 owner feedback: corrected the migrated map's inert stop markers. Map stops now accept touch, mouse, and keyboard selection, with large visible targets and clear next-stop highlighting. The selected route shows its full stop order; the current stop shows which buses are available there. Route 14 is accessible from its own stops, including the stadium and station, and its schematic line now follows orthogonal streets. The large labeled stop controls remain as an equivalent path. No build, tests, browser checks, layout measurements, or screenshots were requested or run.
+
 November 13, 2026: migrated `Dana_Arman_marshruty.html` into «Средний уровень» at the owner's request to publish it. Objective: navigate bus routes while practising «от» + genitive, «к» + dative, and «на автобусе № …». The source explicitly names grades 7–8. Russian interface with the original Kazakh hint lines; word-card sentence assembly is checked against the exact forms, with correct-answer feedback and explicit continuation.
 
 Preserved 12 stops, three bidirectional routes, eight missions, free travel, learning/self-check modes, route journal, first-try and check counts, replay, and the source's task and hint wording. A labeled stop grid accompanies the schematic map so every trip works by large touch targets. The route numbers and school numbers remain distinct. No factual corrections; source HTML remains unchanged. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another legacy migration.
