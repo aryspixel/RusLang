@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import SurfacePanel from '../../components/SurfacePanel.vue'
 import TouchButton from '../../components/TouchButton.vue'
 import { places, routes, missions } from './data.js'
@@ -20,6 +20,11 @@ const checked = ref(false)
 const done = ref(false)
 const message = ref('Выбери автобус, затем соседнюю остановку.')
 const messageKind = ref('')
+const busPosition = ref({ x: places.park[3], y: places.park[4] })
+const driving = ref(false)
+const driveProgress = ref(0)
+const travelStatus = ref('')
+let animationFrame = null
 const mission = computed(() => missions[missionIndex.value])
 const name = id => places[id][0]
 const activeRoutes = computed(() => Object.keys(routes).filter(number => routes[number].stops.includes(current.value)))
@@ -39,20 +44,66 @@ function routePoints(number, stops) {
   })
   return points.map(point => point.join(',')).join(' ')
 }
+function tripPoints(number, from, to) {
+  const stops = routes[number].stops
+  const forward = stops.indexOf(from) < stops.indexOf(to)
+  const ids = forward ? [from, to] : [to, from]
+  const points = routePoints(number, ids).split(' ').map(pair => pair.split(',').map(Number))
+  return forward ? points : points.reverse()
+}
+function stopAnimation() {
+  if (animationFrame !== null) cancelAnimationFrame(animationFrame)
+  animationFrame = null
+  driving.value = false
+}
+function driveToNextStop() {
+  const destination = pending.value
+  const points = tripPoints(route.value, current.value, destination)
+  const lengths = points.slice(1).map((point, index) => Math.hypot(point[0] - points[index][0], point[1] - points[index][1]))
+  const total = lengths.reduce((sum, length) => sum + length, 0)
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reduced || !total) {
+    driveProgress.value = 1
+    busPosition.value = { x: places[destination][3], y: places[destination][4] }
+    travelStatus.value = `Автобус № ${route.value} прибыл: ${name(destination)}. Нажми «Дальше».`
+    return
+  }
+  driving.value = true
+  travelStatus.value = `Автобус № ${route.value} едет к остановке «${name(destination)}».`
+  const started = performance.now()
+  const duration = 1200
+  function frame(now) {
+    driveProgress.value = Math.min((now - started) / duration, 1)
+    let remaining = driveProgress.value * total
+    let index = 0
+    while (index < lengths.length - 1 && remaining > lengths[index]) remaining -= lengths[index++]
+    const ratio = lengths[index] ? Math.min(remaining / lengths[index], 1) : 1
+    busPosition.value = { x: points[index][0] + (points[index + 1][0] - points[index][0]) * ratio, y: points[index][1] + (points[index + 1][1] - points[index][1]) * ratio }
+    if (now - started < duration) animationFrame = requestAnimationFrame(frame)
+    else {
+      animationFrame = null; driving.value = false
+      busPosition.value = { x: places[destination][3], y: places[destination][4] }
+      travelStatus.value = `Автобус № ${route.value} прибыл: ${name(destination)}. Нажми «Дальше».`
+    }
+  }
+  animationFrame = requestAnimationFrame(frame)
+}
 function adjacent(a, b, number) { const list = routes[number]?.stops || []; return Math.abs(list.indexOf(a) - list.indexOf(b)) === 1 && list.includes(a) && list.includes(b) }
 function say(text, kind = '') { message.value = text; messageKind.value = kind }
 function reset(index = missionIndex.value) {
+  stopAnimation()
   missionIndex.value = index; current.value = index < 0 ? 'park' : missions[index][2]
+  busPosition.value = { x: places[current.value][3], y: places[current.value][4] }; driveProgress.value = 0; travelStatus.value = ''
   route.value = null; pending.value = null; chosen.value = []; bank.value = []; log.value = []; path.value = [current.value]
   tries.value = 0; first.value = 0; hadError.value = false; checked.value = false; done.value = false
   say('Выбери автобус, затем соседнюю остановку.')
 }
-function selectRoute(number) { if (pending.value || checked.value || done.value || !activeRoutes.value.includes(number)) return; route.value = number; say(`Автобус № ${number}. Выбери соседнюю остановку.`) }
+function selectRoute(number) { if (pending.value || checked.value || done.value || !activeRoutes.value.includes(number)) return; route.value = number; busPosition.value = { x: places[current.value][3], y: places[current.value][4] }; travelStatus.value = `Автобус № ${number} ждёт на остановке «${name(current.value)}».`; say(`Автобус № ${number}. Выбери соседнюю остановку.`) }
 function selectStop(id) {
   if (pending.value || checked.value || done.value) return
   if (!route.value) return say('Сначала выбери автобус.')
   if (!adjacent(current.value, id, route.value)) return say(mode.value === 'learn' ? `По маршруту № ${route.value} нужно ехать по одной остановке.` : 'Проверь маршрут и порядок остановок.', 'error')
-  pending.value = id; chosen.value = []; hadError.value = false
+  pending.value = id; chosen.value = []; hadError.value = false; driveProgress.value = 0
   bank.value = [...new Set([...expected.value, places[current.value][2], places[id][1], places[id][0].toLowerCase(), 'в'])].sort(() => Math.random() - .5)
   say('Собери предложение. Лишние карточки оставь.')
 }
@@ -66,15 +117,17 @@ function check() {
   if (JSON.stringify(chosen.value) === JSON.stringify(expected.value)) {
     if (!hadError.value) first.value++
     say(`Верно! ${expected.value.join(' ')} Откуда? «от» + родительный падеж. Куда? «к» + дательный падеж.`, 'success')
+    driveToNextStop()
   } else {
     hadError.value = true
     say(`Пока неверно. Правильный ответ: ${expected.value.join(' ')} Проверь порядок слов и окончания.`, 'error')
   }
 }
 function continueTrip() {
-  if (!checked.value) return
+  if (!checked.value || driving.value) return
   if (messageKind.value === 'error') { checked.value = false; say('Попробуй собрать предложение ещё раз.'); return }
-  log.value.push(expected.value.join(' ')); current.value = pending.value; path.value.push(current.value); pending.value = null; chosen.value = []; bank.value = []; checked.value = false
+  log.value.push(expected.value.join(' ')); current.value = pending.value; path.value.push(current.value); pending.value = null; chosen.value = []; bank.value = []; checked.value = false; driveProgress.value = 0
+  travelStatus.value = `Автобус № ${route.value} на остановке «${name(current.value)}».`
   if (missionIndex.value >= 0 && current.value === mission.value[3]) {
     const numbers = log.value.map(line => line.match(/№ (\d+)/)?.[1])
     const needsTransfer = [1, 3, 4, 5, 6].includes(missionIndex.value)
@@ -83,6 +136,7 @@ function continueTrip() {
     else say(needsTransfer ? 'Ты достиг цели, но задание требует пересадки. Начни маршрут заново.' : 'Ты достиг цели, но задание требует поездки без пересадки. Начни маршрут заново.', 'error')
   } else say(`Ты приехал на остановку «${name(current.value)}». Продолжай или смени автобус.`)
 }
+onUnmounted(stopAnimation)
 reset(0)
 </script>
 
@@ -111,10 +165,12 @@ reset(0)
       </div>
       <p class="route-current"><strong>Вы здесь:</strong> {{ name(current) }}. <strong>Доступны автобусы:</strong> {{ activeRoutes.map(number => '№ ' + number).join(', ') }}.</p>
       <p v-if="route"><strong>Маршрут № {{ route }}:</strong> {{ routes[route].stops.map(name).join(' → ') }}. <strong>Следующие остановки:</strong> {{ nextStops.map(name).join(' или ') }}.</p>
+      <p v-if="travelStatus" class="route-travel" role="status" aria-live="polite">{{ travelStatus }}</p>
       <svg class="route-map" viewBox="0 0 1100 660" aria-label="Схема остановок трёх автобусных маршрутов. Нажмите доступную соседнюю остановку.">
         <rect width="1100" height="660" fill="#f0f3eb" />
         <polyline v-for="item in mapRoutes" :key="item.number" :points="item.points" fill="none" :stroke="item.color" :stroke-width="route === item.number ? 12 : 7" :opacity="!route || route === item.number ? 1 : .3" stroke-linejoin="round" stroke-linecap="round" />
         <g v-for="[id, place] in stopEntries" :key="id" class="map-stop" :class="{ reachable: nextStops.includes(id), here: current === id }" role="button" :tabindex="pending || checked || done ? -1 : 0" :aria-label="`Остановка ${place[0]}${current === id ? ', вы здесь' : nextStops.includes(id) ? ', следующая по маршруту' : ''}`" :aria-disabled="!!pending || checked || done" @click="selectStop(id)" @keydown.enter.prevent="selectStop(id)" @keydown.space.prevent="selectStop(id)"><rect :x="place[3] - 76" :y="place[4] - 31" width="152" height="87" rx="16" :fill="current === id ? '#e5d8ef' : nextStops.includes(id) ? '#e6f4e7' : '#fffdf9'" :stroke="nextStops.includes(id) ? '#32765b' : '#b7b4bf'" :stroke-width="nextStops.includes(id) ? 4 : 2" /><circle :cx="place[3]" :cy="place[4]" r="13" :fill="current === id ? '#7255a1' : '#fff'" stroke="#54476a" stroke-width="3" /><text :x="place[3]" :y="place[4] + 34" text-anchor="middle" font-size="17" font-weight="700" fill="#302b38">{{ place[0] }}</text></g>
+        <g v-if="route" class="map-bus" :transform="`translate(${busPosition.x - 34} ${busPosition.y - 62})`" aria-hidden="true"><rect x="0" y="0" width="68" height="34" rx="8" :fill="routes[route].color" stroke="#fff" stroke-width="3" /><rect x="8" y="7" width="20" height="11" rx="2" fill="#e5f4ff" /><rect x="34" y="7" width="16" height="11" rx="2" fill="#e5f4ff" /><circle cx="15" cy="34" r="5" fill="#272f3a" /><circle cx="52" cy="34" r="5" fill="#272f3a" /><rect x="48" y="-12" width="26" height="20" rx="5" fill="#fff" stroke="#333" stroke-width="2" /><text x="61" y="3" text-anchor="middle" font-size="14" font-weight="800" fill="#222">{{ route }}</text></g>
       </svg>
       <p>Нажми подсвеченную остановку на карте или кнопку ниже. Маршруты работают в обе стороны. Расстояния и время поездки не указаны.</p>
       <div class="stop-grid" role="group" aria-label="Остановки">
@@ -125,9 +181,10 @@ reset(0)
     <SurfacePanel v-if="pending">
       <h2>Твоя реплика: {{ name(current) }} → {{ name(pending) }}</h2>
       <p>Собери предложение: откуда, куда и на каком автобусе едем.</p>
+      <div class="trip-preview" aria-hidden="true"><span>{{ name(current) }}</span><div class="trip-track"><span class="trip-bus" :style="{ left: `${driveProgress * 100}%`, background: routes[route].color }">🚌 <b>{{ route }}</b></span></div><span>{{ name(pending) }}</span></div>
       <div class="word-row" aria-label="Собранное предложение"><button v-for="(word, index) in chosen" :key="index" type="button" :disabled="checked" @click="remove(index)">{{ word }}</button><span v-if="!chosen.length">Нажимай карточки снизу…</span></div>
       <div class="word-row" aria-label="Карточки со словами"><button v-for="(word, index) in bank" :key="word + index" type="button" :disabled="checked" @click="add(index)">{{ word }}</button></div>
-      <div class="action-row"><TouchButton v-if="!checked" :disabled="!chosen.length" @click="check">Проверить</TouchButton><TouchButton v-else @click="continueTrip">{{ messageKind === 'error' ? 'Попробовать снова' : 'Дальше' }}</TouchButton><TouchButton v-if="!checked" variant="secondary" @click="clear">Очистить</TouchButton><TouchButton v-if="!checked" variant="secondary" @click="pending = null; chosen = []; bank = []">Другую остановку</TouchButton></div>
+      <div class="action-row"><TouchButton v-if="!checked" :disabled="!chosen.length" @click="check">Проверить</TouchButton><TouchButton v-else :disabled="driving" @click="continueTrip">{{ driving ? 'Автобус едет…' : messageKind === 'error' ? 'Попробовать снова' : 'Дальше' }}</TouchButton><TouchButton v-if="!checked" variant="secondary" @click="clear">Очистить</TouchButton><TouchButton v-if="!checked" variant="secondary" @click="pending = null; chosen = []; bank = []">Другую остановку</TouchButton></div>
     </SurfacePanel>
     <p class="route-feedback" :class="messageKind" role="status" aria-live="polite">{{ message }}</p>
     <SurfacePanel v-if="done"><h2>Маршрут пройден!</h2><p>Прочитай дневник поездки вслух.</p><TouchButton @click="reset(missionIndex < missions.length - 1 ? missionIndex + 1 : 0)">{{ missionIndex < missions.length - 1 ? 'Следующее задание' : 'Повторить задания' }}</TouchButton></SurfacePanel>
@@ -141,6 +198,11 @@ reset(0)
 .route-map { display: block; width: 100%; height: auto; margin: 16px 0; border: 2px solid var(--color-border); border-radius: 16px; }
 .route-swatch { display: inline-block; width: 18px; height: 18px; margin-right: 8px; border: 1px solid #333; border-radius: 50%; vertical-align: middle; }
 .route-current { padding: 12px 16px; border-radius: var(--radius-control); background: var(--color-selected); }
+.route-travel { font-weight: 700; }
+.map-bus { pointer-events: none; filter: drop-shadow(0 3px 4px #26334388); }
+.trip-preview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(80px, 2fr) minmax(0, 1fr); align-items: center; gap: 12px; margin: 16px 0 26px; font-weight: 700; overflow-wrap: anywhere; }
+.trip-track { position: relative; height: 5px; margin: 0 26px; background: var(--color-border); }
+.trip-bus { position: absolute; top: -30px; transform: translateX(-50%); white-space: nowrap; padding: 4px 7px; border-radius: 8px; color: #fff; font-size: 18px; }
 .map-stop { cursor: pointer; }
 .map-stop:focus-visible { outline: none; }
 .map-stop:focus-visible rect { stroke: var(--color-focus); stroke-width: 6; }
