@@ -22,6 +22,7 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 | Identifying sentence parts | «Испеки яблочный пирог!» | Select a role, then tap the word; show each marked word and role, allow clearing the sentence, and give textual correction. No color-only marking. |
 | Listening with text equivalent | «Среда Али», «Моя комната» | Explicit playback; sound off by default. Story/tasks remain available as text; game completable without sound on missing voice/failure. Shared `SpeechControls.vue`; answer sounds optional. In «Моя комната», replay at any step, separate transcript disclosure, stop on part switch. |
 | Route navigation with sentence assembly | «Дана и Арман: по городу» | Pick an available bus and adjacent stop using either large map targets or labeled controls. Show route stop order, current position, and available buses in text. Assemble a case-marked sentence from word cards, check separately, read the correct answer, then show the bus moving to the next stop. Keep arrival textual and skip movement for reduced-motion users; continue explicitly. |
+| ЕНТ mixed item set | Russian language and literature for Kazakh-medium schools | Shared `EntMixedTrainer.vue` handles single choice, five questions on one context, multi-answer selection, and matching with labeled select controls. Learning checks separately and shows explanations before continuation; test mode defers correction until the result. Modes preserve independent progress. |
 
 ## Common screen structure
 
