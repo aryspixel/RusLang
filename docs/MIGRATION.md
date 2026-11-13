@@ -1,5 +1,11 @@
 # Legacy HTML migration plan
 
+## Migration entry: «Глаголы»
+
+November 13, 2026: migrated `trenazher_glagol_ENT.html` into «ЕНТ» as «Глаголы» at the owner's request. Objective: practise verb conjugation, aspect and tense, mood, spelling, and morphology. The source does not specify a grade; grades 9–11 are a provisional recommendation based on ЕНТ preparation. Russian interface and content; single-choice answers with exact-match scoring and explanatory feedback.
+
+Preserved all 51 questions in six sections, four choices and explanations per question, and six reference cards. Sections and learning/test modes retain independent progress. Learning locks an answer and displays the correct form and explanation before explicit continuation. Test mode defers correctness and explanations until the result, correcting the source's immediate correctness reveal. Replay resets the current section. The source HTML remains unchanged. No factual corrections were made. Awaiting owner feedback before another migration.
+
 ## Migration entry: «Грамотность чтения · ЕНТ»
 
 November 11, 2026: added an independent, more demanding second variant at the owner's request. Three new original passages and ten tasks include inference, evaluation of claims, limitations of conclusions, and three written passage headings. The source's three passages and ten questions remain intact as variant 1. The source titles are hidden in variant 2 until review; written headings are compared with examples and meaning-based criteria, then marked by the learner or teacher. The score combines seven automatically checked choices and three manually marked headings. Both variants retain learning and timed test modes. No build, tests, browser checks, layout measurements, or screenshots were requested or run; awaiting owner feedback.
