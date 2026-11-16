@@ -35,7 +35,7 @@ The main learning objective determines placement: text/expressiveness → «Ра
 
 «Падежи существительных» belongs directly to `middle-level` as a neutral foundational grammar trainer. It covers choosing noun forms, selecting the case-question pair for a highlighted noun in context, identifying the case from a phrase, and recognizing cases from their questions. The controlled topic is `noun-cases`; the provisional grade recommendation is 3–4. It has no listening subsection.
 
-«Склонение существительных» also belongs directly to `middle-level`. Its six blocks cover declension, case, endings, special nouns, and editing. The controlled topic is `noun-cases`; grades 5–6 are provisional because the source gives no grade.
+«Склонение существительных» belongs directly to `ent` at the owner's November 16 placement request. Its six blocks cover declension, case, endings, special nouns, and editing. The controlled topic is `noun-cases`; grades 5–6 are provisional because the source gives no grade. Category and grade recommendation remain independent.
 
 «Падежи в кафе» belongs directly to `middle-level` following the owner's October 26, 2026 publication request. It covers noun endings and case identification in a café story, with RU/KZ explanations; the two 20-task blocks preserve state when switching. Controlled topic: `noun-cases`; provisional grade recommendation 3–6. The neutral trainer «Падежи существительных» is listed alongside it in «Среднем уровне».
 
