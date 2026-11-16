@@ -459,3 +459,7 @@ November 16, 2026: migrated `trenazher_magazin_repliki_korzina.html` into «На
 
 Preserved the six speakers and exact lines, nine products, four requested groceries, freely switchable blocks, tap-to-place and undo for dialogue, tap-to-add/remove for the basket, separate checking, and block replay. Each checked answer locks input, reveals the complete correct answer and an explanation, then requires an explicit result action. The source HTML remains unchanged. No factual corrections. No build, tests, browser checks, touch walkthroughs, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another migration.
 
+
+## New trainer: «Считай и называй цвет»
+
+Created November 16, 2026 at the owner's request for numbers and colors. The owner then expanded the range to 1–20. Objective: count one to twenty visible objects and name four basic colors. Every number from 1 to 20 has a counting task; after each fifth number there is a color task (24 tasks total). Russian interface and answers; exact-match single choice with a separate check, correction and explanation, explicit continuation, result and replay. Recommended grades 1–4 are provisional because no grade or source material was specified. The `primary` catalog entry uses controlled `numbers` and `colors` facets and lazy loading. No source text was supplied. No build or interface checks were run under the owner's verification preference; awaiting feedback.
