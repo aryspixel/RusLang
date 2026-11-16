@@ -453,3 +453,9 @@ Created October 26, 2026 from `Urok_ekzamen_Hudozhestvennyy_stil_9_klass.docx`; 
 
 Created November 10, 2026 at the owner's request for spatial prepositions. The attached `Den_v_parke_rabochie_listy.pdf` was available but could not be extracted in the working environment, so its learning text was not copied or attributed. The owner placed it in `middle-level` and named it «Предлоги»; recommended grades 1–4 remain provisional by content. Expanded at owner request to three independent blocks: 20 tap-to-assemble sentences first, 18 original preposition choices second, and eight contrasts between location and direction third. Each has exact-match scoring, immediate correction and explanation, explicit continuation, result, and replay. The `place-prepositions`, `choice`, and `sequence` facets are controlled metadata; the game loads lazily. No build or interface checks were run under the owner's verification preference. Awaiting owner feedback.
 
+# Migration entry: «Тренажёр „В магазине“»
+
+November 16, 2026: migrated `trenazher_magazin_repliki_korzina.html` into «Начальный уровень» at the owner's request. Objective: put a six-line customer/seller dialogue in order and select the four listed groceries among nine products. The source does not specify a grade; grades 1–4 are provisional. Russian interface and content; junior theme; `primary` / routine / sequence and choice / ru metadata.
+
+Preserved the six speakers and exact lines, nine products, four requested groceries, freely switchable blocks, tap-to-place and undo for dialogue, tap-to-add/remove for the basket, separate checking, and block replay. Each checked answer locks input, reveals the complete correct answer and an explanation, then requires an explicit result action. The source HTML remains unchanged. No factual corrections. No build, tests, browser checks, touch walkthroughs, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another migration.
+
