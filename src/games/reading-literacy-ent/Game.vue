@@ -2,11 +2,13 @@
 import { computed, onUnmounted, ref } from 'vue'
 import data from './data.js'
 import advancedData from './advanced-data.js'
+import thirdData from './third-data.js'
 
 const screen = ref('start')
 const mode = ref('learn')
 const variant = ref('original')
-const activeData = computed(() => variant.value === 'advanced' ? advancedData : data)
+const activeData = computed(() => variant.value === 'third' ? thirdData : variant.value === 'advanced' ? advancedData : data)
+const variantLabel = computed(() => variant.value === 'third' ? 'Вариант 3' : variant.value === 'advanced' ? 'Вариант 2' : 'Вариант 1')
 const index = ref(0)
 const answers = ref([])
 const checked = ref([])
@@ -29,7 +31,12 @@ const originalGroups = [
   { name: 'Текст 3 · Развёрнутый', ids: [5, 6, 7, 8, 9] },
   { name: 'Задания повышенного уровня', ids: [7, 8] },
 ]
-const groups = computed(() => variant.value === 'advanced' ? [
+const groups = computed(() => variant.value === 'third' ? [
+  { name: 'Текст 1 · Школьный опрос', ids: [0, 1, 2] },
+  { name: 'Текст 2 · История моста', ids: [3, 4, 5] },
+  { name: 'Текст 3 · Праздник', ids: [6, 7, 8, 9] },
+  { name: 'Собственные заголовки', ids: [0, 3, 6] },
+] : variant.value === 'advanced' ? [
   { name: 'Текст 1 · Маршруты', ids: [0, 1, 2] },
   { name: 'Текст 2 · Ремонт вещей', ids: [3, 4, 5] },
   { name: 'Текст 3 · Городской парк', ids: [6, 7, 8, 9] },
@@ -74,7 +81,7 @@ function next() {
 }
 function restart() { stopTimer(); screen.value = 'start'; copyMessage.value = '' }
 async function copyResult() {
-  const lines = [`Грамотность чтения · ЕНТ · 11 класс`, `Вариант: ${variant.value === 'advanced' ? 'усложнённый' : 'исходный'}`, `Режим: ${mode.value === 'learn' ? 'обучение' : 'тест'}`, `Результат: ${score.value}/10${titleMarksPending.value ? ' (оценка заголовков не завершена)' : ''}`, ...activeData.value.questions.map((item, number) => item.type === 'title' ? `${number + 1}. ${answers.value[number] || '—'} — ${item.skill} ${selfMarks.value[number] === null ? 'не оценён' : selfMarks.value[number] ? '✓' : '✗'}` : `${number + 1}. ${answers.value[number] === null ? '—' : 'ABCDE'[answers.value[number]]} / ${'ABCDE'[item.correct]} — ${item.skill} ${answers.value[number] === item.correct ? '✓' : '✗'}`)]
+  const lines = [`Грамотность чтения · ЕНТ · 11 класс`, `Вариант: ${variantLabel.value}`, `Режим: ${mode.value === 'learn' ? 'обучение' : 'тест'}`, `Результат: ${score.value}/10${titleMarksPending.value ? ' (оценка заголовков не завершена)' : ''}`, ...activeData.value.questions.map((item, number) => item.type === 'title' ? `${number + 1}. ${answers.value[number] || '—'} — ${item.skill} ${selfMarks.value[number] === null ? 'не оценён' : selfMarks.value[number] ? '✓' : '✗'}` : `${number + 1}. ${answers.value[number] === null ? '—' : 'ABCDE'[answers.value[number]]} / ${'ABCDE'[item.correct]} — ${item.skill} ${answers.value[number] === item.correct ? '✓' : '✗'}`)]
   try { await navigator.clipboard.writeText(lines.join('\n')); copyMessage.value = 'Результат скопирован.' }
   catch { copyMessage.value = 'Не удалось скопировать результат.' }
 }
@@ -91,6 +98,7 @@ onUnmounted(stopTimer)
       <div class="mode-grid" role="group" aria-label="Вариант заданий">
         <label class="mode-card"><input v-model="variant" type="radio" value="original"> <strong>Вариант 1</strong><span>Исходные тексты и вопросы.</span></label>
         <label class="mode-card"><input v-model="variant" type="radio" value="advanced"> <strong>Вариант 2 · сложнее</strong><span>Новые тексты, выводы и собственные заголовки.</span></label>
+        <label class="mode-card"><input v-model="variant" type="radio" value="third"> <strong>Вариант 3 · проверяй выводы</strong><span>Опросы, исторические источники и причины событий.</span></label>
       </div>
       <div class="mode-grid" role="group" aria-label="Режим тренировки">
         <label class="mode-card"><input v-model="mode" type="radio" value="learn"> <strong>Обучение</strong><span>Подсказка до ответа, проверка каждого вопроса и объяснение.</span></label>
@@ -101,7 +109,7 @@ onUnmounted(stopTimer)
     </section>
 
     <section v-else-if="screen === 'work'" aria-label="Вопросы">
-      <div class="status-row"><strong>{{ variant === 'advanced' ? 'Вариант 2' : 'Вариант 1' }} · {{ mode === 'learn' ? 'Режим обучения' : 'Пробный ЕНТ' }}</strong><strong>{{ mode === 'exam' ? `Осталось: ${timeLabel}` : 'Без таймера' }}</strong></div>
+      <div class="status-row"><strong>{{ variantLabel }} · {{ mode === 'learn' ? 'Режим обучения' : 'Пробный ЕНТ' }}</strong><strong>{{ mode === 'exam' ? `Осталось: ${timeLabel}` : 'Без таймера' }}</strong></div>
       <p class="progress-text">Вопрос {{ index + 1 }} из {{ activeData.questions.length }} · Ответов: {{ activeData.questions.length - missing }} из {{ activeData.questions.length }}</p>
       <nav class="question-nav" aria-label="Номера вопросов">
         <button v-for="(item, number) in activeData.questions" :key="number" type="button" :class="{ current: number === index, answered: item.type === 'title' ? Boolean(String(answers[number] ?? '').trim()) : answers[number] !== null }" :aria-current="number === index ? 'step' : undefined" :aria-label="`Вопрос ${number + 1}`" @click="go(number)">{{ number + 1 }}</button>
@@ -122,8 +130,8 @@ onUnmounted(stopTimer)
     </section>
 
     <section v-else class="surface-panel results">
-      <p class="eyebrow">Результат · {{ variant === 'advanced' ? 'Вариант 2' : 'Вариант 1' }}</p><h1>Грамотность чтения · ЕНТ</h1>
-      <p v-if="expired">Время истекло.</p><p v-if="variant === 'advanced'">Сравните свои заголовки с примерами и отметьте, передают ли они главную мысль. Оценка обновится после вашего выбора.</p>
+      <p class="eyebrow">Результат · {{ variantLabel }}</p><h1>Грамотность чтения · ЕНТ</h1>
+      <p v-if="expired">Время истекло.</p><p v-if="variant !== 'original'">Сравните свои заголовки с примерами и отметьте, передают ли они главную мысль. Оценка обновится после вашего выбора.</p>
       <p class="score">{{ score }} / 10</p><p v-if="titleMarksPending">Оцените заголовки ниже, чтобы получить итоговый результат.</p><p v-else>{{ summary }}</p>
       <div class="analysis-grid"><div v-for="group in groups" :key="group.name"><strong>{{ group.name }}</strong><p>{{ group.ids.filter(number => activeData.questions[number].type === 'title' ? selfMarks[number] === true : answers[number] === activeData.questions[number].correct).length }} из {{ group.ids.length }} верно</p></div></div>
       <h2>Разбор ответов</h2>
