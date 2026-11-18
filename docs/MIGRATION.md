@@ -477,5 +477,7 @@ November 18, 2026: migrated `igra_ali_saya_park_attraktsionov.html` into `primar
 
 ## Migration entry: «Кто быстрее? — гонка знаний»
 
+November 18, 2026: the owner requested a longer race. Added a 20-point finish option and 12 new questions: four each for weekdays, colors, and riddles. Each topic now has at least 20 distinct questions, allowing a player who answers correctly to reach 20 without repeating a question; the full bank has 100 questions. The new material is editorial; the original 88 source questions and answers remain unchanged. No build or interface checks were run under the owner's verification preference.
+
 November 18, 2026: migrated `kto_bystree_gonka_ali_saya_rezhimy.html` into `primary` at the owner's request. Objective: recognize weekdays, numbers 1–20, colors, and answers to simple riddles in a two-player race. The source does not name a grade; 1–4 is provisional. Russian interface, three-choice answers, 88 generated questions across four topics, turn-taking and simultaneous modes, selectable finish scores of 5/8/10/15, independent player scores, and replay are preserved. The original question wording and answers remain. An answered question now shows the correct answer and waits for «Дальше» instead of advancing on a timer. Sound effects were omitted so the game works silently. No factual corrections. The source HTML remains unchanged. No build or interface checks were run under the owner's verification preference. Awaiting owner feedback before another migration.
 
