@@ -16,6 +16,7 @@ const choices = computed(() => task.value[1].map((label, value) => ({ label, val
 const correct = computed(() => state.value.selected === task.value[2])
 const totalScore = computed(() => sections.reduce((sum, item) => sum + states[item.id].score, 0))
 const totalTasks = sections.reduce((sum, item) => sum + item.tasks.length, 0)
+const presentationUrl = `${import.meta.env.BASE_URL}presentations/narechie-ent.pptx`
 function check() {
   if (state.value.checked || state.value.selected === null) return
   state.value.checked = true
@@ -37,7 +38,7 @@ function replay() {
   <div class="game-layout">
     <h1>Наречие · подготовка к ЕНТ</h1>
     <p>Изучите правило в презентации, затем пройдите тематические блоки. Выберите ответ, проверьте его и прочитайте объяснение.</p>
-    <a class="presentation-link" :href="`${import.meta.env.BASE_URL}presentations/narechie-ent.pptx`" download>Скачать презентацию «Наречие»</a>
+    <a class="presentation-link" :href="presentationUrl" download>Скачать презентацию «Наречие»</a>
     <div class="section-list" role="group" aria-label="Темы тренажёра">
       <TouchButton v-for="item in sections" :key="item.id" :variant="sectionId === item.id ? 'primary' : 'secondary'" :aria-pressed="sectionId === item.id" @click="sectionId = item.id">{{ item.title }}<span v-if="states[item.id].finished"> · {{ states[item.id].score }}/{{ item.tasks.length }}</span></TouchButton>
     </div>
