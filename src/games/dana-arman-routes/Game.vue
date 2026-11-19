@@ -98,7 +98,16 @@ function reset(index = missionIndex.value) {
   tries.value = 0; first.value = 0; hadError.value = false; checked.value = false; done.value = false
   say('Выбери автобус, затем соседнюю остановку.')
 }
-function selectRoute(number) { if (pending.value || checked.value || done.value || !activeRoutes.value.includes(number)) return; route.value = number; busPosition.value = { x: places[current.value][3], y: places[current.value][4] }; travelStatus.value = `Автобус № ${number} ждёт на остановке «${name(current.value)}».`; say(`Автобус № ${number}. Выбери соседнюю остановку.`) }
+function selectRoute(number) {
+  if (pending.value || checked.value || done.value) return
+  if (!activeRoutes.value.includes(number)) {
+    const transfers = routes[number].stops.filter(id => activeRoutes.value.some(active => routes[active].stops.includes(id)))
+    const transferHint = transfers.length ? ` Доедь до остановки «${name(transfers[0])}» и выбери № ${number} там.` : ''
+    say(`Автобус № ${number} не останавливается у остановки «${name(current.value)}».${transferHint}`, 'error')
+    return
+  }
+  route.value = number; busPosition.value = { x: places[current.value][3], y: places[current.value][4] }; travelStatus.value = `Автобус № ${number} ждёт на остановке «${name(current.value)}».`; say(`Автобус № ${number}. Выбери соседнюю остановку.`)
+}
 function selectStop(id) {
   if (pending.value || checked.value || done.value) return
   if (!route.value) return say('Сначала выбери автобус.')
@@ -159,9 +168,9 @@ reset(0)
     </SurfacePanel>
     <SurfacePanel>
       <h2>Карта маршрутов</h2>
-      <p>1. Выбери автобус. 2. Выбери соседнюю остановку по его линии.</p>
+      <p>1. Нажми номер автобуса. Если он здесь не останавливается, игра подскажет место пересадки. 2. Выбери соседнюю остановку по его линии.</p>
       <div class="action-row" role="group" aria-label="Автобусы">
-        <TouchButton v-for="(item, number) in routes" :key="number" :variant="route === number ? 'primary' : 'secondary'" :disabled="!activeRoutes.includes(number) || !!pending || checked || done" :aria-pressed="route === number" @click="selectRoute(number)"><span class="route-swatch" :style="{ background: item.color }" aria-hidden="true"></span>Автобус № {{ number }}</TouchButton>
+        <TouchButton v-for="(item, number) in routes" :key="number" :variant="route === number ? 'primary' : 'secondary'" :disabled="!!pending || checked || done" :aria-pressed="route === number" @click="selectRoute(number)"><span class="route-swatch" :style="{ background: item.color }" aria-hidden="true"></span>Автобус № {{ number }}</TouchButton>
       </div>
       <p class="route-current"><strong>Вы здесь:</strong> {{ name(current) }}. <strong>Доступны автобусы:</strong> {{ activeRoutes.map(number => '№ ' + number).join(', ') }}.</p>
       <p v-if="route"><strong>Маршрут № {{ route }}:</strong> {{ routes[route].stops.map(name).join(' → ') }}. <strong>Следующие остановки:</strong> {{ nextStops.map(name).join(' или ') }}.</p>

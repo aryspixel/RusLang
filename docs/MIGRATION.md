@@ -18,6 +18,8 @@ The language trainer covers spelling, morphology, numerals, verbs, simple and co
 
 ## Migration entry: «Дана и Арман: по городу»
 
+November 20, 2026 owner feedback: route buttons, including № 14, remain tappable at the initial Park stop. Tapping a bus that does not stop at the current location now explains this and names a shared transfer stop; the bus can still be boarded only at one of its original stops. The three source routes and all missions remain unchanged.
+
 November 13, 2026 owner request: added a drawn bus with a route-number sign to the map. Selecting a route places it at the current stop; after a correct sentence it travels along that route's schematic street segments to the chosen adjacent stop. Text announces travel and arrival, and «Дальше» stays unavailable until arrival. Reduced-motion settings skip the movement while preserving the same answer and continuation flow. Route switching moves the sign to the new bus at the current stop. No local build, test, browser check, measurement, or screenshot was requested or run.
 
 November 13, 2026 owner feedback: corrected the migrated map's inert stop markers. Map stops now accept touch, mouse, and keyboard selection, with large visible targets and clear next-stop highlighting. The selected route shows its full stop order; the current stop shows which buses are available there. Route 14 is accessible from its own stops, including the stadium and station, and its schematic line now follows orthogonal streets. The large labeled stop controls remain as an equivalent path. No build, tests, browser checks, layout measurements, or screenshots were requested or run.
