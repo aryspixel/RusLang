@@ -1,5 +1,9 @@
 # Legacy HTML migration plan
 
+## Migration entry: «В комнате игрушек»
+
+November 20, 2026: migrated `igra_nahodilka_komnata_igrushek.html` into «Начальный уровень» at the owner's request. The objective is to name and find toys, count objects, describe their location, and assemble simple Russian sentences. The interface retains the source's Russian instructions and Kazakh support lines. Grades 1–4 are provisional because the source does not state a grade. The original room image, eight search objects, four counting questions, five location questions, five sentences, answer wording, and RU/KZ preposition hint are preserved. Each checked answer now locks, shows the correct answer, and requires explicit continuation; each block has a result and replay. The four blocks retain their state when switching. No factual corrections were made. The legacy HTML remains unchanged. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another legacy migration.
+
 ## New presentation and trainer: «Наречие · подготовка к ЕНТ»
 
 November 18, 2026: created an original Russian-language presentation and a matching trainer at the owner's request. The 15-slide presentation covers meaning, invariability, syntactic role, semantic classes, comparison, distinction from similar forms, НЕ/НИ, Н/НН, suffixes, hyphens, fused and separate spellings, and Ь after sibilants. The trainer has nine thematic blocks and 36 single-choice tasks with separate checking, correct answers, explanations, explicit continuation, per-block results, and replay. Recommended grades 9–11 are provisional by ЕНТ purpose because no grade was specified. The trainer belongs to `ent`; controlled facets are `orthography`, `choice`, and `ru`. No legacy source was changed. No build, tests, browser checks, layout measurements, or screenshots were requested or run; awaiting owner feedback.
