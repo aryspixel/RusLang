@@ -1,6 +1,6 @@
 # Catalog navigation
 
-Home shows these sections in order: **Развитие речи → ЕНТ → Грамотность чтения → Тесты → Начальный уровень → Средний уровень**. Search and filters are not shown. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
+Home shows these sections in order: **Развитие речи → Литературная мастерская → ЕНТ → Грамотность чтения → Тесты → Начальный уровень → Средний уровень**. Search and filters are not shown. Tapping a card opens that section; a separate link returns to all sections. Games return to their section; the RusLang logo returns home.
 
 ## Sections and assignment
 
@@ -9,13 +9,14 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Section | ID | Trainers |
 | --- | --- | --- |
 | Развитие речи | speech | Типы текста: осень; Типы речи и художественные средства; Снимок, который не сделали |
+| Литературная мастерская | literary-workshop | Литературная лестница |
 | ЕНТ | ent | Русский язык · ЕНТ для казахских школ; Русская литература · ЕНТ для казахских школ; Глаголы; Имя числительное; Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
 | Грамотность чтения | reading-literacy | Грамотность чтения · ЕНТ |
 | Тесты | tests | Русский язык · 45 вопросов |
 | Начальный уровень | primary | Кто быстрее? — гонка знаний; Али и Сая в парке аттракционов; Тренажёр «В магазине»; Цветная мастерская; Испеки яблочный пирог!; Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
 | Средний уровень | middle-level | Дана и Арман: по городу; Падежи существительных; Причастие и причастный оборот; Падежи в кафе; Предлоги |
 
-The main learning objective determines placement: text/expressiveness → «Развитие речи»; ЕНТ language and literature topic practice → «ЕНТ»; reading comprehension → «Грамотность чтения»; full multi-topic practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
+The main learning objective determines placement: text/expressiveness → «Развитие речи»; literature games outside exam preparation → «Литературная мастерская»; ЕНТ language and literature topic practice → «ЕНТ» unless the owner explicitly places a game in «Литературная мастерская»; reading comprehension → «Грамотность чтения»; full multi-topic practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
 
 «Тесты» is a standalone section for complete multi-topic test trainers. «Русский язык · 45 вопросов» stays separate from the subject-specific ЕНТ practice cards and offers learning and test modes.
 

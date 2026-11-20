@@ -76,6 +76,7 @@ function audienceLabel(item) {
             <a class="touch-button catalog-card__open" :href="'#/game/' + item.id" :aria-label="'Начать: ' + item.title">Начать <span aria-hidden="true">→</span></a>
           </SurfacePanel>
         </div>
+        <p v-if="!visibleGames.length && !visibleSubcategories.length" class="muted">Здесь пока нет игр. Скоро они появятся.</p>
       </template>
       <template v-else-if="categoryPath !== null">
         <a class="back-link" href="#/">← Все разделы</a>

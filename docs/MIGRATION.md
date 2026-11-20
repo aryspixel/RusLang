@@ -1,5 +1,9 @@
 # Legacy HTML migration plan
 
+## Migration entry: «Литературная лестница»
+
+November 20, 2026: migrated `literaturnaya_lestnitsa_ENT_peredelannaya.html` into «Литературная мастерская» at the owner's request. The source specifies grade 11 and ЕНТ preparation. Its Russian interface has 12 authors, 43 single-choice questions organized by work, source portraits, explanations, author-level progress, browser persistence, wrong-answer retry, reset, and replay through work selection. Correct answers mark works as mastered. The source's question text, options, answers, and explanations are preserved in `src/games/literary-ladder/data.json`; the original HTML remains unchanged. No factual corrections were made. Build, tests, browser checks, layout measurements, and screenshots were not requested or run. Awaiting owner feedback before another legacy migration.
+
 ## Migration entry: «В комнате игрушек»
 
 November 20, 2026: migrated `igra_nahodilka_komnata_igrushek.html` into «Начальный уровень» at the owner's request. The objective is to name and find toys, count objects, describe their location, and assemble simple Russian sentences. The interface retains the source's Russian instructions and Kazakh support lines. Grades 1–4 are provisional because the source does not state a grade. The original room image, eight search objects, four counting questions, five location questions, five sentences, answer wording, and RU/KZ preposition hint are preserved. Each checked answer now locks, shows the correct answer, and requires explicit continuation; each block has a result and replay. The four blocks retain their state when switching. No factual corrections were made. The legacy HTML remains unchanged. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback before another legacy migration.
