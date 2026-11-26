@@ -13,6 +13,9 @@
 .ladder-section-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
 .ladder-section-heading h2 { margin-bottom: 8px; }
 .ladder-section-heading p { max-width: 800px; margin: 0; }
+.ladder-mode-card { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding: clamp(20px, 3vw, 32px); margin-bottom: 24px; border: 2px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); }
+.ladder-mode-card h2 { margin: 0 0 8px; }
+.ladder-mode-card p { margin: 0; }
 .ladder-authors { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); gap: var(--space-3); }
 .ladder-author { display: flex; align-items: flex-start; gap: 16px; width: 100%; padding: 20px; text-align: left; color: inherit; }
 .ladder-author img { width: 96px; height: 122px; flex: none; object-fit: cover; border-radius: 12px; }
