@@ -23,7 +23,7 @@ export const riddles = [
   ['Кто плавает в пруду и говорит «кря»?','утка',['кошка','лошадь']],
   ['Чем мы рисуем на бумаге?','карандаш',['ложкой','шарфом']],
 ]
-export const topics = { days:'📅 Дни недели', numbers:'🔢 Числа 1–20', colors:'🎨 Цвета', riddles:'🧩 Лёгкие загадки' }
+export const topics = { days:'📅 Дни недели', numbers:'🔢 Числа 1–20', colors:'🎨 Цвета', riddles:'🧩 Лёгкие загадки', body:'🧍 Части тела' }
 export function shuffle(items) {
   const result = [...items]
   for (let i = result.length - 1; i > 0; i--) {
@@ -62,5 +62,11 @@ export function makeBank() {
     ['Какого цвета спелый помидор?','красный',['синий','белый']],
   ]) bank.push({cat:'colors',visual:'🎨',text,answer,options:shuffle([answer,...wrong])})
   for (const [text, answer, wrong] of riddles) bank.push({cat:'riddles',visual:'❓',text,answer,options:shuffle([answer,...wrong])})
+  for (const [text, answer, explanation] of bodyPartQuestions) {
+    const wrong = shuffle(bodyPartWords.filter(word => word !== answer)).slice(0, 2)
+    bank.push({cat:'body',visual:'🧍',text,answer,explanation,options:shuffle([answer,...wrong])})
+  }
   return bank
 }
+import { bodyPartQuestions, bodyPartWords } from './body-parts.js'
+
