@@ -7,6 +7,7 @@ Version 0.5. Based on legacy HTML in `ИГРЫ HTML` and subfolders 01, 02, 03. 
 | Interaction | Source examples | Shared behavior |
 | --- | --- | --- |
 | Single-choice cards | «Распорядок дня», grammar trainers | Large buttons; lock after answering, show correct choice/explanation, then «Дальше». |
+| Text claim and evidence | «Факт или мнение? Проверяем по тексту» | Keep the complete passage visible. Check a claim's type, show an explanation, then separately choose the source line; lock each answer and continue explicitly. Unsupported claims need a line that shows the changed or missing detail. |
 | Multistep choice | «Союз или союзное слово?» | Clearly show step number/current question; check each step separately without prematurely hiding earlier explanations. |
 | Ordering | «Собери неделю», part two of «Распорядок дня» | Finger/mouse dragging plus card-then-position taps. Outline the selected slot; allow undo/reordering. |
 | Brief display and memory answer | «Поймай число» | Show rules/duration before starting; allow unhurried answering afterward; offer a nonflickering mode. |

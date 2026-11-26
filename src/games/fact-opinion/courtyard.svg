@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390" role="img" aria-label="Три скамейки у школьной библиотеки">
+  <rect width="600" height="390" fill="#e5f6f3"/>
+  <rect y="270" width="600" height="120" fill="#c6dfbf"/>
+  <rect x="40" y="45" width="520" height="235" rx="14" fill="#f7efe0" stroke="#547b79" stroke-width="7"/>
+  <rect x="224" y="73" width="152" height="48" rx="8" fill="#fff" stroke="#547b79" stroke-width="4"/>
+  <text x="300" y="105" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#295b58">БИБЛИОТЕКА</text>
+  <rect x="72" y="138" width="108" height="125" fill="#b8dadd" stroke="#547b79" stroke-width="5"/>
+  <rect x="420" y="138" width="108" height="125" fill="#b8dadd" stroke="#547b79" stroke-width="5"/>
+  <path d="M210 279V142h180v137" fill="#c48e63" stroke="#547b79" stroke-width="6"/>
+  <circle cx="368" cy="215" r="5" fill="#fff"/>
+  <g fill="#40876d" stroke="#28654e" stroke-width="5">
+    <rect x="48" y="298" width="145" height="17" rx="5"/><rect x="228" y="298" width="145" height="17" rx="5"/><rect x="408" y="298" width="145" height="17" rx="5"/>
+    <rect x="48" y="322" width="145" height="16" rx="5"/><rect x="228" y="322" width="145" height="16" rx="5"/><rect x="408" y="322" width="145" height="16" rx="5"/>
+  </g>
+  <g stroke="#28654e" stroke-width="7"><path d="M67 337v30m107-30v30M247 337v30m107-30v30M427 337v30m107-30v30"/></g>
+</svg>
