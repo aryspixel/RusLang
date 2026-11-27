@@ -1,5 +1,9 @@
 # Legacy HTML migration plan
 
+## New test variant: Russian language, 40 questions
+
+November 27, 2026: added a second original Russian-language practice variant to «Тесты» at the owner's request. It contains 40 single-choice questions: eight each on spelling, punctuation, morphology, syntax, and vocabulary/speech. Russian interface; grades 9–11 are provisional based on ЕНТ preparation. The existing learning mode, test mode, explanations, results, replay, and error practice are reused with independent saved mistakes. These are original practice questions, not official ЕНТ items. No legacy source was changed. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback.
+
 ## Migration entry: «Литературная лестница»
 
 November 20, 2026: migrated `literaturnaya_lestnitsa_ENT_peredelannaya.html` into «Литературная мастерская» at the owner's request. The source specifies grade 11 and ЕНТ preparation. Its Russian interface has 12 authors, 43 single-choice questions organized by work, source portraits, explanations, author-level progress, browser persistence, wrong-answer retry, reset, and replay through work selection. Correct answers mark works as mastered. The source's question text, options, answers, and explanations are preserved in `src/games/literary-ladder/data.json`; the original HTML remains unchanged. No factual corrections were made. Build, tests, browser checks, layout measurements, and screenshots were not requested or run. Awaiting owner feedback before another legacy migration.
