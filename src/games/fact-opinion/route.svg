@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390">
+  <rect width="600" height="390" fill="#e7f3ef"/>
+  <path d="M100 274C170 220 230 230 288 182S405 104 506 122" fill="none" stroke="#a8c0ba" stroke-width="48" stroke-linecap="round"/>
+  <path d="M100 274C170 220 230 230 288 182S405 104 506 122" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="18 14" stroke-linecap="round"/>
+  <rect x="38" y="255" width="125" height="100" rx="10" fill="#f7e6bd" stroke="#5b7772" stroke-width="6"/>
+  <text x="100" y="315" text-anchor="middle" font-family="Arial,sans-serif" font-size="23" font-weight="bold" fill="#305953">ШКОЛА</text>
+  <circle cx="280" cy="184" r="54" fill="#9bcf9c" stroke="#5b7772" stroke-width="6"/>
+  <text x="280" y="192" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#305953">ПАРК</text>
+  <rect x="431" y="43" width="136" height="125" rx="8" fill="#f7e6bd" stroke="#5b7772" stroke-width="6"/>
+  <path d="M420 44l79-31 79 31" fill="#d78970" stroke="#5b7772" stroke-width="6"/>
+  <text x="499" y="113" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#305953">МУЗЕЙ</text>
+  <rect x="320" y="270" width="206" height="62" rx="12" fill="#4a8ea3" stroke="#305953" stroke-width="5"/>
+  <circle cx="363" cy="338" r="15" fill="#305953"/><circle cx="480" cy="338" r="15" fill="#305953"/>
+  <text x="420" y="310" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="bold" fill="#fff">АВТОБУС 12</text>
+</svg>

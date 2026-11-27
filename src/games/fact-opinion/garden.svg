@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390">
+  <rect width="600" height="390" fill="#d9f0f5"/>
+  <circle cx="494" cy="75" r="43" fill="#f7d878"/>
+  <rect x="0" y="266" width="600" height="124" fill="#b4c4bc"/>
+  <path d="M0 266h600" stroke="#607974" stroke-width="8"/>
+  <g fill="#9d704c" stroke="#654d38" stroke-width="5">
+    <rect x="48" y="246" width="150" height="62" rx="7"/><rect x="225" y="246" width="150" height="62" rx="7"/><rect x="402" y="246" width="150" height="62" rx="7"/>
+  </g>
+  <g fill="none" stroke="#357955" stroke-width="8" stroke-linecap="round"><path d="M95 247v-58m45 58v-65m136 65v-60m51 60v-70m123 70v-57m48 57v-66"/></g>
+  <g fill="#58a86b"><ellipse cx="81" cy="194" rx="18" ry="9" transform="rotate(-25 81 194)"/><ellipse cx="110" cy="194" rx="18" ry="9" transform="rotate(25 110 194)"/><ellipse cx="126" cy="186" rx="18" ry="9" transform="rotate(-25 126 186)"/><ellipse cx="155" cy="185" rx="18" ry="9" transform="rotate(25 155 185)"/><ellipse cx="262" cy="190" rx="18" ry="9"/><ellipse cx="291" cy="192" rx="18" ry="9"/><ellipse cx="312" cy="182" rx="18" ry="9"/><ellipse cx="340" cy="183" rx="18" ry="9"/><ellipse cx="437" cy="190" rx="18" ry="9"/><ellipse cx="465" cy="190" rx="18" ry="9"/><ellipse cx="484" cy="183" rx="18" ry="9"/><ellipse cx="512" cy="182" rx="18" ry="9"/></g>
+  <text x="300" y="356" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="bold" fill="#355b58">ШКОЛЬНЫЙ ОГОРОД</text>
+</svg>
