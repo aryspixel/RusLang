@@ -534,3 +534,6 @@ Owner correction, November 27, 2026: in variant 2, the single-answer hard-sign i
 
 Created November 27, 2026 as a third original practice variant in the existing Kazakh-medium Russian ENT trainer. Objective: practice orthography, morphology, punctuation, syntax, and reading using a school book-repair passage. The 40 items follow the NTC 2026 format: 25 single-answer, five based on one context, five multiple-answer, and five matching. Russian interface; grades 9-11 provisional. The existing shared trainer supplies separate learning and test progress, explanations, Back navigation, result review, and replay. One practice point is awarded for each fully correct item; this is not an official NTC scoring scale. No legacy source was changed. No build or interface checks were requested or run; awaiting owner feedback.
 
+
+Owner correction, November 27, 2026: revised item 31 of Kazakh-medium Russian ENT variant 2 with six different words, each showing dots at the missing sign. The answer key now selects three soft-sign words; the hard-sign words are distractors. Full spellings appear only in post-check feedback. No checks were requested or run.
+
