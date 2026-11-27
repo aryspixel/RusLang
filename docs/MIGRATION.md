@@ -523,3 +523,6 @@ Created November 27, 2026 as an original practice variant based on the NTC 2026 
 
 Owner feedback, November 27, 2026: the original Kazakh-medium Russian ENT card now offers explicit Variant 1 and Variant 2 buttons. Switching keeps each variant's progress in memory. The separate Variant 2 direct link remains available. No checks were requested or run.
 
+
+Owner feedback, November 27, 2026: both Kazakh-medium Russian ENT variants now have a Back button. In learning mode, revisiting a checked answer preserves its locked choice and explanation. In test mode, earlier choices remain visible and editable before the result. Other mixed-format trainers do not show the button. No checks were requested or run.
+

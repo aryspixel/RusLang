@@ -5,11 +5,12 @@ import TouchButton from './TouchButton.vue'
 import FeedbackMessage from './FeedbackMessage.vue'
 import ProgressMeter from './ProgressMeter.vue'
 
-const props = defineProps({ title: { type: String, required: true }, intro: { type: String, required: true }, questions: { type: Array, required: true }, specification: { type: String, required: true }, specificationLabel: { type: String, default: 'спецификации НЦТ для школ с нерусским языком обучения' }, weightedScore: { type: Boolean, default: false } })
+const props = defineProps({ title: { type: String, required: true }, intro: { type: String, required: true }, questions: { type: Array, required: true }, specification: { type: String, required: true }, specificationLabel: { type: String, default: 'спецификации НЦТ для школ с нерусским языком обучения' }, weightedScore: { type: Boolean, default: false }, allowBack: { type: Boolean, default: false } })
 const mode = ref('learn')
 const index = ref(0)
 const answers = ref([])
 const checked = ref(false)
+const checkedAnswers = ref([])
 const finished = ref(false)
 const reviewIndex = ref(null)
 const sessions = {}
@@ -26,13 +27,13 @@ function isCorrect(item, value) {
   return value === item.answer
 }
 function blank(item) { return item.type === 'match' ? item.pairs.map(() => null) : item.type === 'multi' ? [] : null }
-function start(nextMode = mode.value) { mode.value = nextMode; index.value = 0; answers.value = props.questions.map(blank); checked.value = false; finished.value = false; reviewIndex.value = null }
+function start(nextMode = mode.value) { mode.value = nextMode; index.value = 0; answers.value = props.questions.map(blank); checked.value = false; checkedAnswers.value = props.questions.map(() => false); finished.value = false; reviewIndex.value = null }
 function switchMode(nextMode) {
   if (nextMode === mode.value) return
-  sessions[mode.value] = { index: index.value, answers: answers.value, checked: checked.value, finished: finished.value, reviewIndex: reviewIndex.value }
+  sessions[mode.value] = { index: index.value, answers: answers.value, checked: checked.value, checkedAnswers: checkedAnswers.value, finished: finished.value, reviewIndex: reviewIndex.value }
   const saved = sessions[nextMode]
   if (!saved) return start(nextMode)
-  mode.value = nextMode; index.value = saved.index; answers.value = saved.answers; checked.value = saved.checked; finished.value = saved.finished; reviewIndex.value = saved.reviewIndex
+  mode.value = nextMode; index.value = saved.index; answers.value = saved.answers; checked.value = saved.checked; checkedAnswers.value = saved.checkedAnswers; finished.value = saved.finished; reviewIndex.value = saved.reviewIndex
 }
 function setSingle(value) { if (!checked.value) answers.value[index.value] = value }
 function toggleMulti(value) { if (checked.value) return; const values = [...(answer.value || [])]; const at = values.indexOf(value); if (at >= 0) values.splice(at, 1); else values.push(value); answers.value[index.value] = values }
@@ -46,8 +47,14 @@ function next() {
   if (mode.value === 'learn' && !checked.value) return
   if (mode.value === 'test' && !answered.value) return
   if (index.value === props.questions.length - 1) { finished.value = true; return }
-  index.value++; checked.value = false
+  index.value++; checked.value = checkedAnswers.value[index.value]
 }
+function previous() {
+  if (index.value === 0) return
+  index.value--
+  checked.value = checkedAnswers.value[index.value]
+}
+function check() { checked.value = true; checkedAnswers.value[index.value] = true }
 start('learn')
 </script>
 
@@ -78,7 +85,7 @@ start('learn')
       <FeedbackMessage v-if="mode === 'learn' && checked" :kind="isCorrect(question, answer) ? 'success' : 'error'" :title="isCorrect(question, answer) ? 'Верно!' : 'Пока неверно'">
         <p><strong>Правильный ответ:</strong> {{ correctText(question) }}</p><p>{{ question.explanation }}</p>
       </FeedbackMessage>
-      <div class="action-row"><TouchButton v-if="mode === 'learn' && !checked" :disabled="!answered" @click="checked = true">Проверить</TouchButton><TouchButton v-else :disabled="mode === 'test' && !answered" @click="next">{{ index === questions.length - 1 ? 'Показать итог' : 'Дальше' }}</TouchButton></div>
+      <div class="action-row"><TouchButton v-if="allowBack && index > 0" variant="secondary" @click="previous">Назад</TouchButton><TouchButton v-if="mode === 'learn' && !checked" :disabled="!answered" @click="check">Проверить</TouchButton><TouchButton v-else :disabled="mode === 'test' && !answered" @click="next">{{ index === questions.length - 1 ? 'Показать итог' : 'Дальше' }}</TouchButton></div>
     </SurfacePanel>
     <SurfacePanel v-else>
       <h2>Результат: {{ score }} из {{ maxScore }}</h2>

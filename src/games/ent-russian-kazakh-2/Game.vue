@@ -6,5 +6,5 @@ const specification = 'https://prod.testcenter.kz/wp-content/uploads/2025/10/06_
 </script>
 
 <template>
-  <EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 2" intro="40 заданий: 25 с одним ответом, 5 по общему тексту, 5 с несколькими ответами и 5 на соответствие. Ориентир по времени — около 80 минут." :questions="questions" :specification="specification" />
+  <EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 2" intro="40 заданий: 25 с одним ответом, 5 по общему тексту, 5 с несколькими ответами и 5 на соответствие. Ориентир по времени — около 80 минут." :questions="questions" :specification="specification" allow-back />
 </template>

@@ -11,6 +11,6 @@ const variant = ref(1)
     <button type="button" class="choice-group__option" :class="{ 'choice-group__option--selected': variant === 1 }" :aria-pressed="variant === 1" @click="variant = 1">Вариант 1</button>
     <button type="button" class="choice-group__option" :class="{ 'choice-group__option--selected': variant === 2 }" :aria-pressed="variant === 2" @click="variant = 2">Вариант 2</button>
   </div>
-  <div v-show="variant === 1"><EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 1" intro="Орфография, формы слов, синтаксис и работа с текстом. Выбирай ответы, устанавливай соответствия и разбирай ошибки." :questions="questions" :specification="specification" /></div>
-  <div v-show="variant === 2"><EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 2" intro="40 заданий: 25 с одним ответом, 5 по общему тексту, 5 с несколькими ответами и 5 на соответствие. Ориентир по времени — около 80 минут." :questions="variantTwoQuestions" :specification="specification" /></div>
+  <div v-show="variant === 1"><EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 1" intro="Орфография, формы слов, синтаксис и работа с текстом. Выбирай ответы, устанавливай соответствия и разбирай ошибки." :questions="questions" :specification="specification" allow-back /></div>
+  <div v-show="variant === 2"><EntMixedTrainer title="Русский язык · ЕНТ для казахских школ · вариант 2" intro="40 заданий: 25 с одним ответом, 5 по общему тексту, 5 с несколькими ответами и 5 на соответствие. Ориентир по времени — около 80 минут." :questions="variantTwoQuestions" :specification="specification" allow-back /></div>
 </template>
