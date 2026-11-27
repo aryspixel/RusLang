@@ -520,3 +520,6 @@ November 27, 2026: added two independent authorial variants, one about a rooftop
 
 Created November 27, 2026 as an original practice variant based on the NTC 2026 specification for Russian with a non-Russian language of instruction. Forty questions: 25 single-answer, five on one passage, five multiple-answer, and five matching. Russian interface; grades 9-11 provisional. One practice point per fully correct task, without partial credit; official ENT scoring may differ. No legacy source was changed. No build or interface checks were requested or run; awaiting owner feedback.
 
+
+Owner feedback, November 27, 2026: the original Kazakh-medium Russian ENT card now offers explicit Variant 1 and Variant 2 buttons. Switching keeps each variant's progress in memory. The separate Variant 2 direct link remains available. No checks were requested or run.
+
