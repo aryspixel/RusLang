@@ -526,3 +526,6 @@ Owner feedback, November 27, 2026: the original Kazakh-medium Russian ENT card n
 
 Owner feedback, November 27, 2026: both Kazakh-medium Russian ENT variants now have a Back button. In learning mode, revisiting a checked answer preserves its locked choice and explanation. In test mode, earlier choices remain visible and editable before the result. Other mixed-format trainers do not show the button. No checks were requested or run.
 
+
+Owner correction, November 27, 2026: in variant 2, the single-answer hard-sign item and the multiple-answer soft-sign item now omit the signs in every option. The learner must choose the sign for each gap; answer explanations still reveal completed spellings after checking. Variant 1 already used gaps in its corresponding hard-sign item. No checks were requested or run.
+
