@@ -12,13 +12,13 @@ Every `src/games/registry.js` entry has exactly one `category`. Section definiti
 | Литературная мастерская | literary-workshop | Литературная лестница |
 | ЕНТ | ent | Русский язык · ЕНТ для казахских школ; Русская литература · ЕНТ для казахских школ; Глаголы; Имя числительное; Местоимения; Гласные в корне слова; Рифма и рифмовка; Стихотворные размеры; Причастия и деепричастия; Литература: подготовка к ЕНТ; Средства выразительности; НЕ с разными частями речи; Н и НН в частях речи; Односоставные предложения; ССП, СПП и придаточные; Союз или союзное слово; Союзы и запятые: шесть тренировок; Как подчиняются придаточные; БСП: смысл подсказывает знак |
 | Грамотность чтения | reading-literacy | Грамотность чтения · ЕНТ |
-| Тесты | tests | Русский язык · 45 вопросов; Русский язык · 40 вопросов |
+| Тесты | tests | Русский язык · 45 вопросов; Русский язык · 40 вопросов; Русский язык · вариант 3 |
 | Начальный уровень | primary | Кто быстрее? — гонка знаний; Али и Сая в парке аттракционов; Тренажёр «В магазине»; Цветная мастерская; Испеки яблочный пирог!; Моя семья дома; Перепутанный дом Али; Обставь мою комнату; Моя комната; Круглый год: 12 месяцев; Собери неделю; Распорядок дня; Поймай число; Среда Али: покупки и рассказ |
 | Средний уровень | middle-level | Факт или мнение? Проверяем по тексту; Дана и Арман: по городу; Падежи существительных; Причастие и причастный оборот; Падежи в кафе; Предлоги |
 
 The main learning objective determines placement: text/expressiveness → «Развитие речи»; literature games outside exam preparation → «Литературная мастерская»; ЕНТ language and literature topic practice → «ЕНТ» unless the owner explicitly places a game in «Литературная мастерская»; reading comprehension → «Грамотность чтения»; full multi-topic practice tests → «Тесты»; basic vocabulary/calendar/numbers/everyday situations → «Начальный уровень»; contextual and foundational grammar practice → «Средний уровень». Recommended grade remains separate metadata.
 
-«Тесты» is a standalone section for complete multi-topic test trainers. The 45-question and 40-question Russian language variants are separate from the subject-specific ЕНТ practice cards and offer learning and test modes.
+«Тесты» is a standalone section for complete multi-topic test trainers. The two single-choice Russian language variants and the third mixed-format variant are separate from the subject-specific ЕНТ practice cards and offer learning and test modes.
 
 «Средства выразительности» belongs to «ЕНТ» by the owner's explicit October 16, 2026 instruction.
 

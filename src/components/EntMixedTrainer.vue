@@ -5,7 +5,7 @@ import TouchButton from './TouchButton.vue'
 import FeedbackMessage from './FeedbackMessage.vue'
 import ProgressMeter from './ProgressMeter.vue'
 
-const props = defineProps({ title: { type: String, required: true }, intro: { type: String, required: true }, questions: { type: Array, required: true }, specification: { type: String, required: true } })
+const props = defineProps({ title: { type: String, required: true }, intro: { type: String, required: true }, questions: { type: Array, required: true }, specification: { type: String, required: true }, specificationLabel: { type: String, default: 'спецификации НЦТ для школ с нерусским языком обучения' }, weightedScore: { type: Boolean, default: false } })
 const mode = ref('learn')
 const index = ref(0)
 const answers = ref([])
@@ -17,7 +17,9 @@ const question = computed(() => props.questions[index.value])
 const answer = computed(() => answers.value[index.value])
 const formatLabel = { single: 'Один ответ', context: 'Контекст · один ответ', multi: 'Несколько ответов', match: 'Установи соответствие' }
 const answered = computed(() => question.value && (question.value.type === 'match' ? answer.value?.every(value => value !== null) : question.value.type === 'multi' ? answer.value?.length > 0 : Number.isInteger(answer.value)))
-const score = computed(() => props.questions.reduce((total, item, position) => total + (isCorrect(item, answers.value[position]) ? 1 : 0), 0))
+const points = item => props.weightedScore && (item.type === 'multi' || item.type === 'match') ? 2 : 1
+const maxScore = computed(() => props.questions.reduce((total, item) => total + points(item), 0))
+const score = computed(() => props.questions.reduce((total, item, position) => total + (isCorrect(item, answers.value[position]) ? points(item) : 0), 0))
 function isCorrect(item, value) {
   if (item.type === 'match') return Array.isArray(value) && value.length === item.pairs.length && value.every((entry, position) => entry === item.pairs[position][1])
   if (item.type === 'multi') return Array.isArray(value) && value.length === item.answer.length && [...value].sort().every((entry, position) => entry === [...item.answer].sort()[position])
@@ -53,14 +55,14 @@ start('learn')
   <div class="game-layout ent-mixed">
     <h1>{{ title }}</h1>
     <p class="lead">{{ intro }}</p>
-    <p class="muted">Авторские тренировочные задания по <a :href="specification" target="_blank" rel="noopener noreferrer">спецификации НЦТ для школ с нерусским языком обучения</a>. Это учебная практика, не официальный вариант ЕНТ.</p>
+    <p class="muted">Авторские тренировочные задания по <a :href="specification" target="_blank" rel="noopener noreferrer">{{ specificationLabel }}</a>. Это учебная практика, не официальный вариант ЕНТ.</p>
     <div class="action-row" role="group" aria-label="Режим тренажёра">
       <TouchButton :variant="mode === 'learn' ? 'primary' : 'secondary'" :aria-pressed="mode === 'learn'" @click="switchMode('learn')">Обучение с разбором</TouchButton>
       <TouchButton :variant="mode === 'test' ? 'primary' : 'secondary'" :aria-pressed="mode === 'test'" @click="switchMode('test')">Пробный тест</TouchButton>
     </div>
     <SurfacePanel v-if="!finished">
       <ProgressMeter :current="index + 1" :total="questions.length" label="Задание" />
-      <p class="format-label">{{ formatLabel[question.type] }} · {{ question.topic }}</p>
+      <p class="format-label">{{ formatLabel[question.type] }} · {{ question.topic }}<template v-if="weightedScore"> · {{ points(question) }} {{ points(question) === 1 ? 'балл' : 'балла' }}</template></p>
       <blockquote v-if="question.context" class="context-text">{{ question.context }}</blockquote>
       <h2>{{ question.prompt }}</h2>
       <div v-if="question.type === 'single' || question.type === 'context'" class="choice-grid" role="group" :aria-label="question.prompt">
@@ -79,8 +81,9 @@ start('learn')
       <div class="action-row"><TouchButton v-if="mode === 'learn' && !checked" :disabled="!answered" @click="checked = true">Проверить</TouchButton><TouchButton v-else :disabled="mode === 'test' && !answered" @click="next">{{ index === questions.length - 1 ? 'Показать итог' : 'Дальше' }}</TouchButton></div>
     </SurfacePanel>
     <SurfacePanel v-else>
-      <h2>Результат: {{ score }} из {{ questions.length }}</h2>
-      <p>Каждое задание здесь оценивается в один тренировочный балл. Официальная система баллов ЕНТ может отличаться.</p>
+      <h2>Результат: {{ score }} из {{ maxScore }}</h2>
+      <p v-if="weightedScore">Один балл за задания с одним ответом и по тексту; два балла за полностью верное соответствие или выбор всех правильных ответов. Частичные баллы в этом учебном варианте не начисляются.</p>
+      <p v-else>Каждое задание здесь оценивается в один тренировочный балл. Официальная система баллов ЕНТ может отличаться.</p>
       <div class="action-row"><TouchButton @click="start()">Пройти ещё раз</TouchButton></div>
       <h3>Разбор заданий</h3>
       <div class="review-grid"><button v-for="(item, position) in questions" :key="position" type="button" class="choice-group__option" :class="{ 'review-error': !isCorrect(item, answers[position]) }" @click="reviewIndex = position">{{ position + 1 }}. {{ isCorrect(item, answers[position]) ? 'Верно' : 'Ошибка' }} · {{ item.topic }}</button></div>

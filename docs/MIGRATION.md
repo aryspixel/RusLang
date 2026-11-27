@@ -1,5 +1,8 @@
 # Legacy HTML migration plan
 
+## New test variant: Russian language, 40 items and 50 points
+
+November 27, 2026: added a third original Russian-language practice variant to «Тесты» at the owner's request. It follows the 2026 National Testing Center Russian-language structure: 25 single-answer items, five single-answer items based on one original passage, five multiple-answer items, and five matching items. The practice score is 50 points: one point for each single-answer or context item and two for each fully correct multiple-answer or matching item; no partial credit is awarded. The passage compares oral memories with a season-limited archival timetable. Russian interface; grades 9–11 provisional by ЕНТ purpose. The existing mixed-format component provides independent learning/test progress, correction, results, review, and replay. These are original practice questions, not official ЕНТ items. No legacy source was changed. No checks were requested or run; awaiting owner feedback.
 ## New test variant: Russian language, 40 questions
 
 November 27, 2026: added a second original Russian-language practice variant to «Тесты» at the owner's request. It contains 40 single-choice questions: eight each on spelling, punctuation, morphology, syntax, and vocabulary/speech. Russian interface; grades 9–11 are provisional based on ЕНТ preparation. The existing learning mode, test mode, explanations, results, replay, and error practice are reused with independent saved mistakes. These are original practice questions, not official ЕНТ items. No legacy source was changed. No build, tests, browser checks, layout measurements, or screenshots were requested or run. Awaiting owner feedback.
